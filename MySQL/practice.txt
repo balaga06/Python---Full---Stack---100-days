@@ -1,0 +1,75 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 19
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| pfs7               |
+| sys                |
++--------------------+
+5 rows in set (0.01 sec)
+
+mysql> use pfs7;
+Database changed
+mysql> create table employees(eid INT primary key,ename VARCHAR(50) not null,eage INT);
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> select * from employees;
+Empty set (0.01 sec)
+
+mysql> INSERT INTO employees values(101,'virat',45);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO employees values(102,'naveen',47);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> /
+    -> INSERT INTO employees values(103,'ravi',48);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '/
+INSERT INTO employees values(103,'ravi',48)' at line 1
+mysql> INSERT INTO employees values(103,'ravi',48);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO employees(eid,ename,eage) values(104,'asish',20);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> /
+    -> \
+    -> INSERT INTO employees(eid,ename,eage) values(104,'asish',20);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '/
+
+INSERT INTO employees(eid,ename,eage) values(104,'asish',20)' at line 1
+mysql> INSERT INTO employees(eid,ename,eage) values(104,'asish',20);
+ERROR 1062 (23000): Duplicate entry '104' for key 'employees.PRIMARY'
+mysql> INSERT INTO employees(eid,ename,eage) values(105,'nithin',21);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> \
+mysql> \
+mysql> select * from employees;
++-----+--------+------+
+| eid | ename  | eage |
++-----+--------+------+
+| 101 | virat  |   45 |
+| 102 | naveen |   47 |
+| 103 | ravi   |   48 |
+| 104 | asish  |   20 |
+| 105 | nithin |   21 |
++-----+--------+------+
+5 rows in set (0.00 sec)
+
+mysql>
