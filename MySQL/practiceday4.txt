@@ -1,0 +1,580 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use pfs7;
+Database changed
+mysql> desc employees;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| ENAME    | varchar(100) | NO   |     | NULL    |       |
+| FNAME    | varchar(50)  | YES  |     | NULL    |       |
+| AGE      | int          | NO   |     | NULL    |       |
+| DOJ      | date         | YES  |     | NULL    |       |
+| ADDRESS  | tinytext     | YES  |     | NULL    |       |
+| DEPT     | varchar(30)  | NO   | PRI | NULL    |       |
+| ESALARY  | float(20,2)  | NO   |     | NULL    |       |
+| RESULTS  | tinytext     | NO   |     | NULL    |       |
+| LASTNAME | varchar(30)  | YES  |     | NULL    |       |
+| LOCATION | varchar(10)  | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+10 rows in set (0.12 sec)
+
+mysql> desc company_staff;
++-----------------+----------------------------------------------------+------+-----+---------+-------+
+| Field           | Type                                               | Null | Key | Default | Extra |
++-----------------+----------------------------------------------------+------+-----+---------+-------+
+| COMPANY_NAME    | varchar(50)                                        | YES  |     | NULL    |       |
+| EMP_ID          | int                                                | NO   | PRI | NULL    |       |
+| AGE             | int                                                | NO   |     | NULL    |       |
+| EXPERIENCE      | smallint                                           | YES  |     | NULL    |       |
+| GENDER          | char(1)                                            | YES  |     | NULL    |       |
+| EMPLOYEE_NAME   | varchar(100)                                       | YES  |     | NULL    |       |
+| QUALIFICATION   | varchar(50)                                        | YES  |     | NULL    |       |
+| ADDRESS         | tinytext                                           | YES  |     | NULL    |       |
+| SALARY          | decimal(12,2)                                      | YES  |     | NULL    |       |
+| DEPARTMENT      | enum('HR','IT','SALES','FINANCE','SUPPORT')        | NO   |     | NULL    |       |
+| STATUS          | varchar(20)                                        | YES  |     | NULL    |       |
+| SKILLS          | set('JAVA','PYTHON','SQL','EXCEL','COMMUNICATION') | YES  |     | NULL    |       |
+| last_updated    | date                                               | YES  |     | NULL    |       |
+| DATA_OF_JOINING | date                                               | YES  |     | NULL    |       |
+| OFFER           | char(10)                                           | YES  |     | NULL    |       |
+| EMAIL           | varchar(100)                                       | YES  |     | NULL    |       |
++-----------------+----------------------------------------------------+------+-----+---------+-------+
+16 rows in set (0.01 sec)
+
+mysql> alter table add column EID char(5) first;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'add column EID char(5) first' at line 1
+mysql> alter table employees add column EID char(5) first;
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employees;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| EID      | char(5)      | YES  |     | NULL    |       |
+| ENAME    | varchar(100) | NO   |     | NULL    |       |
+| FNAME    | varchar(50)  | YES  |     | NULL    |       |
+| AGE      | int          | NO   |     | NULL    |       |
+| DOJ      | date         | YES  |     | NULL    |       |
+| ADDRESS  | tinytext     | YES  |     | NULL    |       |
+| DEPT     | varchar(30)  | NO   | PRI | NULL    |       |
+| ESALARY  | float(20,2)  | NO   |     | NULL    |       |
+| RESULTS  | tinytext     | NO   |     | NULL    |       |
+| LASTNAME | varchar(30)  | YES  |     | NULL    |       |
+| LOCATION | varchar(10)  | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+11 rows in set (0.00 sec)
+
+mysql> select * from employees;
++------+----------+--------+-----+------------+----------------------+------+---------+---------+----------+----------+
+| EID  | ENAME    | FNAME  | AGE | DOJ        | ADDRESS              | DEPT | ESALARY | RESULTS | LASTNAME | LOCATION |
++------+----------+--------+-----+------------+----------------------+------+---------+---------+----------+----------+
+| NULL | CODEGNAN | chakra |  21 | 2003-09-26 | srikakulam           | cse  |    0.00 |         | NULL     | NULL     |
+| NULL | CODEGNAN | RAVI   |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE  |    0.00 |         | NULL     | NULL     |
++------+----------+--------+-----+------------+----------------------+------+---------+---------+----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into employees(
+    -> EID,ENAME,LNAME,AGE,DOJ,ADDRESS,DEPT,ESALARY,RESULTS,LASTNAME,LOCATION)
+    -> VALUES
+    -> ('E01','RAVISANKAR','RAVI',21,'2025-06-02','DNAGAR,VIZAG','ECE',48000.26,'PASS','SANKAR','AP);
+    '>
+    '>
+    '> ('E01','RAVISANKAR','RAVI',21,'2025-06-02','DNAGAR,VIZAG','ECE',48000.26,'PASS','SANKAR','AP');
+    '>
+    '>
+    '> ;;
+    '>
+    '> insert into employees
+    '> (EID,ENAME,LNAME,AGE,DOJ,ADDRESS,DEPT,ESALARY,RESULTS,LASTNAME,LOCATION)
+    '> VALUES
+    '> ('E01','RAVISANKAR','RAVI',21,'2025-06-02','DNAGAR,VIZAG','ECE',48000.26,'PASS','SANKAR','AP);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'E01','RAVISANKAR','RAVI',21,'2025-06-02','DNAGAR,VIZAG','ECE',48000.26,'PASS','S' at line 7
+mysql> insert into employees
+    -> (EID,ENAME,FNAME,AGE,DOJ,ADDRESS,DEPT,ESALARY,RESULTS,LASTNAME,LOCATION)
+    -> VALUES
+    -> ('E01','RAVISANKAR','RAVI',21,'2025-06-02','DNAGAR,VIZAG','ECE',48000.26,'PASS','SANKAR','AP');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from employees;
++------+------------+--------+-----+------------+----------------------+------+----------+---------+----------+----------+
+| EID  | ENAME      | FNAME  | AGE | DOJ        | ADDRESS              | DEPT | ESALARY  | RESULTS | LASTNAME | LOCATION |
++------+------------+--------+-----+------------+----------------------+------+----------+---------+----------+----------+
+| NULL | CODEGNAN   | chakra |  21 | 2003-09-26 | srikakulam           | cse  |     0.00 |         | NULL     | NULL     |
+| E01  | RAVISANKAR | RAVI   |  21 | 2025-06-02 | DNAGAR,VIZAG         | ECE  | 48000.26 | PASS    | SANKAR   | AP       |
+| NULL | CODEGNAN   | RAVI   |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE  |     0.00 |         | NULL     | NULL     |
++------+------------+--------+-----+------------+----------------------+------+----------+---------+----------+----------+
+3 rows in set (0.01 sec)
+
+mysql> UPDATE EMPLOYEES
+    -> SET EID = E02,
+    -> SET EID = E02
+    ->
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SET EID = E02' at line 3
+mysql> UPDATE EMPLOYEES
+    -> SET EID = 'E02',
+    -> ESALARY = 45000.10,
+    -> RESULTS = PASS,
+    -> LNAME = 'COURSE',
+    -> LOCATION = 'HYD';
+ERROR 1054 (42S22): Unknown column 'LNAME' in 'field list'
+mysql> UPDATE EMPLOYEES
+    -> SET EID = E02
+    -> SET EID = E02,
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SET EID = E02,' at line 3
+mysql> UPDATE EMPLOYEES
+    -> SET EID = 'E02',
+    -> ESALARY = 45000.10,
+    -> RESULTS = 'PASS',
+    -> LNAME = 'COURSE',
+    -> LOCATION = 'HYD'
+    -> WHERE DEPT = 'CSE';
+ERROR 1054 (42S22): Unknown column 'LNAME' in 'field list'
+mysql> UPDATE EMPLOYEES
+    -> SET EID = 'E02',
+    -> ESALARY = 45000.10,
+    -> RESULTS = 'PASS',
+    -> LASTNAME = 'COURSE',
+    -> LOCATION = 'HYD'
+    -> WHERE DEPT = 'CSE';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEES;
++------+------------+--------+-----+------------+----------------------+------+----------+---------+----------+----------+
+| EID  | ENAME      | FNAME  | AGE | DOJ        | ADDRESS              | DEPT | ESALARY  | RESULTS | LASTNAME | LOCATION |
++------+------------+--------+-----+------------+----------------------+------+----------+---------+----------+----------+
+| E02  | CODEGNAN   | chakra |  21 | 2003-09-26 | srikakulam           | cse  | 45000.10 | PASS    | COURSE   | HYD      |
+| E01  | RAVISANKAR | RAVI   |  21 | 2025-06-02 | DNAGAR,VIZAG         | ECE  | 48000.26 | PASS    | SANKAR   | AP       |
+| NULL | CODEGNAN   | RAVI   |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE  |     0.00 |         | NULL     | NULL     |
++------+------------+--------+-----+------------+----------------------+------+----------+---------+----------+----------+
+3 rows in set (0.00 sec)
+
+mysql> UPDATE EMPLOYEES
+    -> SET EID = 'E03',
+    -> ESALARY = 55000.10,
+    -> RESULTS = 'PASS',
+    -> LASTNAME = 'STAFF',
+    -> LOCATION = 'VSP'
+    -> WHERE DEPT = 'EEE';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEES;
++------+------------+--------+-----+------------+----------------------+------+----------+---------+----------+----------+
+| EID  | ENAME      | FNAME  | AGE | DOJ        | ADDRESS              | DEPT | ESALARY  | RESULTS | LASTNAME | LOCATION |
++------+------------+--------+-----+------------+----------------------+------+----------+---------+----------+----------+
+| E02  | CODEGNAN   | chakra |  21 | 2003-09-26 | srikakulam           | cse  | 45000.10 | PASS    | COURSE   | HYD      |
+| E01  | RAVISANKAR | RAVI   |  21 | 2025-06-02 | DNAGAR,VIZAG         | ECE  | 48000.26 | PASS    | SANKAR   | AP       |
+| E03  | CODEGNAN   | RAVI   |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE  | 55000.10 | PASS    | STAFF    | VSP      |
++------+------------+--------+-----+------------+----------------------+------+----------+---------+----------+----------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEES VALUES
+    -> ('E04','ASIQFARAHAN','AASIQ',23,'2026-05-25','JNTUK,KAKINADA','MCA',54000,'PASS','FARAHAN','KKD');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM EMPLOYEES;
++------+-------------+--------+-----+------------+----------------------+------+----------+---------+----------+----------+
+| EID  | ENAME       | FNAME  | AGE | DOJ        | ADDRESS              | DEPT | ESALARY  | RESULTS | LASTNAME | LOCATION |
++------+-------------+--------+-----+------------+----------------------+------+----------+---------+----------+----------+
+| E02  | CODEGNAN    | chakra |  21 | 2003-09-26 | srikakulam           | cse  | 45000.10 | PASS    | COURSE   | HYD      |
+| E01  | RAVISANKAR  | RAVI   |  21 | 2025-06-02 | DNAGAR,VIZAG         | ECE  | 48000.26 | PASS    | SANKAR   | AP       |
+| E03  | CODEGNAN    | RAVI   |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE  | 55000.10 | PASS    | STAFF    | VSP      |
+| E04  | ASIQFARAHAN | AASIQ  |  23 | 2026-05-25 | JNTUK,KAKINADA       | MCA  | 54000.00 | PASS    | FARAHAN  | KKD      |
++------+-------------+--------+-----+------------+----------------------+------+----------+---------+----------+----------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEES VALUES
+    -> ('E05','SUNIL KUMAR','SUNIL',23,'2026-10-14','JNTUK,KAKINADA','MBA',54200,'PASS','KUMAR','RJY');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM EMPLOYEES;
++------+-------------+--------+-----+------------+----------------------+------+----------+---------+----------+----------+
+| EID  | ENAME       | FNAME  | AGE | DOJ        | ADDRESS              | DEPT | ESALARY  | RESULTS | LASTNAME | LOCATION |
++------+-------------+--------+-----+------------+----------------------+------+----------+---------+----------+----------+
+| E02  | CODEGNAN    | chakra |  21 | 2003-09-26 | srikakulam           | cse  | 45000.10 | PASS    | COURSE   | HYD      |
+| E01  | RAVISANKAR  | RAVI   |  21 | 2025-06-02 | DNAGAR,VIZAG         | ECE  | 48000.26 | PASS    | SANKAR   | AP       |
+| E03  | CODEGNAN    | RAVI   |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE  | 55000.10 | PASS    | STAFF    | VSP      |
+| E05  | SUNIL KUMAR | SUNIL  |  23 | 2026-10-14 | JNTUK,KAKINADA       | MBA  | 54200.00 | PASS    | KUMAR    | RJY      |
+| E04  | ASIQFARAHAN | AASIQ  |  23 | 2026-05-25 | JNTUK,KAKINADA       | MCA  | 54000.00 | PASS    | FARAHAN  | KKD      |
++------+-------------+--------+-----+------------+----------------------+------+----------+---------+----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEES VALUES
+    -> ('E06','SAIKUMAR','SAI',24,'2026-02-12','JNTUK,VZG','MTECH',38200,'PASS','KUMAR','HYD'),
+    -> ('E07','GANESH PASALA','PASALA',24,'2003-02-14','GVP,VZG','MECH',49000,'PASS','GANESH','SKLM');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEES;
++------+---------------+--------+-----+------------+----------------------+-------+----------+---------+----------+----------+
+| EID  | ENAME         | FNAME  | AGE | DOJ        | ADDRESS              | DEPT  | ESALARY  | RESULTS | LASTNAME | LOCATION |
++------+---------------+--------+-----+------------+----------------------+-------+----------+---------+----------+----------+
+| E02  | CODEGNAN      | chakra |  21 | 2003-09-26 | srikakulam           | cse   | 45000.10 | PASS    | COURSE   | HYD      |
+| E01  | RAVISANKAR    | RAVI   |  21 | 2025-06-02 | DNAGAR,VIZAG         | ECE   | 48000.26 | PASS    | SANKAR   | AP       |
+| E03  | CODEGNAN      | RAVI   |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE   | 55000.10 | PASS    | STAFF    | VSP      |
+| E05  | SUNIL KUMAR   | SUNIL  |  23 | 2026-10-14 | JNTUK,KAKINADA       | MBA   | 54200.00 | PASS    | KUMAR    | RJY      |
+| E04  | ASIQFARAHAN   | AASIQ  |  23 | 2026-05-25 | JNTUK,KAKINADA       | MCA   | 54000.00 | PASS    | FARAHAN  | KKD      |
+| E07  | GANESH PASALA | PASALA |  24 | 2003-02-14 | GVP,VZG              | MECH  | 49000.00 | PASS    | GANESH   | SKLM     |
+| E06  | SAIKUMAR      | SAI    |  24 | 2026-02-12 | JNTUK,VZG            | MTECH | 38200.00 | PASS    | KUMAR    | HYD      |
++------+---------------+--------+-----+------------+----------------------+-------+----------+---------+----------+----------+
+7 rows in set (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEES VALUES
+    -> ('E08','ARAVIND SHAIK','ARAVIND',23,'2026-10-14','JNTUK,KAKINADA','CIVIL',42200,'PASS','SHAIK','RJY')
+    -> ('E09','SHAIK ASHAJ','ASHAJ',23,'2026-10-14','JNTUK,KAKINADA','IST',29000,'PASS','SHAIK','SKLM'),
+    -> ('E10','SATYA SAI','SATYA',23,'2026-10-14','JNTUK,KAKINADA','PHARMA',45200,'PASS','SAI','SKLM');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '('E09','SHAIK ASHAJ','ASHAJ',23,'2026-10-14','JNTUK,KAKINADA','IST',29000,'PASS'' at line 3
+mysql> INSERT INTO EMPLOYEES VALUES
+    -> ('E08','ARAVIND SHAIK','ARAVIND',23,'2026-10-14','JNTUK,KAKINADA','CIVIL',42200,'PASS','SHAIK','RJY'),
+    -> ('E09','SHAIK ASHAJ','ASHAJ',23,'2026-10-14','JNTUK,KAKINADA','IST',29000,'PASS','SHAIK','SKLM'),
+    -> ('E10','SATYA SAI','SATYA',23,'2026-10-14','JNTUK,KAKINADA','PHARMA',45200,'PASS','SAI','SKLM');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEES;
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| EID  | ENAME         | FNAME   | AGE | DOJ        | ADDRESS              | DEPT   | ESALARY  | RESULTS | LASTNAME | LOCATION |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| E08  | ARAVIND SHAIK | ARAVIND |  23 | 2026-10-14 | JNTUK,KAKINADA       | CIVIL  | 42200.00 | PASS    | SHAIK    | RJY      |
+| E02  | CODEGNAN      | chakra  |  21 | 2003-09-26 | srikakulam           | cse    | 45000.10 | PASS    | COURSE   | HYD      |
+| E01  | RAVISANKAR    | RAVI    |  21 | 2025-06-02 | DNAGAR,VIZAG         | ECE    | 48000.26 | PASS    | SANKAR   | AP       |
+| E03  | CODEGNAN      | RAVI    |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE    | 55000.10 | PASS    | STAFF    | VSP      |
+| E09  | SHAIK ASHAJ   | ASHAJ   |  23 | 2026-10-14 | JNTUK,KAKINADA       | IST    | 29000.00 | PASS    | SHAIK    | SKLM     |
+| E05  | SUNIL KUMAR   | SUNIL   |  23 | 2026-10-14 | JNTUK,KAKINADA       | MBA    | 54200.00 | PASS    | KUMAR    | RJY      |
+| E04  | ASIQFARAHAN   | AASIQ   |  23 | 2026-05-25 | JNTUK,KAKINADA       | MCA    | 54000.00 | PASS    | FARAHAN  | KKD      |
+| E07  | GANESH PASALA | PASALA  |  24 | 2003-02-14 | GVP,VZG              | MECH   | 49000.00 | PASS    | GANESH   | SKLM     |
+| E06  | SAIKUMAR      | SAI     |  24 | 2026-02-12 | JNTUK,VZG            | MTECH  | 38200.00 | PASS    | KUMAR    | HYD      |
+| E10  | SATYA SAI     | SATYA   |  23 | 2026-10-14 | JNTUK,KAKINADA       | PHARMA | 45200.00 | PASS    | SAI      | SKLM     |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+10 rows in set (0.01 sec)
+
+mysql> INERST INTO EMPLOYEES SET
+    -> EID = 'E11',
+    -> ENAME = 'BALAGANESH',
+    -> FNAME = 'BALA',
+    -> AGE = 24,
+    -> DOJ = '2026-06-15',
+    -> ADDRESS = 'ANAKAPALLI',
+    -> ESALARY = 46000,
+    -> RESULTS = 'PASS',
+    -> LASTNAME = 'GANESH',
+    -> LOCATION = 'VIZAG';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INERST INTO EMPLOYEES SET
+EID = 'E11',
+ENAME = 'BALAGANESH',
+FNAME = 'BALA',
+AGE' at line 1
+mysql> INSERT INTO EMPLOYEES SET
+    -> EID = 'E11',
+    -> ENAME = 'BALAGANESH',
+    -> FNAME = 'BALA',
+    -> AGE = 24,
+    -> DOJ = '2026-06-15',
+    -> ADDRESS = 'ANAKAPALLI',
+    -> ESALARY = 46000,
+    -> RESULTS = 'PASS',
+    -> LASTNAME = 'GANESH',
+    -> LOCATION = 'VIZAG';
+ERROR 1364 (HY000): Field 'DEPT' doesn't have a default value
+mysql> INSERT INTO EMPLOYEES SET
+    -> EID = 'E11',
+    -> ENAME = 'BALAGANESH',
+    -> FNAME = 'BALA',
+    -> AGE = 24,
+    -> DOJ = '2026-06-15',
+    -> ADDRESS = 'ANAKAPALLI',
+    -> DEPT =  'CHEM',
+    -> ESALARY = 46000,
+    -> RESULTS = 'PASS',
+    -> LASTNAME = 'GANESH',
+    -> LOCATION = 'VIZAG';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM EMPLOYEES;
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| EID  | ENAME         | FNAME   | AGE | DOJ        | ADDRESS              | DEPT   | ESALARY  | RESULTS | LASTNAME | LOCATION |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| E11  | BALAGANESH    | BALA    |  24 | 2026-06-15 | ANAKAPALLI           | CHEM   | 46000.00 | PASS    | GANESH   | VIZAG    |
+| E08  | ARAVIND SHAIK | ARAVIND |  23 | 2026-10-14 | JNTUK,KAKINADA       | CIVIL  | 42200.00 | PASS    | SHAIK    | RJY      |
+| E02  | CODEGNAN      | chakra  |  21 | 2003-09-26 | srikakulam           | cse    | 45000.10 | PASS    | COURSE   | HYD      |
+| E01  | RAVISANKAR    | RAVI    |  21 | 2025-06-02 | DNAGAR,VIZAG         | ECE    | 48000.26 | PASS    | SANKAR   | AP       |
+| E03  | CODEGNAN      | RAVI    |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE    | 55000.10 | PASS    | STAFF    | VSP      |
+| E09  | SHAIK ASHAJ   | ASHAJ   |  23 | 2026-10-14 | JNTUK,KAKINADA       | IST    | 29000.00 | PASS    | SHAIK    | SKLM     |
+| E05  | SUNIL KUMAR   | SUNIL   |  23 | 2026-10-14 | JNTUK,KAKINADA       | MBA    | 54200.00 | PASS    | KUMAR    | RJY      |
+| E04  | ASIQFARAHAN   | AASIQ   |  23 | 2026-05-25 | JNTUK,KAKINADA       | MCA    | 54000.00 | PASS    | FARAHAN  | KKD      |
+| E07  | GANESH PASALA | PASALA  |  24 | 2003-02-14 | GVP,VZG              | MECH   | 49000.00 | PASS    | GANESH   | SKLM     |
+| E06  | SAIKUMAR      | SAI     |  24 | 2026-02-12 | JNTUK,VZG            | MTECH  | 38200.00 | PASS    | KUMAR    | HYD      |
+| E10  | SATYA SAI     | SATYA   |  23 | 2026-10-14 | JNTUK,KAKINADA       | PHARMA | 45200.00 | PASS    | SAI      | SKLM     |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+11 rows in set (0.00 sec)
+
+mysql> UPDATE EMPLOYEES SET FNAME = 'COMPANY' WHERE EID = 'EO3';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEES;
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| EID  | ENAME         | FNAME   | AGE | DOJ        | ADDRESS              | DEPT   | ESALARY  | RESULTS | LASTNAME | LOCATION |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| E11  | BALAGANESH    | BALA    |  24 | 2026-06-15 | ANAKAPALLI           | CHEM   | 46000.00 | PASS    | GANESH   | VIZAG    |
+| E08  | ARAVIND SHAIK | ARAVIND |  23 | 2026-10-14 | JNTUK,KAKINADA       | CIVIL  | 42200.00 | PASS    | SHAIK    | RJY      |
+| E02  | CODEGNAN      | chakra  |  21 | 2003-09-26 | srikakulam           | cse    | 45000.10 | PASS    | COURSE   | HYD      |
+| E01  | RAVISANKAR    | RAVI    |  21 | 2025-06-02 | DNAGAR,VIZAG         | ECE    | 48000.26 | PASS    | SANKAR   | AP       |
+| E03  | CODEGNAN      | RAVI    |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE    | 55000.10 | PASS    | STAFF    | VSP      |
+| E09  | SHAIK ASHAJ   | ASHAJ   |  23 | 2026-10-14 | JNTUK,KAKINADA       | IST    | 29000.00 | PASS    | SHAIK    | SKLM     |
+| E05  | SUNIL KUMAR   | SUNIL   |  23 | 2026-10-14 | JNTUK,KAKINADA       | MBA    | 54200.00 | PASS    | KUMAR    | RJY      |
+| E04  | ASIQFARAHAN   | AASIQ   |  23 | 2026-05-25 | JNTUK,KAKINADA       | MCA    | 54000.00 | PASS    | FARAHAN  | KKD      |
+| E07  | GANESH PASALA | PASALA  |  24 | 2003-02-14 | GVP,VZG              | MECH   | 49000.00 | PASS    | GANESH   | SKLM     |
+| E06  | SAIKUMAR      | SAI     |  24 | 2026-02-12 | JNTUK,VZG            | MTECH  | 38200.00 | PASS    | KUMAR    | HYD      |
+| E10  | SATYA SAI     | SATYA   |  23 | 2026-10-14 | JNTUK,KAKINADA       | PHARMA | 45200.00 | PASS    | SAI      | SKLM     |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+11 rows in set (0.00 sec)
+
+mysql> UPDATE EMPLOYEES SET FNAME = 'COMPANY' WHERE DEPT = 'EEE';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEES;
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| EID  | ENAME         | FNAME   | AGE | DOJ        | ADDRESS              | DEPT   | ESALARY  | RESULTS | LASTNAME | LOCATION |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| E11  | BALAGANESH    | BALA    |  24 | 2026-06-15 | ANAKAPALLI           | CHEM   | 46000.00 | PASS    | GANESH   | VIZAG    |
+| E08  | ARAVIND SHAIK | ARAVIND |  23 | 2026-10-14 | JNTUK,KAKINADA       | CIVIL  | 42200.00 | PASS    | SHAIK    | RJY      |
+| E02  | CODEGNAN      | chakra  |  21 | 2003-09-26 | srikakulam           | cse    | 45000.10 | PASS    | COURSE   | HYD      |
+| E01  | RAVISANKAR    | RAVI    |  21 | 2025-06-02 | DNAGAR,VIZAG         | ECE    | 48000.26 | PASS    | SANKAR   | AP       |
+| E03  | CODEGNAN      | COMPANY |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE    | 55000.10 | PASS    | STAFF    | VSP      |
+| E09  | SHAIK ASHAJ   | ASHAJ   |  23 | 2026-10-14 | JNTUK,KAKINADA       | IST    | 29000.00 | PASS    | SHAIK    | SKLM     |
+| E05  | SUNIL KUMAR   | SUNIL   |  23 | 2026-10-14 | JNTUK,KAKINADA       | MBA    | 54200.00 | PASS    | KUMAR    | RJY      |
+| E04  | ASIQFARAHAN   | AASIQ   |  23 | 2026-05-25 | JNTUK,KAKINADA       | MCA    | 54000.00 | PASS    | FARAHAN  | KKD      |
+| E07  | GANESH PASALA | PASALA  |  24 | 2003-02-14 | GVP,VZG              | MECH   | 49000.00 | PASS    | GANESH   | SKLM     |
+| E06  | SAIKUMAR      | SAI     |  24 | 2026-02-12 | JNTUK,VZG            | MTECH  | 38200.00 | PASS    | KUMAR    | HYD      |
+| E10  | SATYA SAI     | SATYA   |  23 | 2026-10-14 | JNTUK,KAKINADA       | PHARMA | 45200.00 | PASS    | SAI      | SKLM     |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+11 rows in set (0.01 sec)
+
+mysql> UPDATE EMPLOYEES SET FNAME = 'COMPANY' WHERE EID = 'EO3';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEES;
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| EID  | ENAME         | FNAME   | AGE | DOJ        | ADDRESS              | DEPT   | ESALARY  | RESULTS | LASTNAME | LOCATION |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| E11  | BALAGANESH    | BALA    |  24 | 2026-06-15 | ANAKAPALLI           | CHEM   | 46000.00 | PASS    | GANESH   | VIZAG    |
+| E08  | ARAVIND SHAIK | ARAVIND |  23 | 2026-10-14 | JNTUK,KAKINADA       | CIVIL  | 42200.00 | PASS    | SHAIK    | RJY      |
+| E02  | CODEGNAN      | chakra  |  21 | 2003-09-26 | srikakulam           | cse    | 45000.10 | PASS    | COURSE   | HYD      |
+| E01  | RAVISANKAR    | RAVI    |  21 | 2025-06-02 | DNAGAR,VIZAG         | ECE    | 48000.26 | PASS    | SANKAR   | AP       |
+| E03  | CODEGNAN      | COMPANY |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE    | 55000.10 | PASS    | STAFF    | VSP      |
+| E09  | SHAIK ASHAJ   | ASHAJ   |  23 | 2026-10-14 | JNTUK,KAKINADA       | IST    | 29000.00 | PASS    | SHAIK    | SKLM     |
+| E05  | SUNIL KUMAR   | SUNIL   |  23 | 2026-10-14 | JNTUK,KAKINADA       | MBA    | 54200.00 | PASS    | KUMAR    | RJY      |
+| E04  | ASIQFARAHAN   | AASIQ   |  23 | 2026-05-25 | JNTUK,KAKINADA       | MCA    | 54000.00 | PASS    | FARAHAN  | KKD      |
+| E07  | GANESH PASALA | PASALA  |  24 | 2003-02-14 | GVP,VZG              | MECH   | 49000.00 | PASS    | GANESH   | SKLM     |
+| E06  | SAIKUMAR      | SAI     |  24 | 2026-02-12 | JNTUK,VZG            | MTECH  | 38200.00 | PASS    | KUMAR    | HYD      |
+| E10  | SATYA SAI     | SATYA   |  23 | 2026-10-14 | JNTUK,KAKINADA       | PHARMA | 45200.00 | PASS    | SAI      | SKLM     |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+11 rows in set (0.00 sec)
+
+mysql> SELECT E07 FORM EMPLOYEES;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'EMPLOYEES' at line 1
+mysql> SELECT EID FORM EMPLOYEES;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'EMPLOYEES' at line 1
+mysql> SELECT E07 FROM EMPLOYEES;
+ERROR 1054 (42S22): Unknown column 'E07' in 'field list'
+mysql> SELECT EID FROM EMPLOYEES;
++------+
+| EID  |
++------+
+| E11  |
+| E08  |
+| E02  |
+| E01  |
+| E03  |
+| E09  |
+| E05  |
+| E04  |
+| E07  |
+| E06  |
+| E10  |
++------+
+11 rows in set (0.01 sec)
+
+mysql> UPDATE EMPLOYEES SET AGE = 24 WHERE FNAME = 'HARI';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> UPDATE EMPLOYEES SET AGE = 24 WHERE FNAME = 'SATYA';
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEES;
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| EID  | ENAME         | FNAME   | AGE | DOJ        | ADDRESS              | DEPT   | ESALARY  | RESULTS | LASTNAME | LOCATION |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| E11  | BALAGANESH    | BALA    |  24 | 2026-06-15 | ANAKAPALLI           | CHEM   | 46000.00 | PASS    | GANESH   | VIZAG    |
+| E08  | ARAVIND SHAIK | ARAVIND |  23 | 2026-10-14 | JNTUK,KAKINADA       | CIVIL  | 42200.00 | PASS    | SHAIK    | RJY      |
+| E02  | CODEGNAN      | chakra  |  21 | 2003-09-26 | srikakulam           | cse    | 45000.10 | PASS    | COURSE   | HYD      |
+| E01  | RAVISANKAR    | RAVI    |  21 | 2025-06-02 | DNAGAR,VIZAG         | ECE    | 48000.26 | PASS    | SANKAR   | AP       |
+| E03  | CODEGNAN      | COMPANY |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE    | 55000.10 | PASS    | STAFF    | VSP      |
+| E09  | SHAIK ASHAJ   | ASHAJ   |  23 | 2026-10-14 | JNTUK,KAKINADA       | IST    | 29000.00 | PASS    | SHAIK    | SKLM     |
+| E05  | SUNIL KUMAR   | SUNIL   |  23 | 2026-10-14 | JNTUK,KAKINADA       | MBA    | 54200.00 | PASS    | KUMAR    | RJY      |
+| E04  | ASIQFARAHAN   | AASIQ   |  23 | 2026-05-25 | JNTUK,KAKINADA       | MCA    | 54000.00 | PASS    | FARAHAN  | KKD      |
+| E07  | GANESH PASALA | PASALA  |  24 | 2003-02-14 | GVP,VZG              | MECH   | 49000.00 | PASS    | GANESH   | SKLM     |
+| E06  | SAIKUMAR      | SAI     |  24 | 2026-02-12 | JNTUK,VZG            | MTECH  | 38200.00 | PASS    | KUMAR    | HYD      |
+| E10  | SATYA SAI     | SATYA   |  24 | 2026-10-14 | JNTUK,KAKINADA       | PHARMA | 45200.00 | PASS    | SAI      | SKLM     |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+11 rows in set (0.00 sec)
+
+mysql> SELECT 8 FROM EMPLOYEES WHERE EID = 'E11';
++---+
+| 8 |
++---+
+| 8 |
++---+
+1 row in set (0.01 sec)
+
+mysql> SELECT * FROM EMPLOYEES WHERE EID = 'E11';
++------+------------+-------+-----+------------+------------+------+----------+---------+----------+----------+
+| EID  | ENAME      | FNAME | AGE | DOJ        | ADDRESS    | DEPT | ESALARY  | RESULTS | LASTNAME | LOCATION |
++------+------------+-------+-----+------------+------------+------+----------+---------+----------+----------+
+| E11  | BALAGANESH | BALA  |  24 | 2026-06-15 | ANAKAPALLI | CHEM | 46000.00 | PASS    | GANESH   | VIZAG    |
++------+------------+-------+-----+------------+------------+------+----------+---------+----------+----------+
+1 row in set (0.00 sec)
+
+mysql> UPDATE EMPLOYEES SET LOCATION = 'VSP' WHERE AGE = 24;
+Query OK, 4 rows affected (0.04 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEES;
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| EID  | ENAME         | FNAME   | AGE | DOJ        | ADDRESS              | DEPT   | ESALARY  | RESULTS | LASTNAME | LOCATION |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| E11  | BALAGANESH    | BALA    |  24 | 2026-06-15 | ANAKAPALLI           | CHEM   | 46000.00 | PASS    | GANESH   | VSP      |
+| E08  | ARAVIND SHAIK | ARAVIND |  23 | 2026-10-14 | JNTUK,KAKINADA       | CIVIL  | 42200.00 | PASS    | SHAIK    | RJY      |
+| E02  | CODEGNAN      | chakra  |  21 | 2003-09-26 | srikakulam           | cse    | 45000.10 | PASS    | COURSE   | HYD      |
+| E01  | RAVISANKAR    | RAVI    |  21 | 2025-06-02 | DNAGAR,VIZAG         | ECE    | 48000.26 | PASS    | SANKAR   | AP       |
+| E03  | CODEGNAN      | COMPANY |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE    | 55000.10 | PASS    | STAFF    | VSP      |
+| E09  | SHAIK ASHAJ   | ASHAJ   |  23 | 2026-10-14 | JNTUK,KAKINADA       | IST    | 29000.00 | PASS    | SHAIK    | SKLM     |
+| E05  | SUNIL KUMAR   | SUNIL   |  23 | 2026-10-14 | JNTUK,KAKINADA       | MBA    | 54200.00 | PASS    | KUMAR    | RJY      |
+| E04  | ASIQFARAHAN   | AASIQ   |  23 | 2026-05-25 | JNTUK,KAKINADA       | MCA    | 54000.00 | PASS    | FARAHAN  | KKD      |
+| E07  | GANESH PASALA | PASALA  |  24 | 2003-02-14 | GVP,VZG              | MECH   | 49000.00 | PASS    | GANESH   | VSP      |
+| E06  | SAIKUMAR      | SAI     |  24 | 2026-02-12 | JNTUK,VZG            | MTECH  | 38200.00 | PASS    | KUMAR    | VSP      |
+| E10  | SATYA SAI     | SATYA   |  24 | 2026-10-14 | JNTUK,KAKINADA       | PHARMA | 45200.00 | PASS    | SAI      | VSP      |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+11 rows in set (0.00 sec)
+
+mysql> update employees set fname = 'mani'where eid = 'e08';
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employees set address = 'noida' where lastname = 'kumar';
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEES;
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| EID  | ENAME         | FNAME   | AGE | DOJ        | ADDRESS              | DEPT   | ESALARY  | RESULTS | LASTNAME | LOCATION |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| E11  | BALAGANESH    | BALA    |  24 | 2026-06-15 | ANAKAPALLI           | CHEM   | 46000.00 | PASS    | GANESH   | VSP      |
+| E08  | ARAVIND SHAIK | mani    |  23 | 2026-10-14 | JNTUK,KAKINADA       | CIVIL  | 42200.00 | PASS    | SHAIK    | RJY      |
+| E02  | CODEGNAN      | chakra  |  21 | 2003-09-26 | srikakulam           | cse    | 45000.10 | PASS    | COURSE   | HYD      |
+| E01  | RAVISANKAR    | RAVI    |  21 | 2025-06-02 | DNAGAR,VIZAG         | ECE    | 48000.26 | PASS    | SANKAR   | AP       |
+| E03  | CODEGNAN      | COMPANY |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE    | 55000.10 | PASS    | STAFF    | VSP      |
+| E09  | SHAIK ASHAJ   | ASHAJ   |  23 | 2026-10-14 | JNTUK,KAKINADA       | IST    | 29000.00 | PASS    | SHAIK    | SKLM     |
+| E05  | SUNIL KUMAR   | SUNIL   |  23 | 2026-10-14 | noida                | MBA    | 54200.00 | PASS    | KUMAR    | RJY      |
+| E04  | ASIQFARAHAN   | AASIQ   |  23 | 2026-05-25 | JNTUK,KAKINADA       | MCA    | 54000.00 | PASS    | FARAHAN  | KKD      |
+| E07  | GANESH PASALA | PASALA  |  24 | 2003-02-14 | GVP,VZG              | MECH   | 49000.00 | PASS    | GANESH   | VSP      |
+| E06  | SAIKUMAR      | SAI     |  24 | 2026-02-12 | noida                | MTECH  | 38200.00 | PASS    | KUMAR    | VSP      |
+| E10  | SATYA SAI     | SATYA   |  24 | 2026-10-14 | JNTUK,KAKINADA       | PHARMA | 45200.00 | PASS    | SAI      | VSP      |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+11 rows in set (0.00 sec)
+
+mysql> delete employees where eid = 'e08';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where eid = 'e08'' at line 1
+mysql> delete from employees where eid = 'e08';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM EMPLOYEES;
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| EID  | ENAME         | FNAME   | AGE | DOJ        | ADDRESS              | DEPT   | ESALARY  | RESULTS | LASTNAME | LOCATION |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+| E11  | BALAGANESH    | BALA    |  24 | 2026-06-15 | ANAKAPALLI           | CHEM   | 46000.00 | PASS    | GANESH   | VSP      |
+| E02  | CODEGNAN      | chakra  |  21 | 2003-09-26 | srikakulam           | cse    | 45000.10 | PASS    | COURSE   | HYD      |
+| E01  | RAVISANKAR    | RAVI    |  21 | 2025-06-02 | DNAGAR,VIZAG         | ECE    | 48000.26 | PASS    | SANKAR   | AP       |
+| E03  | CODEGNAN      | COMPANY |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE    | 55000.10 | PASS    | STAFF    | VSP      |
+| E09  | SHAIK ASHAJ   | ASHAJ   |  23 | 2026-10-14 | JNTUK,KAKINADA       | IST    | 29000.00 | PASS    | SHAIK    | SKLM     |
+| E05  | SUNIL KUMAR   | SUNIL   |  23 | 2026-10-14 | noida                | MBA    | 54200.00 | PASS    | KUMAR    | RJY      |
+| E04  | ASIQFARAHAN   | AASIQ   |  23 | 2026-05-25 | JNTUK,KAKINADA       | MCA    | 54000.00 | PASS    | FARAHAN  | KKD      |
+| E07  | GANESH PASALA | PASALA  |  24 | 2003-02-14 | GVP,VZG              | MECH   | 49000.00 | PASS    | GANESH   | VSP      |
+| E06  | SAIKUMAR      | SAI     |  24 | 2026-02-12 | noida                | MTECH  | 38200.00 | PASS    | KUMAR    | VSP      |
+| E10  | SATYA SAI     | SATYA   |  24 | 2026-10-14 | JNTUK,KAKINADA       | PHARMA | 45200.00 | PASS    | SAI      | VSP      |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------+----------+
+10 rows in set (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEES SET
+    -> EID = 'E08',
+    -> ENAME = 'ARAVIND',
+    -> FNAME = 'BIDIKA',
+    -> AGE = 24,
+    -> ADDRESS = 'SETTAMPETA',
+    -> DEPT =  'CIVIL',
+    -> ESALARY = 42200,
+    -> RESULTS = 'PASS',
+    -> LASTNAME = 'ARAVINDBIDDIKA',
+    -> LOCATION = 'PARAVITHIPURAM';
+ERROR 1406 (22001): Data too long for column 'LOCATION' at row 1
+mysql> LOCATION = 'PVTM';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LOCATION = 'PVTM'' at line 1
+mysql> INSERT INTO EMPLOYEES SET
+    -> EID = 'E08',
+    -> ENAME = 'ARAVIND',
+    -> FNAME = 'BIDIKA',
+    -> AGE = 24,
+    -> ADDRESS = 'SETTAMPETA',
+    -> DEPT =  'CIVIL',
+    -> ESALARY = 42200,
+    -> RESULTS = 'PASS',
+    -> LASTNAME = 'ARAVINDBIDDIKA',
+    -> LOCATION = 'PRVTM';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM EMPLOYEES;
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------------+----------+
+| EID  | ENAME         | FNAME   | AGE | DOJ        | ADDRESS              | DEPT   | ESALARY  | RESULTS | LASTNAME       | LOCATION |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------------+----------+
+| E11  | BALAGANESH    | BALA    |  24 | 2026-06-15 | ANAKAPALLI           | CHEM   | 46000.00 | PASS    | GANESH         | VSP      |
+| E08  | ARAVIND       | BIDIKA  |  24 | NULL       | SETTAMPETA           | CIVIL  | 42200.00 | PASS    | ARAVINDBIDDIKA | PRVTM    |
+| E02  | CODEGNAN      | chakra  |  21 | 2003-09-26 | srikakulam           | cse    | 45000.10 | PASS    | COURSE         | HYD      |
+| E01  | RAVISANKAR    | RAVI    |  21 | 2025-06-02 | DNAGAR,VIZAG         | ECE    | 48000.26 | PASS    | SANKAR         | AP       |
+| E03  | CODEGNAN      | COMPANY |  21 | 2026-02-24 | MAIN ROAD,srikakulam | EEE    | 55000.10 | PASS    | STAFF          | VSP      |
+| E09  | SHAIK ASHAJ   | ASHAJ   |  23 | 2026-10-14 | JNTUK,KAKINADA       | IST    | 29000.00 | PASS    | SHAIK          | SKLM     |
+| E05  | SUNIL KUMAR   | SUNIL   |  23 | 2026-10-14 | noida                | MBA    | 54200.00 | PASS    | KUMAR          | RJY      |
+| E04  | ASIQFARAHAN   | AASIQ   |  23 | 2026-05-25 | JNTUK,KAKINADA       | MCA    | 54000.00 | PASS    | FARAHAN        | KKD      |
+| E07  | GANESH PASALA | PASALA  |  24 | 2003-02-14 | GVP,VZG              | MECH   | 49000.00 | PASS    | GANESH         | VSP      |
+| E06  | SAIKUMAR      | SAI     |  24 | 2026-02-12 | noida                | MTECH  | 38200.00 | PASS    | KUMAR          | VSP      |
+| E10  | SATYA SAI     | SATYA   |  24 | 2026-10-14 | JNTUK,KAKINADA       | PHARMA | 45200.00 | PASS    | SAI            | VSP      |
++------+---------------+---------+-----+------------+----------------------+--------+----------+---------+----------------+----------+
+11 rows in set (0.00 sec)
+
+mysql> DELETE FROM EMPLOYEES WHERE ADDRESS = 'HYD';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELETE FROM EMPLOYEES WHERE LOCATION = 'HYD';
+Query OK, 1 row affected (0.01 sec)
+
+mysql>
