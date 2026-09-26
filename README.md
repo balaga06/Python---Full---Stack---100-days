@@ -44,7 +44,7 @@ Python---Full---Stack---100-days/
 │   ├── day9 sales table.txt
 │   └── Day10.docx
 │
-├── PostgreSQL/
-│   └── ...
+├
+│
 │
 └── README.md
