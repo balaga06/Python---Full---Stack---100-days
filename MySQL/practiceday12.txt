@@ -1,0 +1,841 @@
+nter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 16
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use psf7;
+ERROR 1049 (42000): Unknown database 'psf7'
+mysql> use pfs7;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_pfs7     |
++--------------------+
+| backupemployees    |
+| company_staff      |
+| course_3nf         |
+| emp                |
+| emp1               |
+| emp2               |
+| employees          |
+| employees1         |
+| enrollment_2nf     |
+| enrollment_3nf     |
+| orders             |
+| products           |
+| products1          |
+| projects           |
+| sales              |
+| student_2nf        |
+| student_course_1nf |
+| student_details    |
+| students           |
+| studentscores      |
+| trainer_3nf        |
++--------------------+
+21 rows in set (0.06 sec)
+
+mysql> select * from employees;
++--------+------------+-----------+-------------------------+--------------+------------+-----------+----------+
+| emp_id | first_name | last_name | email                   | phone_number | department | city      | salary   |
++--------+------------+-----------+-------------------------+--------------+------------+-----------+----------+
+|    101 | Rahul      | Kumar     | rahul.kumar@gmail.com   | 987-654-3210 | IT         | Hyderabad | 45000.00 |
+|    102 | Anita      | Sharma    | anita.sharma@yahoo.com  | 912-345-6789 | HR         | Bangalore | 38000.00 |
+|    103 | Suresh     | Verma     | suresh.verma@gmail.com  | 998-123-4567 | Sales      | Chennai   | 52000.00 |
+|    104 | Priya      | Singh     | priya.singh@outlook.com | 900-456-7890 | Finance    | Pune      | 47000.00 |
+|    105 | Rahul      | Joshi     | rahul.joshi@gmail.com   | 955-888-1111 | Testing    | Delhi     | 41000.00 |
+|    106 | Kiran      | Reddy     | kiran.reddy@gmail.com   | 901-222-3333 | IT         | Hyderabad | 56000.00 |
+|    107 | Deepika    | Naidu     | deepika.naidu@yahoo.com | 944-111-2222 | HR         | Vizag     | 39000.00 |
+|    108 | Mahesh     | Patel     | mahesh.patel@gmail.com  | 933-444-5555 | Sales      | Mumbai    | 62000.00 |
+|    109 | Divya      | Gupta     | divya.gupta@gmail.com   | 955-777-8888 | Finance    | Delhi     | 49000.00 |
+|    110 | Arjun      | Rao       | arjun.rao@gmail.com     | 988-999-7777 | Developer  | Hyderabad | 68000.00 |
++--------+------------+-----------+-------------------------+--------------+------------+-----------+----------+
+10 rows in set (0.01 sec)
+
+mysql> select curtime() from dual;
++-----------+
+| curtime() |
++-----------+
+| 09:13:28  |
++-----------+
+1 row in set (0.01 sec)
+
+mysql> CREATE TABLE employee_attendance
+    -> (
+    ->  emp_id INT PRIMARY KEY AUTO_INCREMENT,
+    ->  emp_name VARCHAR(100),
+    ->  department VARCHAR(50),
+    ->  joining_date DATE,
+    ->  birth_date DATE,
+    ->  login_time DATETIME,
+    ->  logout_time DATETIME,
+    ->  salary DECIMAL(10,2)
+    -> );
+Query OK, 0 rows affected (0.28 sec)
+
+mysql>
+mysql> INSERT INTO employee_attendance
+    -> (emp_name, department, joining_date, birth_date, login_time, logout_time, salary)
+    -> VALUES
+    -> ('Rahul','IT','2021-06-15','1998-05-10','2024-11-20 09:05:10','2024-11-20 18:15:30',55000),
+    -> ('Sneha','HR','2020-03-21','1996-11-18','2024-11-21 08:55:20','2024-11-21 17:45:50',48000),
+    -> ('Arjun','Finance','2019-08-10','1994-07-30','2024-11-22 09:15:45','2024-11-22 18:35:20',62000),
+    -> ('Priya','IT','2022-01-05','2000-01-25','2024-11-23 09:00:00','2024-11-23 17:55:40',51000),
+    -> ('Kiran','Admin','2018-12-11','1992-09-15','2024-11-24 08:40:30','2024-11-24 17:30:00',45000),
+    -> ('Anjali','Testing','2023-04-17','1999-12-20','2024-11-25 09:12:10','2024-11-25 18:05:00',47000),
+    -> ('Vijay','IT','2021-09-14','1997-04-08','2024-11-26 09:08:15','2024-11-26 18:20:40',59000),
+    -> ('Divya','HR','2019-10-19','1995-06-11','2024-11-27 08:50:30','2024-11-27 17:42:15',50000),
+    -> ('Ramesh','Finance','2017-07-01','1991-08-14','2024-11-28 09:03:00','2024-11-28 18:12:00',70000),
+    -> ('Pooja','Testing','2022-05-09','2001-03-19','2024-11-29 09:18:50','2024-11-29 18:25:10',53000);
+Query OK, 10 rows affected (0.04 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee_attendance;
++--------+----------+------------+--------------+------------+---------------------+---------------------+----------+
+| emp_id | emp_name | department | joining_date | birth_date | login_time          | logout_time         | salary   |
++--------+----------+------------+--------------+------------+---------------------+---------------------+----------+
+|      1 | Rahul    | IT         | 2021-06-15   | 1998-05-10 | 2024-11-20 09:05:10 | 2024-11-20 18:15:30 | 55000.00 |
+|      2 | Sneha    | HR         | 2020-03-21   | 1996-11-18 | 2024-11-21 08:55:20 | 2024-11-21 17:45:50 | 48000.00 |
+|      3 | Arjun    | Finance    | 2019-08-10   | 1994-07-30 | 2024-11-22 09:15:45 | 2024-11-22 18:35:20 | 62000.00 |
+|      4 | Priya    | IT         | 2022-01-05   | 2000-01-25 | 2024-11-23 09:00:00 | 2024-11-23 17:55:40 | 51000.00 |
+|      5 | Kiran    | Admin      | 2018-12-11   | 1992-09-15 | 2024-11-24 08:40:30 | 2024-11-24 17:30:00 | 45000.00 |
+|      6 | Anjali   | Testing    | 2023-04-17   | 1999-12-20 | 2024-11-25 09:12:10 | 2024-11-25 18:05:00 | 47000.00 |
+|      7 | Vijay    | IT         | 2021-09-14   | 1997-04-08 | 2024-11-26 09:08:15 | 2024-11-26 18:20:40 | 59000.00 |
+|      8 | Divya    | HR         | 2019-10-19   | 1995-06-11 | 2024-11-27 08:50:30 | 2024-11-27 17:42:15 | 50000.00 |
+|      9 | Ramesh   | Finance    | 2017-07-01   | 1991-08-14 | 2024-11-28 09:03:00 | 2024-11-28 18:12:00 | 70000.00 |
+|     10 | Pooja    | Testing    | 2022-05-09   | 2001-03-19 | 2024-11-29 09:18:50 | 2024-11-29 18:25:10 | 53000.00 |
++--------+----------+------------+--------------+------------+---------------------+---------------------+----------+
+10 rows in set (0.00 sec)
+
+mysql> select Curtime() from dual;
++-----------+
+| Curtime() |
++-----------+
+| 09:38:35  |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select hour(now) as current_hour;
+ERROR 1054 (42S22): Unknown column 'now' in 'field list'
+mysql> select hour(now()) as current_hour;
++--------------+
+| current_hour |
++--------------+
+|            9 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select data
+    -> ^C
+mysql>
+mysql> select date(login_time) as date_part;
+ERROR 1054 (42S22): Unknown column 'login_time' in 'field list'
+mysql> select date(login_time()) as date_part;
+ERROR 1305 (42000): FUNCTION pfs7.login_time does not exist
+mysql> select emp_name,login_time,date(login_time) as date_part;
+ERROR 1054 (42S22): Unknown column 'emp_name' in 'field list'
+mysql> select emp_name,login_time,date(login_time) as date_part from employee_attendance;
++----------+---------------------+------------+
+| emp_name | login_time          | date_part  |
++----------+---------------------+------------+
+| Rahul    | 2024-11-20 09:05:10 | 2024-11-20 |
+| Sneha    | 2024-11-21 08:55:20 | 2024-11-21 |
+| Arjun    | 2024-11-22 09:15:45 | 2024-11-22 |
+| Priya    | 2024-11-23 09:00:00 | 2024-11-23 |
+| Kiran    | 2024-11-24 08:40:30 | 2024-11-24 |
+| Anjali   | 2024-11-25 09:12:10 | 2024-11-25 |
+| Vijay    | 2024-11-26 09:08:15 | 2024-11-26 |
+| Divya    | 2024-11-27 08:50:30 | 2024-11-27 |
+| Ramesh   | 2024-11-28 09:03:00 | 2024-11-28 |
+| Pooja    | 2024-11-29 09:18:50 | 2024-11-29 |
++----------+---------------------+------------+
+10 rows in set (0.03 sec)
+
+mysql> select emp_name,login_time,time(login_time) as date_part from employee_attendance;
++----------+---------------------+-----------+
+| emp_name | login_time          | date_part |
++----------+---------------------+-----------+
+| Rahul    | 2024-11-20 09:05:10 | 09:05:10  |
+| Sneha    | 2024-11-21 08:55:20 | 08:55:20  |
+| Arjun    | 2024-11-22 09:15:45 | 09:15:45  |
+| Priya    | 2024-11-23 09:00:00 | 09:00:00  |
+| Kiran    | 2024-11-24 08:40:30 | 08:40:30  |
+| Anjali   | 2024-11-25 09:12:10 | 09:12:10  |
+| Vijay    | 2024-11-26 09:08:15 | 09:08:15  |
+| Divya    | 2024-11-27 08:50:30 | 08:50:30  |
+| Ramesh   | 2024-11-28 09:03:00 | 09:03:00  |
+| Pooja    | 2024-11-29 09:18:50 | 09:18:50  |
++----------+---------------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,login_time,date(login_time) as time_part from employee_attendance;
++----------+---------------------+------------+
+| emp_name | login_time          | time_part  |
++----------+---------------------+------------+
+| Rahul    | 2024-11-20 09:05:10 | 2024-11-20 |
+| Sneha    | 2024-11-21 08:55:20 | 2024-11-21 |
+| Arjun    | 2024-11-22 09:15:45 | 2024-11-22 |
+| Priya    | 2024-11-23 09:00:00 | 2024-11-23 |
+| Kiran    | 2024-11-24 08:40:30 | 2024-11-24 |
+| Anjali   | 2024-11-25 09:12:10 | 2024-11-25 |
+| Vijay    | 2024-11-26 09:08:15 | 2024-11-26 |
+| Divya    | 2024-11-27 08:50:30 | 2024-11-27 |
+| Ramesh   | 2024-11-28 09:03:00 | 2024-11-28 |
+| Pooja    | 2024-11-29 09:18:50 | 2024-11-29 |
++----------+---------------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,login_time,time(login_time) as time_part from employee_attendance;
++----------+---------------------+-----------+
+| emp_name | login_time          | time_part |
++----------+---------------------+-----------+
+| Rahul    | 2024-11-20 09:05:10 | 09:05:10  |
+| Sneha    | 2024-11-21 08:55:20 | 08:55:20  |
+| Arjun    | 2024-11-22 09:15:45 | 09:15:45  |
+| Priya    | 2024-11-23 09:00:00 | 09:00:00  |
+| Kiran    | 2024-11-24 08:40:30 | 08:40:30  |
+| Anjali   | 2024-11-25 09:12:10 | 09:12:10  |
+| Vijay    | 2024-11-26 09:08:15 | 09:08:15  |
+| Divya    | 2024-11-27 08:50:30 | 08:50:30  |
+| Ramesh   | 2024-11-28 09:03:00 | 09:03:00  |
+| Pooja    | 2024-11-29 09:18:50 | 09:18:50  |
++----------+---------------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,year(joining_date) as joining_year from employee_attendance;
++----------+--------------+
+| emp_name | joining_year |
++----------+--------------+
+| Rahul    |         2021 |
+| Sneha    |         2020 |
+| Arjun    |         2019 |
+| Priya    |         2022 |
+| Kiran    |         2018 |
+| Anjali   |         2023 |
+| Vijay    |         2021 |
+| Divya    |         2019 |
+| Ramesh   |         2017 |
+| Pooja    |         2022 |
++----------+--------------+
+10 rows in set (0.01 sec)
+
+mysql> select emp_name,month(birth_date) as birth_month from employee_attendance;
++----------+-------------+
+| emp_name | birth_month |
++----------+-------------+
+| Rahul    |           5 |
+| Sneha    |          11 |
+| Arjun    |           7 |
+| Priya    |           1 |
+| Kiran    |           9 |
+| Anjali   |          12 |
+| Vijay    |           4 |
+| Divya    |           6 |
+| Ramesh   |           8 |
+| Pooja    |           3 |
++----------+-------------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,birth_date from employee_attendance;
++----------+------------+
+| emp_name | birth_date |
++----------+------------+
+| Rahul    | 1998-05-10 |
+| Sneha    | 1996-11-18 |
+| Arjun    | 1994-07-30 |
+| Priya    | 2000-01-25 |
+| Kiran    | 1992-09-15 |
+| Anjali   | 1999-12-20 |
+| Vijay    | 1997-04-08 |
+| Divya    | 1995-06-11 |
+| Ramesh   | 1991-08-14 |
+| Pooja    | 2001-03-19 |
++----------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,day(birth_date) from employee_attendance;
++----------+-----------------+
+| emp_name | day(birth_date) |
++----------+-----------------+
+| Rahul    |              10 |
+| Sneha    |              18 |
+| Arjun    |              30 |
+| Priya    |              25 |
+| Kiran    |              15 |
+| Anjali   |              20 |
+| Vijay    |               8 |
+| Divya    |              11 |
+| Ramesh   |              14 |
+| Pooja    |              19 |
++----------+-----------------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,week(joining_date) as week_number from employee_attendance;
++----------+-------------+
+| emp_name | week_number |
++----------+-------------+
+| Rahul    |          24 |
+| Sneha    |          11 |
+| Arjun    |          31 |
+| Priya    |           1 |
+| Kiran    |          49 |
+| Anjali   |          16 |
+| Vijay    |          37 |
+| Divya    |          41 |
+| Ramesh   |          26 |
+| Pooja    |          19 |
++----------+-------------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,dayofweek(joining_date) as week_number from employee_attendance;
++----------+-------------+
+| emp_name | week_number |
++----------+-------------+
+| Rahul    |           3 |
+| Sneha    |           7 |
+| Arjun    |           7 |
+| Priya    |           4 |
+| Kiran    |           3 |
+| Anjali   |           2 |
+| Vijay    |           3 |
+| Divya    |           7 |
+| Ramesh   |           7 |
+| Pooja    |           2 |
++----------+-------------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,add_day(joining_date interval 30 days) as add_days from employee_attendance;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'interval 30 days) as add_days from employee_attendance' at line 1
+mysql> select emp_name,add_day(joining_date ,interval 30 days) as add_days from employee_attendance;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'days) as add_days from employee_attendance' at line 1
+mysql> select emp_name,weekday(joining_date) as week_number from employee_attendance;
++----------+-------------+
+| emp_name | week_number |
++----------+-------------+
+| Rahul    |           1 |
+| Sneha    |           5 |
+| Arjun    |           5 |
+| Priya    |           2 |
+| Kiran    |           1 |
+| Anjali   |           0 |
+| Vijay    |           1 |
+| Divya    |           5 |
+| Ramesh   |           5 |
+| Pooja    |           0 |
++----------+-------------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,day_add(joining_date interval 30 days) as add_days from employee_attendance;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'interval 30 days) as add_days from employee_attendance' at line 1
+mysql> select emp_name,day_add(joining_date interval 30days) as add_days from employee_attendance;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'interval 30days) as add_days from employee_attendance' at line 1
+mysql> select emp_name,day_add(joining_date interval 30days) as add_days_to_joiningdate from employee_attendance;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'interval 30days) as add_days_to_joiningdate from employee_attendance' at line 1
+mysql> select emp_name,day_add(joining_date 'interval 30days') as add_days_to_joiningdate from employee_attendance;
+ERROR 1584 (42000): Incorrect parameters in the call to stored function `day_add`
+mysql> select emp_name,day_add()(joining_date 'interval 30days') as add_days_to_joiningdate from employee_attendance;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(joining_date 'interval 30days') as add_days_to_joiningdate from employee_attend' at line 1
+mysql> select emp_name,date_add(joining_date, interval 30days) as add_days_to_joiningdate from employee_attendance;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') as add_days_to_joiningdate from employee_attendance' at line 1
+mysql> select emp_name,date_add(joining_date, interval 30 day) as add_days_to_joiningdate from employee_attendance;
++----------+-------------------------+
+| emp_name | add_days_to_joiningdate |
++----------+-------------------------+
+| Rahul    | 2021-07-15              |
+| Sneha    | 2020-04-20              |
+| Arjun    | 2019-09-09              |
+| Priya    | 2022-02-04              |
+| Kiran    | 2019-01-10              |
+| Anjali   | 2023-05-17              |
+| Vijay    | 2021-10-14              |
+| Divya    | 2019-11-18              |
+| Ramesh   | 2017-07-31              |
+| Pooja    | 2022-06-08              |
++----------+-------------------------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,date_sub(joining_date,interval 15 day)as new_date from employee_attendance;
++----------+------------+
+| emp_name | new_date   |
++----------+------------+
+| Rahul    | 2021-05-31 |
+| Sneha    | 2020-03-06 |
+| Arjun    | 2019-07-26 |
+| Priya    | 2021-12-21 |
+| Kiran    | 2018-11-26 |
+| Anjali   | 2023-04-02 |
+| Vijay    | 2021-08-30 |
+| Divya    | 2019-10-04 |
+| Ramesh   | 2017-06-16 |
+| Pooja    | 2022-04-24 |
++----------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,datediff(curdate(),joining_date)as days-worked from employee_attendance;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-worked from employee_attendance' at line 1
+mysql> select emp_name,DATEDIFF(curdate(),joining_date)as days-worked from employee_attendance;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-worked from employee_attendance' at line 1
+mysql> select emp_name,DATEDIFF(curdate(),joining_date)as days_worked from employee_attendance;
++----------+-------------+
+| emp_name | days_worked |
++----------+-------------+
+| Rahul    |        1932 |
+| Sneha    |        2383 |
+| Arjun    |        2607 |
+| Priya    |        1728 |
+| Kiran    |        2849 |
+| Anjali   |        1261 |
+| Vijay    |        1841 |
+| Divya    |        2537 |
+| Ramesh   |        3377 |
+| Pooja    |        1604 |
++----------+-------------+
+10 rows in set (0.01 sec)
+
+mysql> SELECT EMP_NAME,DATEDIFF(LOGIN_TIME,LOGOUT_TIME)AS NO_OF_DAYS FROM EMPLOYEE_ATTENDANCE;
++----------+------------+
+| EMP_NAME | NO_OF_DAYS |
++----------+------------+
+| Rahul    |          0 |
+| Sneha    |          0 |
+| Arjun    |          0 |
+| Priya    |          0 |
+| Kiran    |          0 |
+| Anjali   |          0 |
+| Vijay    |          0 |
+| Divya    |          0 |
+| Ramesh   |          0 |
+| Pooja    |          0 |
++----------+------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT EMP_NAME,TIMDIFF(LOGIN_TIME,LOGOUT_TIME)AS NO_OF_DAYS FROM EMPLOYEE_ATTENDANCE;
+ERROR 1305 (42000): FUNCTION pfs7.TIMDIFF does not exist
+mysql> SELECT EMP_NAME,TIMEDIFF(LOGIN_TIME,LOGOUT_TIME)AS NO_OF_DAYS FROM EMPLOYEE_ATTENDANCE;
++----------+------------+
+| EMP_NAME | NO_OF_DAYS |
++----------+------------+
+| Rahul    | -09:10:20  |
+| Sneha    | -08:50:30  |
+| Arjun    | -09:19:35  |
+| Priya    | -08:55:40  |
+| Kiran    | -08:49:30  |
+| Anjali   | -08:52:50  |
+| Vijay    | -09:12:25  |
+| Divya    | -08:51:45  |
+| Ramesh   | -09:09:00  |
+| Pooja    | -09:06:20  |
++----------+------------+
+10 rows in set (0.01 sec)
+
+mysql> SELECT STR_TO_DATE('2024
+    '> ^C
+mysql> SELECT STR_TO_DATE('2024-12-31', %W,%M,%d,%Y)AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%W,%M,%d,%Y)AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE' at line 1
+mysql> SELECT STR_TO_DATE('2024-12-31', '%W,%M,%d,%Y')AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE;
++--------------+
+| CONVERT_DATE |
++--------------+
+| NULL         |
+| NULL         |
+| NULL         |
+| NULL         |
+| NULL         |
+| NULL         |
+| NULL         |
+| NULL         |
+| NULL         |
+| NULL         |
++--------------+
+10 rows in set, 10 warnings (0.03 sec)
+
+mysql> SELECT STR_TO_DATE('2024-12-31', '%W,%M,%d,%Y')AS CONVERT_DATE;
++--------------+
+| CONVERT_DATE |
++--------------+
+| NULL         |
++--------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SELECT STR_TO_DATE('2024-12-31', '%W %M %d %Y')AS CONVERT_DATE;
++--------------+
+| CONVERT_DATE |
++--------------+
+| NULL         |
++--------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SELECT STR_TO_DATE('2024-12-31', '%W-%M-%d-%Y')AS CONVERT_DATE;
++--------------+
+| CONVERT_DATE |
++--------------+
+| NULL         |
++--------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SELECT STR_TO_DATE('2024-12-31', '%Y-%M-%d')AS CONVERT_DATE;
++--------------+
+| CONVERT_DATE |
++--------------+
+| NULL         |
++--------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SELECT STR_TO_DATE('2024-12-31', '%Y-%m-%d')AS CONVERT_DATE;
++--------------+
+| CONVERT_DATE |
++--------------+
+| 2024-12-31   |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select emp_name,DATE_FORMAT(JOINING_DATE,'%W,%M,%d,%Y)AS CONVERT_DATE FROM EMPLOYEES;
+    '> select emp_name,DATE_FORMAT(JOINING_DATE,'%W,%M,%d,%Y)AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%M,%d,%Y)AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE' at line 2
+mysql> select emp_name,DATE_FORMAT(JOINING_DATE,'%W,%M,%d,%Y)AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE;
+    '> ^C
+mysql> SELECT LASTDAY(JOINING_DATE) AS LAST_DAY FROM EMPLOYEE_ATTENDANCE;
+ERROR 1305 (42000): FUNCTION pfs7.LASTDAY does not exist
+mysql> SELECT LAST_DAY(JOINING_DATE) AS LAST_DAY FROM EMPLOYEE_ATTENDANCE;
++------------+
+| LAST_DAY   |
++------------+
+| 2021-06-30 |
+| 2020-03-31 |
+| 2019-08-31 |
+| 2022-01-31 |
+| 2018-12-31 |
+| 2023-04-30 |
+| 2021-09-30 |
+| 2019-10-31 |
+| 2017-07-31 |
+| 2022-05-31 |
++------------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,DATE_FORMAT(BIRTH_DATE,'%W,%M,%d,%Y)AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE;
+    '> select emp_name,DATE_FORMAT(JOINING_DATE,'%W,%M,%d,%Y)AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%M,%d,%Y)AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE' at line 2
+mysql> select emp_name,DATE_FORMAT(JOINING_DATE,'%W,%M,%d,%Y)AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE;
+    '> select emp_name,DATE_FORMAT(BIRTH_DATE,'%W,%M,%d,%Y')AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE;
+    '> select emp_name,DATE_FORMAT(JOINING_DATE,'%W,%M,%d,%Y')AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE;
+    '> ^C
+mysql> select emp_name,DATE_FORMAT(JOINING_DATE,'%W,%M,%d,%Y')AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE;
++----------+---------------------------+
+| emp_name | CONVERT_DATE              |
++----------+---------------------------+
+| Rahul    | Tuesday,June,15,2021      |
+| Sneha    | Saturday,March,21,2020    |
+| Arjun    | Saturday,August,10,2019   |
+| Priya    | Wednesday,January,05,2022 |
+| Kiran    | Tuesday,December,11,2018  |
+| Anjali   | Monday,April,17,2023      |
+| Vijay    | Tuesday,September,14,2021 |
+| Divya    | Saturday,October,19,2019  |
+| Ramesh   | Saturday,July,01,2017     |
+| Pooja    | Monday,May,09,2022        |
++----------+---------------------------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,MONTHNAME(BIRTH_DATE)AS BIRTH_MONTHNAME , DAYNAME(BIRTH_DATE)AS BIRTH_DAYNAME  FROM EMPLOYEE_ATTENDANCE;
++----------+-----------------+---------------+
+| emp_name | BIRTH_MONTHNAME | BIRTH_DAYNAME |
++----------+-----------------+---------------+
+| Rahul    | May             | Sunday        |
+| Sneha    | November        | Monday        |
+| Arjun    | July            | Saturday      |
+| Priya    | January         | Tuesday       |
+| Kiran    | September       | Tuesday       |
+| Anjali   | December        | Monday        |
+| Vijay    | April           | Tuesday       |
+| Divya    | June            | Sunday        |
+| Ramesh   | August          | Wednesday     |
+| Pooja    | March           | Monday        |
++----------+-----------------+---------------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,DATE_FORMAT(BIRTH_DATE,'%W,%M,%d,%Y')AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE;
++----------+---------------------------+
+| emp_name | CONVERT_DATE              |
++----------+---------------------------+
+| Rahul    | Sunday,May,10,1998        |
+| Sneha    | Monday,November,18,1996   |
+| Arjun    | Saturday,July,30,1994     |
+| Priya    | Tuesday,January,25,2000   |
+| Kiran    | Tuesday,September,15,1992 |
+| Anjali   | Monday,December,20,1999   |
+| Vijay    | Tuesday,April,08,1997     |
+| Divya    | Sunday,June,11,1995       |
+| Ramesh   | Wednesday,August,14,1991  |
+| Pooja    | Monday,March,19,2001      |
++----------+---------------------------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,DATE_FORMAT(BIRTH_DATE,'%M,%d')AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE;
++----------+--------------+
+| emp_name | CONVERT_DATE |
++----------+--------------+
+| Rahul    | May,10       |
+| Sneha    | November,18  |
+| Arjun    | July,30      |
+| Priya    | January,25   |
+| Kiran    | September,15 |
+| Anjali   | December,20  |
+| Vijay    | April,08     |
+| Divya    | June,11      |
+| Ramesh   | August,14    |
+| Pooja    | March,19     |
++----------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,DATE_FORMAT(BIRTH_DATE,'%M,%D')AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE;
++----------+----------------+
+| emp_name | CONVERT_DATE   |
++----------+----------------+
+| Rahul    | May,10th       |
+| Sneha    | November,18th  |
+| Arjun    | July,30th      |
+| Priya    | January,25th   |
+| Kiran    | September,15th |
+| Anjali   | December,20th  |
+| Vijay    | April,8th      |
+| Divya    | June,11th      |
+| Ramesh   | August,14th    |
+| Pooja    | March,19th     |
++----------+----------------+
+10 rows in set (0.00 sec)
+
+mysql> select emp_name,DATE_FORMAT(BIRTH_DATE,'%M,%D'^CS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE;
+mysql> C^C
+mysql>
+mysql> select emp_name,DATE_FORMAT(BIRTH_DATE,'%M' , DAYNAME(BIRTH_DATE)AS BIRTH_DAYNAME)AS CONVERT_DATE FROM EMPLOYEE_ATTENDANCE;
+ERROR 1582 (42000): Incorrect parameter count in the call to native function 'DATE_FORMAT'
+mysql> CREATE TABLE Students (
+    ->     student_id INT PRIMARY KEY,
+    ->     student_name VARCHAR(50),
+    ->     course VARCHAR(50)
+    -> );
+ERROR 1050 (42S01): Table 'students' already exists
+mysql>
+mysql> INSERT INTO Students VALUES
+    -> (101,'Rahul','Java Full Stack'),
+    -> (102,'Priya','Python Full Stack'),
+    -> (103,'Kiran','Data Science'),
+    -> (104,'Sneha','Java Full Stack'),
+    -> (105,'Ajay','Testing');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> SHOW TABLES;
++---------------------+
+| Tables_in_pfs7      |
++---------------------+
+| backupemployees     |
+| company_staff       |
+| course_3nf          |
+| emp                 |
+| emp1                |
+| emp2                |
+| employee_attendance |
+| employees           |
+| employees1          |
+| enrollment_2nf      |
+| enrollment_3nf      |
+| orders              |
+| products            |
+| products1           |
+| projects            |
+| sales               |
+| student_2nf         |
+| student_course_1nf  |
+| student_details     |
+| students            |
+| studentscores       |
+| trainer_3nf         |
++---------------------+
+22 rows in set (0.01 sec)
+
+mysql> ALTER TABLE STUDENTS RENAME TO STUDENTS2;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> SHOW TABLES;
++---------------------+
+| Tables_in_pfs7      |
++---------------------+
+| backupemployees     |
+| company_staff       |
+| course_3nf          |
+| emp                 |
+| emp1                |
+| emp2                |
+| employee_attendance |
+| employees           |
+| employees1          |
+| enrollment_2nf      |
+| enrollment_3nf      |
+| orders              |
+| products            |
+| products1           |
+| projects            |
+| sales               |
+| student_2nf         |
+| student_course_1nf  |
+| student_details     |
+| students2           |
+| studentscores       |
+| trainer_3nf         |
++---------------------+
+22 rows in set (0.01 sec)
+
+mysql> CREATE TABLE Students (
+    ->     student_id INT PRIMARY KEY,
+    ->     student_name VARCHAR(50),
+    ->     course VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql>
+mysql> INSERT INTO Students VALUES
+    -> (101,'Rahul','Java Full Stack'),
+    -> (102,'Priya','Python Full Stack'),
+    -> (103,'Kiran','Data Science'),
+    -> (104,'Sneha','Java Full Stack'),
+    -> (105,'Ajay','Testing');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Placed_Students (
+    ->     student_id INT PRIMARY KEY,
+    ->     student_name VARCHAR(50),
+    ->     company_name VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO Placed_Students VALUES
+    -> (103,'Kiran','TCS'),
+    -> (104,'Sneha','Infosys'),
+    -> (105,'Ajay','Wipro'),
+    -> (106,'Pooja','Accenture'),
+    -> (107,'Ramesh','Capgemini');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM STUDENTS2;
++-----------+--------+------+------------+-------+-----------+
+| StudentID | Name   | Age  | Department | Marks | City      |
++-----------+--------+------+------------+-------+-----------+
+|         1 | Anil   |   20 | CSE        |    85 | Hyderabad |
+|         2 | Sneha  |   22 | ECE        |    75 | Mumbai    |
+|         3 | Ravi   |   20 | CSE        |  NULL | Hyderabad |
+|         4 | Divya  |   23 | MECH       |    65 | NULL      |
+|         5 | Kiran  |   22 | ECE        |    75 | Pune      |
+|         6 | Varun  |   21 | CSE        |    92 | Chennai   |
+|         7 | Priya  |   20 | EEE        |    88 | Delhi     |
+|         8 | John   |   22 | MECH       |    55 | Mumbai    |
+|         9 | Rekha  |   21 | ECE        |    75 | Pune      |
+|        10 | Ramesh |   23 | EEE        |  NULL | Delhi     |
++-----------+--------+------+------------+-------+-----------+
+10 rows in set (0.01 sec)
+
+mysql> SELECT * FROM STUDENTS;
++------------+--------------+-------------------+
+| student_id | student_name | course            |
++------------+--------------+-------------------+
+|        101 | Rahul        | Java Full Stack   |
+|        102 | Priya        | Python Full Stack |
+|        103 | Kiran        | Data Science      |
+|        104 | Sneha        | Java Full Stack   |
+|        105 | Ajay         | Testing           |
++------------+--------------+-------------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM STUDENTS VALUES;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES' at line 1
+mysql> SELECT * FROM PLACED_STUDENTS;
++------------+--------------+--------------+
+| student_id | student_name | company_name |
++------------+--------------+--------------+
+|        103 | Kiran        | TCS          |
+|        104 | Sneha        | Infosys      |
+|        105 | Ajay         | Wipro        |
+|        106 | Pooja        | Accenture    |
+|        107 | Ramesh       | Capgemini    |
++------------+--------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT STUDENT_NAME FROM STUDENTS
+    -> UNION
+    -> SELECT STUDENT_NAME FROM PLACED_STUDENTS;
++--------------+
+| STUDENT_NAME |
++--------------+
+| Rahul        |
+| Priya        |
+| Kiran        |
+| Sneha        |
+| Ajay         |
+| Pooja        |
+| Ramesh       |
++--------------+
+7 rows in set (0.01 sec)
+
+mysql> SELECT STUDENT_NAME FROM STUDENTS
+    -> UNION ALL
+    -> SELECT STUDENT_NAME FROM PLACED_STUDENTS;
++--------------+
+| STUDENT_NAME |
++--------------+
+| Rahul        |
+| Priya        |
+| Kiran        |
+| Sneha        |
+| Ajay         |
+| Kiran        |
+| Sneha        |
+| Ajay         |
+| Pooja        |
+| Ramesh       |
++--------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT STUDENT_NAME FROM STUDENTS
+    -> INTERSECT
+    -> SELECT STUDENT_NAME FROM PLACED_STUDENTS;
++--------------+
+| STUDENT_NAME |
++--------------+
+| Kiran        |
+| Sneha        |
+| Ajay         |
++--------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT STUDENT_NAME FROM STUDENTS
+    -> EXCEPT
+    -> SELECT STUDENT_NAME FROM PLACED_STUDENTS;
++--------------+
+| STUDENT_NAME |
++--------------+
+| Rahul        |
+| Priya        |
++--------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT STUDENT_NAME FROM STUDENTS
+    -> MINUS
+    -> SELECT STUDENT_NAME FROM PLACED_STUDENTS;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT STUDENT_NAME FROM PLACED_STUDENTS' at line 3
+mysql> SELECT STUDENT_NAME FROM STUDENTS
+    -> INERSECT MINUS
+    -> SELECT STUDENT_NAME FROM PLACED_STUDENTS;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'MINUS
+SELECT STUDENT_NAME FROM PLACED_STUDENTS' at line 2
+mysql> SELECT STUDENT_NAME FROM STUDENTS
+    -> SELECT STUDENT_NAME FROM STUDENTS^C
+mysql>
