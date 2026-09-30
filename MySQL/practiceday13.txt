@@ -1,0 +1,1375 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use pfs7;
+Database changed
+mysql> select * from employees;
++--------+---------+---------------+----------+
+| emp_id | name    | department_id | salary   |
++--------+---------+---------------+----------+
+|    101 | Arjun   |             1 | 50000.00 |
+|    102 | Bhavana |             2 | 65000.00 |
+|    103 | Charan  |             2 | 72000.00 |
+|    104 | Divya   |             3 | 45000.00 |
+|    105 | Eswar   |          NULL | 40000.00 |
+|    106 | Farhan  |             4 | 55000.00 |
+|    107 | Gowri   |             2 | 62000.00 |
+|    108 | Harish  |             5 | 48000.00 |
+|    109 | Ishita  |          NULL | 53000.00 |
+|    110 | Jagan   |             3 | 60000.00 |
+|    111 | Mani    |             7 | 80000.00 |
++--------+---------+---------------+----------+
+11 rows in set (0.00 sec)
+
+mysql> select * from departments;
++---------------+-----------------+
+| department_id | department_name |
++---------------+-----------------+
+|             1 | Human Resources |
+|             2 | Engineering     |
+|             3 | Marketing       |
+|             4 | Finance         |
+|             5 | Operations      |
+|             6 | Sales           |
++---------------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from projects;
++------------+----------------------+--------+
+| project_id | project_name         | emp_id |
++------------+----------------------+--------+
+|        201 | Website Redesign     |    102 |
+|        202 | Mobile Banking App   |    103 |
+|        203 | Marketing Campaign   |    104 |
+|        204 | Payroll System       |    106 |
+|        205 | Backend Optimization |    107 |
+|        206 | Cloud Migration      |    102 |
+|        207 | Customer Analytics   |    110 |
+|        208 | Inventory System     |   NULL |
+|        209 | HMS                  |    120 |
++------------+----------------------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select e.emp_id,e.name,p.project_id,p.name
+    -> from employees e
+    -> join projects p
+    -> on e.emp_id = p.emp_id;
+ERROR 1054 (42S22): Unknown column 'p.name' in 'field list'
+mysql> select e.emp_id,e.name,p.project_id,p.project_name
+    -> from employees e
+    -> join projects p
+    -> on e.emp_id = p.emp_id;
++--------+---------+------------+----------------------+
+| emp_id | name    | project_id | project_name         |
++--------+---------+------------+----------------------+
+|    102 | Bhavana |        201 | Website Redesign     |
+|    103 | Charan  |        202 | Mobile Banking App   |
+|    104 | Divya   |        203 | Marketing Campaign   |
+|    106 | Farhan  |        204 | Payroll System       |
+|    107 | Gowri   |        205 | Backend Optimization |
+|    102 | Bhavana |        206 | Cloud Migration      |
+|    110 | Jagan   |        207 | Customer Analytics   |
++--------+---------+------------+----------------------+
+7 rows in set (0.00 sec)
+
+mysql> select e.emp_id,e.name,d.department_id from employees e
+    -> join departments d
+    -> on e.department_id = d.department_id;
++--------+---------+---------------+
+| emp_id | name    | department_id |
++--------+---------+---------------+
+|    101 | Arjun   |             1 |
+|    102 | Bhavana |             2 |
+|    103 | Charan  |             2 |
+|    104 | Divya   |             3 |
+|    106 | Farhan  |             4 |
+|    107 | Gowri   |             2 |
+|    108 | Harish  |             5 |
+|    110 | Jagan   |             3 |
++--------+---------+---------------+
+8 rows in set (0.00 sec)
+
+mysql> select e.emp_id,e.name,d.department_id from employees e
+    -> left join departments d
+    -> on e.department_id = d.department_id;
++--------+---------+---------------+
+| emp_id | name    | department_id |
++--------+---------+---------------+
+|    101 | Arjun   |             1 |
+|    102 | Bhavana |             2 |
+|    103 | Charan  |             2 |
+|    104 | Divya   |             3 |
+|    105 | Eswar   |          NULL |
+|    106 | Farhan  |             4 |
+|    107 | Gowri   |             2 |
+|    108 | Harish  |             5 |
+|    109 | Ishita  |          NULL |
+|    110 | Jagan   |             3 |
+|    111 | Mani    |          NULL |
++--------+---------+---------------+
+11 rows in set (0.00 sec)
+
+mysql> select e.emp_id,e.name,p.project_id,p.project_name
+    -> from employees e
+    -> left join projects p
+    -> on e.emp_id = p.emp_id;
++--------+---------+------------+----------------------+
+| emp_id | name    | project_id | project_name         |
++--------+---------+------------+----------------------+
+|    101 | Arjun   |       NULL | NULL                 |
+|    102 | Bhavana |        206 | Cloud Migration      |
+|    102 | Bhavana |        201 | Website Redesign     |
+|    103 | Charan  |        202 | Mobile Banking App   |
+|    104 | Divya   |        203 | Marketing Campaign   |
+|    105 | Eswar   |       NULL | NULL                 |
+|    106 | Farhan  |        204 | Payroll System       |
+|    107 | Gowri   |        205 | Backend Optimization |
+|    108 | Harish  |       NULL | NULL                 |
+|    109 | Ishita  |       NULL | NULL                 |
+|    110 | Jagan   |        207 | Customer Analytics   |
+|    111 | Mani    |       NULL | NULL                 |
++--------+---------+------------+----------------------+
+12 rows in set (0.00 sec)
+
+mysql> select d.department,e.name from departments d
+    -> left join employees
+    -> on d.emp_id = e.emp_id;
+ERROR 1054 (42S22): Unknown column 'd.department' in 'field list'
+mysql> select d.department_name,e.name from departments d
+    -> left join employees
+    -> on d.emp_id = e.emp_id;
+ERROR 1054 (42S22): Unknown column 'e.name' in 'field list'
+mysql> select d.department_name,e.name from departments d
+    -> left join employees e
+    -> on d.emp_id = e.emp_id;
+ERROR 1054 (42S22): Unknown column 'd.emp_id' in 'on clause'
+mysql> select d.department_name,e.name from departments d
+    -> left join employees
+    -> on e.emp_id = d.emp_id;
+ERROR 1054 (42S22): Unknown column 'e.name' in 'field list'
+mysql> select d.department_name,e.name from departments d
+    -> left join employees e
+    -> on d.emp_id = e.emp_id;
+ERROR 1054 (42S22): Unknown column 'd.emp_id' in 'on clause'
+mysql> select d.department_name,e.name from departments d
+    -> left join employees e
+    -> on d.department_id = e department_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'department_id' at line 3
+mysql> select d.department_name,e.name from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id;
++-----------------+---------+
+| department_name | name    |
++-----------------+---------+
+| Human Resources | Arjun   |
+| Engineering     | Gowri   |
+| Engineering     | Charan  |
+| Engineering     | Bhavana |
+| Marketing       | Jagan   |
+| Marketing       | Divya   |
+| Finance         | Farhan  |
+| Operations      | Harish  |
+| Sales           | NULL    |
++-----------------+---------+
+9 rows in set (0.00 sec)
+
+mysql> select d.department_name,e.name from departments d
+    ->     -> left join employees e
+    ->     -> on d.department_id = e.department_id ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> left join employees e
+    -> on d.department_id = e.department_id' at line 2
+mysql> select d.department_name,e.name from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id
+    -> where d.department_name is null;
+Empty set (0.00 sec)
+
+mysql> select e.emp_id,e.name,d.department_id from employees e
+    -> left join departments d
+    -> on e.department_id = d.department_id
+    -> where d.department_name is null;
++--------+--------+---------------+
+| emp_id | name   | department_id |
++--------+--------+---------------+
+|    105 | Eswar  |          NULL |
+|    109 | Ishita |          NULL |
+|    111 | Mani   |          NULL |
++--------+--------+---------------+
+3 rows in set (0.01 sec)
+
+mysql> select e.emp_id,e.name,p.project_name from employees e
+    -> left join projects p
+    -> on e.emp_id = p.emp_id
+    -> where p.emp_id is null;
++--------+--------+--------------+
+| emp_id | name   | project_name |
++--------+--------+--------------+
+|    101 | Arjun  | NULL         |
+|    105 | Eswar  | NULL         |
+|    108 | Harish | NULL         |
+|    109 | Ishita | NULL         |
+|    111 | Mani   | NULL         |
++--------+--------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select e.emp_id,e.name,p.project_name from employees e
+    -> right join projects p
+    -> on e.emp_id = p.emp_id;
++--------+---------+----------------------+
+| emp_id | name    | project_name         |
++--------+---------+----------------------+
+|    102 | Bhavana | Website Redesign     |
+|    103 | Charan  | Mobile Banking App   |
+|    104 | Divya   | Marketing Campaign   |
+|    106 | Farhan  | Payroll System       |
+|    107 | Gowri   | Backend Optimization |
+|    102 | Bhavana | Cloud Migration      |
+|    110 | Jagan   | Customer Analytics   |
+|   NULL | NULL    | Inventory System     |
+|   NULL | NULL    | HMS                  |
++--------+---------+----------------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from employees e
+    -> left join departments d
+    -> on e.emp_id = d.emp_id
+    -> UNION
+    -> select * from departments d
+    -> right join employees e
+    -> on e.emp_id = d.emp_id;
+ERROR 1054 (42S22): Unknown column 'd.emp_id' in 'on clause'
+mysql> select * from employees e
+    -> left join departments d
+    -> on e.department_id = d.department_id
+    -> UNION
+    -> select * from departments d
+    -> right join employees e
+    -> on e.department_id = d.department_id;
++--------+-----------------+---------------+----------+---------------+-----------------+
+| emp_id | name            | department_id | salary   | department_id | department_name |
++--------+-----------------+---------------+----------+---------------+-----------------+
+|    101 | Arjun           |             1 | 50000.00 |             1 | Human Resources |
+|    102 | Bhavana         |             2 | 65000.00 |             2 | Engineering     |
+|    103 | Charan          |             2 | 72000.00 |             2 | Engineering     |
+|    104 | Divya           |             3 | 45000.00 |             3 | Marketing       |
+|    105 | Eswar           |          NULL | 40000.00 |          NULL | NULL            |
+|    106 | Farhan          |             4 | 55000.00 |             4 | Finance         |
+|    107 | Gowri           |             2 | 62000.00 |             2 | Engineering     |
+|    108 | Harish          |             5 | 48000.00 |             5 | Operations      |
+|    109 | Ishita          |          NULL | 53000.00 |          NULL | NULL            |
+|    110 | Jagan           |             3 | 60000.00 |             3 | Marketing       |
+|    111 | Mani            |             7 | 80000.00 |          NULL | NULL            |
+|      1 | Human Resources |           101 | Arjun    |             1 | 50000.00        |
+|      2 | Engineering     |           102 | Bhavana  |             2 | 65000.00        |
+|      2 | Engineering     |           103 | Charan   |             2 | 72000.00        |
+|      3 | Marketing       |           104 | Divya    |             3 | 45000.00        |
+|   NULL | NULL            |           105 | Eswar    |          NULL | 40000.00        |
+|      4 | Finance         |           106 | Farhan   |             4 | 55000.00        |
+|      2 | Engineering     |           107 | Gowri    |             2 | 62000.00        |
+|      5 | Operations      |           108 | Harish   |             5 | 48000.00        |
+|   NULL | NULL            |           109 | Ishita   |          NULL | 53000.00        |
+|      3 | Marketing       |           110 | Jagan    |             3 | 60000.00        |
+|   NULL | NULL            |           111 | Mani     |             7 | 80000.00        |
++--------+-----------------+---------------+----------+---------------+-----------------+
+22 rows in set (0.01 sec)
+
+mysql> select * from employees e
+    -> left join projects p
+    -> on p.emp_id = p.emp_id;
++--------+---------+---------------+----------+------------+----------------------+--------+
+| emp_id | name    | department_id | salary   | project_id | project_name         | emp_id |
++--------+---------+---------------+----------+------------+----------------------+--------+
+|    101 | Arjun   |             1 | 50000.00 |        209 | HMS                  |    120 |
+|    101 | Arjun   |             1 | 50000.00 |        207 | Customer Analytics   |    110 |
+|    101 | Arjun   |             1 | 50000.00 |        206 | Cloud Migration      |    102 |
+|    101 | Arjun   |             1 | 50000.00 |        205 | Backend Optimization |    107 |
+|    101 | Arjun   |             1 | 50000.00 |        204 | Payroll System       |    106 |
+|    101 | Arjun   |             1 | 50000.00 |        203 | Marketing Campaign   |    104 |
+|    101 | Arjun   |             1 | 50000.00 |        202 | Mobile Banking App   |    103 |
+|    101 | Arjun   |             1 | 50000.00 |        201 | Website Redesign     |    102 |
+|    102 | Bhavana |             2 | 65000.00 |        209 | HMS                  |    120 |
+|    102 | Bhavana |             2 | 65000.00 |        207 | Customer Analytics   |    110 |
+|    102 | Bhavana |             2 | 65000.00 |        206 | Cloud Migration      |    102 |
+|    102 | Bhavana |             2 | 65000.00 |        205 | Backend Optimization |    107 |
+|    102 | Bhavana |             2 | 65000.00 |        204 | Payroll System       |    106 |
+|    102 | Bhavana |             2 | 65000.00 |        203 | Marketing Campaign   |    104 |
+|    102 | Bhavana |             2 | 65000.00 |        202 | Mobile Banking App   |    103 |
+|    102 | Bhavana |             2 | 65000.00 |        201 | Website Redesign     |    102 |
+|    103 | Charan  |             2 | 72000.00 |        209 | HMS                  |    120 |
+|    103 | Charan  |             2 | 72000.00 |        207 | Customer Analytics   |    110 |
+|    103 | Charan  |             2 | 72000.00 |        206 | Cloud Migration      |    102 |
+|    103 | Charan  |             2 | 72000.00 |        205 | Backend Optimization |    107 |
+|    103 | Charan  |             2 | 72000.00 |        204 | Payroll System       |    106 |
+|    103 | Charan  |             2 | 72000.00 |        203 | Marketing Campaign   |    104 |
+|    103 | Charan  |             2 | 72000.00 |        202 | Mobile Banking App   |    103 |
+|    103 | Charan  |             2 | 72000.00 |        201 | Website Redesign     |    102 |
+|    104 | Divya   |             3 | 45000.00 |        209 | HMS                  |    120 |
+|    104 | Divya   |             3 | 45000.00 |        207 | Customer Analytics   |    110 |
+|    104 | Divya   |             3 | 45000.00 |        206 | Cloud Migration      |    102 |
+|    104 | Divya   |             3 | 45000.00 |        205 | Backend Optimization |    107 |
+|    104 | Divya   |             3 | 45000.00 |        204 | Payroll System       |    106 |
+|    104 | Divya   |             3 | 45000.00 |        203 | Marketing Campaign   |    104 |
+|    104 | Divya   |             3 | 45000.00 |        202 | Mobile Banking App   |    103 |
+|    104 | Divya   |             3 | 45000.00 |        201 | Website Redesign     |    102 |
+|    105 | Eswar   |          NULL | 40000.00 |        209 | HMS                  |    120 |
+|    105 | Eswar   |          NULL | 40000.00 |        207 | Customer Analytics   |    110 |
+|    105 | Eswar   |          NULL | 40000.00 |        206 | Cloud Migration      |    102 |
+|    105 | Eswar   |          NULL | 40000.00 |        205 | Backend Optimization |    107 |
+|    105 | Eswar   |          NULL | 40000.00 |        204 | Payroll System       |    106 |
+|    105 | Eswar   |          NULL | 40000.00 |        203 | Marketing Campaign   |    104 |
+|    105 | Eswar   |          NULL | 40000.00 |        202 | Mobile Banking App   |    103 |
+|    105 | Eswar   |          NULL | 40000.00 |        201 | Website Redesign     |    102 |
+|    106 | Farhan  |             4 | 55000.00 |        209 | HMS                  |    120 |
+|    106 | Farhan  |             4 | 55000.00 |        207 | Customer Analytics   |    110 |
+|    106 | Farhan  |             4 | 55000.00 |        206 | Cloud Migration      |    102 |
+|    106 | Farhan  |             4 | 55000.00 |        205 | Backend Optimization |    107 |
+|    106 | Farhan  |             4 | 55000.00 |        204 | Payroll System       |    106 |
+|    106 | Farhan  |             4 | 55000.00 |        203 | Marketing Campaign   |    104 |
+|    106 | Farhan  |             4 | 55000.00 |        202 | Mobile Banking App   |    103 |
+|    106 | Farhan  |             4 | 55000.00 |        201 | Website Redesign     |    102 |
+|    107 | Gowri   |             2 | 62000.00 |        209 | HMS                  |    120 |
+|    107 | Gowri   |             2 | 62000.00 |        207 | Customer Analytics   |    110 |
+|    107 | Gowri   |             2 | 62000.00 |        206 | Cloud Migration      |    102 |
+|    107 | Gowri   |             2 | 62000.00 |        205 | Backend Optimization |    107 |
+|    107 | Gowri   |             2 | 62000.00 |        204 | Payroll System       |    106 |
+|    107 | Gowri   |             2 | 62000.00 |        203 | Marketing Campaign   |    104 |
+|    107 | Gowri   |             2 | 62000.00 |        202 | Mobile Banking App   |    103 |
+|    107 | Gowri   |             2 | 62000.00 |        201 | Website Redesign     |    102 |
+|    108 | Harish  |             5 | 48000.00 |        209 | HMS                  |    120 |
+|    108 | Harish  |             5 | 48000.00 |        207 | Customer Analytics   |    110 |
+|    108 | Harish  |             5 | 48000.00 |        206 | Cloud Migration      |    102 |
+|    108 | Harish  |             5 | 48000.00 |        205 | Backend Optimization |    107 |
+|    108 | Harish  |             5 | 48000.00 |        204 | Payroll System       |    106 |
+|    108 | Harish  |             5 | 48000.00 |        203 | Marketing Campaign   |    104 |
+|    108 | Harish  |             5 | 48000.00 |        202 | Mobile Banking App   |    103 |
+|    108 | Harish  |             5 | 48000.00 |        201 | Website Redesign     |    102 |
+|    109 | Ishita  |          NULL | 53000.00 |        209 | HMS                  |    120 |
+|    109 | Ishita  |          NULL | 53000.00 |        207 | Customer Analytics   |    110 |
+|    109 | Ishita  |          NULL | 53000.00 |        206 | Cloud Migration      |    102 |
+|    109 | Ishita  |          NULL | 53000.00 |        205 | Backend Optimization |    107 |
+|    109 | Ishita  |          NULL | 53000.00 |        204 | Payroll System       |    106 |
+|    109 | Ishita  |          NULL | 53000.00 |        203 | Marketing Campaign   |    104 |
+|    109 | Ishita  |          NULL | 53000.00 |        202 | Mobile Banking App   |    103 |
+|    109 | Ishita  |          NULL | 53000.00 |        201 | Website Redesign     |    102 |
+|    110 | Jagan   |             3 | 60000.00 |        209 | HMS                  |    120 |
+|    110 | Jagan   |             3 | 60000.00 |        207 | Customer Analytics   |    110 |
+|    110 | Jagan   |             3 | 60000.00 |        206 | Cloud Migration      |    102 |
+|    110 | Jagan   |             3 | 60000.00 |        205 | Backend Optimization |    107 |
+|    110 | Jagan   |             3 | 60000.00 |        204 | Payroll System       |    106 |
+|    110 | Jagan   |             3 | 60000.00 |        203 | Marketing Campaign   |    104 |
+|    110 | Jagan   |             3 | 60000.00 |        202 | Mobile Banking App   |    103 |
+|    110 | Jagan   |             3 | 60000.00 |        201 | Website Redesign     |    102 |
+|    111 | Mani    |             7 | 80000.00 |        209 | HMS                  |    120 |
+|    111 | Mani    |             7 | 80000.00 |        207 | Customer Analytics   |    110 |
+|    111 | Mani    |             7 | 80000.00 |        206 | Cloud Migration      |    102 |
+|    111 | Mani    |             7 | 80000.00 |        205 | Backend Optimization |    107 |
+|    111 | Mani    |             7 | 80000.00 |        204 | Payroll System       |    106 |
+|    111 | Mani    |             7 | 80000.00 |        203 | Marketing Campaign   |    104 |
+|    111 | Mani    |             7 | 80000.00 |        202 | Mobile Banking App   |    103 |
+|    111 | Mani    |             7 | 80000.00 |        201 | Website Redesign     |    102 |
++--------+---------+---------------+----------+------------+----------------------+--------+
+88 rows in set (0.01 sec)
+
+mysql> select * from employees e
+    -> left join projects p
+    -> on p.emp_id = p.emp_id
+    -> UNION
+    -> select * from projects p
+    -> right join employees e
+    -> on p.emp_id = p.emp_id;
++--------+----------------------+---------------+----------+------------+----------------------+----------+
+| emp_id | name                 | department_id | salary   | project_id | project_name         | emp_id   |
++--------+----------------------+---------------+----------+------------+----------------------+----------+
+|    101 | Arjun                |             1 | 50000.00 | 209        | HMS                  |   120.00 |
+|    101 | Arjun                |             1 | 50000.00 | 207        | Customer Analytics   |   110.00 |
+|    101 | Arjun                |             1 | 50000.00 | 206        | Cloud Migration      |   102.00 |
+|    101 | Arjun                |             1 | 50000.00 | 205        | Backend Optimization |   107.00 |
+|    101 | Arjun                |             1 | 50000.00 | 204        | Payroll System       |   106.00 |
+|    101 | Arjun                |             1 | 50000.00 | 203        | Marketing Campaign   |   104.00 |
+|    101 | Arjun                |             1 | 50000.00 | 202        | Mobile Banking App   |   103.00 |
+|    101 | Arjun                |             1 | 50000.00 | 201        | Website Redesign     |   102.00 |
+|    102 | Bhavana              |             2 | 65000.00 | 209        | HMS                  |   120.00 |
+|    102 | Bhavana              |             2 | 65000.00 | 207        | Customer Analytics   |   110.00 |
+|    102 | Bhavana              |             2 | 65000.00 | 206        | Cloud Migration      |   102.00 |
+|    102 | Bhavana              |             2 | 65000.00 | 205        | Backend Optimization |   107.00 |
+|    102 | Bhavana              |             2 | 65000.00 | 204        | Payroll System       |   106.00 |
+|    102 | Bhavana              |             2 | 65000.00 | 203        | Marketing Campaign   |   104.00 |
+|    102 | Bhavana              |             2 | 65000.00 | 202        | Mobile Banking App   |   103.00 |
+|    102 | Bhavana              |             2 | 65000.00 | 201        | Website Redesign     |   102.00 |
+|    103 | Charan               |             2 | 72000.00 | 209        | HMS                  |   120.00 |
+|    103 | Charan               |             2 | 72000.00 | 207        | Customer Analytics   |   110.00 |
+|    103 | Charan               |             2 | 72000.00 | 206        | Cloud Migration      |   102.00 |
+|    103 | Charan               |             2 | 72000.00 | 205        | Backend Optimization |   107.00 |
+|    103 | Charan               |             2 | 72000.00 | 204        | Payroll System       |   106.00 |
+|    103 | Charan               |             2 | 72000.00 | 203        | Marketing Campaign   |   104.00 |
+|    103 | Charan               |             2 | 72000.00 | 202        | Mobile Banking App   |   103.00 |
+|    103 | Charan               |             2 | 72000.00 | 201        | Website Redesign     |   102.00 |
+|    104 | Divya                |             3 | 45000.00 | 209        | HMS                  |   120.00 |
+|    104 | Divya                |             3 | 45000.00 | 207        | Customer Analytics   |   110.00 |
+|    104 | Divya                |             3 | 45000.00 | 206        | Cloud Migration      |   102.00 |
+|    104 | Divya                |             3 | 45000.00 | 205        | Backend Optimization |   107.00 |
+|    104 | Divya                |             3 | 45000.00 | 204        | Payroll System       |   106.00 |
+|    104 | Divya                |             3 | 45000.00 | 203        | Marketing Campaign   |   104.00 |
+|    104 | Divya                |             3 | 45000.00 | 202        | Mobile Banking App   |   103.00 |
+|    104 | Divya                |             3 | 45000.00 | 201        | Website Redesign     |   102.00 |
+|    105 | Eswar                |          NULL | 40000.00 | 209        | HMS                  |   120.00 |
+|    105 | Eswar                |          NULL | 40000.00 | 207        | Customer Analytics   |   110.00 |
+|    105 | Eswar                |          NULL | 40000.00 | 206        | Cloud Migration      |   102.00 |
+|    105 | Eswar                |          NULL | 40000.00 | 205        | Backend Optimization |   107.00 |
+|    105 | Eswar                |          NULL | 40000.00 | 204        | Payroll System       |   106.00 |
+|    105 | Eswar                |          NULL | 40000.00 | 203        | Marketing Campaign   |   104.00 |
+|    105 | Eswar                |          NULL | 40000.00 | 202        | Mobile Banking App   |   103.00 |
+|    105 | Eswar                |          NULL | 40000.00 | 201        | Website Redesign     |   102.00 |
+|    106 | Farhan               |             4 | 55000.00 | 209        | HMS                  |   120.00 |
+|    106 | Farhan               |             4 | 55000.00 | 207        | Customer Analytics   |   110.00 |
+|    106 | Farhan               |             4 | 55000.00 | 206        | Cloud Migration      |   102.00 |
+|    106 | Farhan               |             4 | 55000.00 | 205        | Backend Optimization |   107.00 |
+|    106 | Farhan               |             4 | 55000.00 | 204        | Payroll System       |   106.00 |
+|    106 | Farhan               |             4 | 55000.00 | 203        | Marketing Campaign   |   104.00 |
+|    106 | Farhan               |             4 | 55000.00 | 202        | Mobile Banking App   |   103.00 |
+|    106 | Farhan               |             4 | 55000.00 | 201        | Website Redesign     |   102.00 |
+|    107 | Gowri                |             2 | 62000.00 | 209        | HMS                  |   120.00 |
+|    107 | Gowri                |             2 | 62000.00 | 207        | Customer Analytics   |   110.00 |
+|    107 | Gowri                |             2 | 62000.00 | 206        | Cloud Migration      |   102.00 |
+|    107 | Gowri                |             2 | 62000.00 | 205        | Backend Optimization |   107.00 |
+|    107 | Gowri                |             2 | 62000.00 | 204        | Payroll System       |   106.00 |
+|    107 | Gowri                |             2 | 62000.00 | 203        | Marketing Campaign   |   104.00 |
+|    107 | Gowri                |             2 | 62000.00 | 202        | Mobile Banking App   |   103.00 |
+|    107 | Gowri                |             2 | 62000.00 | 201        | Website Redesign     |   102.00 |
+|    108 | Harish               |             5 | 48000.00 | 209        | HMS                  |   120.00 |
+|    108 | Harish               |             5 | 48000.00 | 207        | Customer Analytics   |   110.00 |
+|    108 | Harish               |             5 | 48000.00 | 206        | Cloud Migration      |   102.00 |
+|    108 | Harish               |             5 | 48000.00 | 205        | Backend Optimization |   107.00 |
+|    108 | Harish               |             5 | 48000.00 | 204        | Payroll System       |   106.00 |
+|    108 | Harish               |             5 | 48000.00 | 203        | Marketing Campaign   |   104.00 |
+|    108 | Harish               |             5 | 48000.00 | 202        | Mobile Banking App   |   103.00 |
+|    108 | Harish               |             5 | 48000.00 | 201        | Website Redesign     |   102.00 |
+|    109 | Ishita               |          NULL | 53000.00 | 209        | HMS                  |   120.00 |
+|    109 | Ishita               |          NULL | 53000.00 | 207        | Customer Analytics   |   110.00 |
+|    109 | Ishita               |          NULL | 53000.00 | 206        | Cloud Migration      |   102.00 |
+|    109 | Ishita               |          NULL | 53000.00 | 205        | Backend Optimization |   107.00 |
+|    109 | Ishita               |          NULL | 53000.00 | 204        | Payroll System       |   106.00 |
+|    109 | Ishita               |          NULL | 53000.00 | 203        | Marketing Campaign   |   104.00 |
+|    109 | Ishita               |          NULL | 53000.00 | 202        | Mobile Banking App   |   103.00 |
+|    109 | Ishita               |          NULL | 53000.00 | 201        | Website Redesign     |   102.00 |
+|    110 | Jagan                |             3 | 60000.00 | 209        | HMS                  |   120.00 |
+|    110 | Jagan                |             3 | 60000.00 | 207        | Customer Analytics   |   110.00 |
+|    110 | Jagan                |             3 | 60000.00 | 206        | Cloud Migration      |   102.00 |
+|    110 | Jagan                |             3 | 60000.00 | 205        | Backend Optimization |   107.00 |
+|    110 | Jagan                |             3 | 60000.00 | 204        | Payroll System       |   106.00 |
+|    110 | Jagan                |             3 | 60000.00 | 203        | Marketing Campaign   |   104.00 |
+|    110 | Jagan                |             3 | 60000.00 | 202        | Mobile Banking App   |   103.00 |
+|    110 | Jagan                |             3 | 60000.00 | 201        | Website Redesign     |   102.00 |
+|    111 | Mani                 |             7 | 80000.00 | 209        | HMS                  |   120.00 |
+|    111 | Mani                 |             7 | 80000.00 | 207        | Customer Analytics   |   110.00 |
+|    111 | Mani                 |             7 | 80000.00 | 206        | Cloud Migration      |   102.00 |
+|    111 | Mani                 |             7 | 80000.00 | 205        | Backend Optimization |   107.00 |
+|    111 | Mani                 |             7 | 80000.00 | 204        | Payroll System       |   106.00 |
+|    111 | Mani                 |             7 | 80000.00 | 203        | Marketing Campaign   |   104.00 |
+|    111 | Mani                 |             7 | 80000.00 | 202        | Mobile Banking App   |   103.00 |
+|    111 | Mani                 |             7 | 80000.00 | 201        | Website Redesign     |   102.00 |
+|    209 | HMS                  |           120 |   101.00 | Arjun      | 1                    | 50000.00 |
+|    207 | Customer Analytics   |           110 |   101.00 | Arjun      | 1                    | 50000.00 |
+|    206 | Cloud Migration      |           102 |   101.00 | Arjun      | 1                    | 50000.00 |
+|    205 | Backend Optimization |           107 |   101.00 | Arjun      | 1                    | 50000.00 |
+|    204 | Payroll System       |           106 |   101.00 | Arjun      | 1                    | 50000.00 |
+|    203 | Marketing Campaign   |           104 |   101.00 | Arjun      | 1                    | 50000.00 |
+|    202 | Mobile Banking App   |           103 |   101.00 | Arjun      | 1                    | 50000.00 |
+|    201 | Website Redesign     |           102 |   101.00 | Arjun      | 1                    | 50000.00 |
+|    209 | HMS                  |           120 |   102.00 | Bhavana    | 2                    | 65000.00 |
+|    207 | Customer Analytics   |           110 |   102.00 | Bhavana    | 2                    | 65000.00 |
+|    206 | Cloud Migration      |           102 |   102.00 | Bhavana    | 2                    | 65000.00 |
+|    205 | Backend Optimization |           107 |   102.00 | Bhavana    | 2                    | 65000.00 |
+|    204 | Payroll System       |           106 |   102.00 | Bhavana    | 2                    | 65000.00 |
+|    203 | Marketing Campaign   |           104 |   102.00 | Bhavana    | 2                    | 65000.00 |
+|    202 | Mobile Banking App   |           103 |   102.00 | Bhavana    | 2                    | 65000.00 |
+|    201 | Website Redesign     |           102 |   102.00 | Bhavana    | 2                    | 65000.00 |
+|    209 | HMS                  |           120 |   103.00 | Charan     | 2                    | 72000.00 |
+|    207 | Customer Analytics   |           110 |   103.00 | Charan     | 2                    | 72000.00 |
+|    206 | Cloud Migration      |           102 |   103.00 | Charan     | 2                    | 72000.00 |
+|    205 | Backend Optimization |           107 |   103.00 | Charan     | 2                    | 72000.00 |
+|    204 | Payroll System       |           106 |   103.00 | Charan     | 2                    | 72000.00 |
+|    203 | Marketing Campaign   |           104 |   103.00 | Charan     | 2                    | 72000.00 |
+|    202 | Mobile Banking App   |           103 |   103.00 | Charan     | 2                    | 72000.00 |
+|    201 | Website Redesign     |           102 |   103.00 | Charan     | 2                    | 72000.00 |
+|    209 | HMS                  |           120 |   104.00 | Divya      | 3                    | 45000.00 |
+|    207 | Customer Analytics   |           110 |   104.00 | Divya      | 3                    | 45000.00 |
+|    206 | Cloud Migration      |           102 |   104.00 | Divya      | 3                    | 45000.00 |
+|    205 | Backend Optimization |           107 |   104.00 | Divya      | 3                    | 45000.00 |
+|    204 | Payroll System       |           106 |   104.00 | Divya      | 3                    | 45000.00 |
+|    203 | Marketing Campaign   |           104 |   104.00 | Divya      | 3                    | 45000.00 |
+|    202 | Mobile Banking App   |           103 |   104.00 | Divya      | 3                    | 45000.00 |
+|    201 | Website Redesign     |           102 |   104.00 | Divya      | 3                    | 45000.00 |
+|    209 | HMS                  |           120 |   105.00 | Eswar      | NULL                 | 40000.00 |
+|    207 | Customer Analytics   |           110 |   105.00 | Eswar      | NULL                 | 40000.00 |
+|    206 | Cloud Migration      |           102 |   105.00 | Eswar      | NULL                 | 40000.00 |
+|    205 | Backend Optimization |           107 |   105.00 | Eswar      | NULL                 | 40000.00 |
+|    204 | Payroll System       |           106 |   105.00 | Eswar      | NULL                 | 40000.00 |
+|    203 | Marketing Campaign   |           104 |   105.00 | Eswar      | NULL                 | 40000.00 |
+|    202 | Mobile Banking App   |           103 |   105.00 | Eswar      | NULL                 | 40000.00 |
+|    201 | Website Redesign     |           102 |   105.00 | Eswar      | NULL                 | 40000.00 |
+|    209 | HMS                  |           120 |   106.00 | Farhan     | 4                    | 55000.00 |
+|    207 | Customer Analytics   |           110 |   106.00 | Farhan     | 4                    | 55000.00 |
+|    206 | Cloud Migration      |           102 |   106.00 | Farhan     | 4                    | 55000.00 |
+|    205 | Backend Optimization |           107 |   106.00 | Farhan     | 4                    | 55000.00 |
+|    204 | Payroll System       |           106 |   106.00 | Farhan     | 4                    | 55000.00 |
+|    203 | Marketing Campaign   |           104 |   106.00 | Farhan     | 4                    | 55000.00 |
+|    202 | Mobile Banking App   |           103 |   106.00 | Farhan     | 4                    | 55000.00 |
+|    201 | Website Redesign     |           102 |   106.00 | Farhan     | 4                    | 55000.00 |
+|    209 | HMS                  |           120 |   107.00 | Gowri      | 2                    | 62000.00 |
+|    207 | Customer Analytics   |           110 |   107.00 | Gowri      | 2                    | 62000.00 |
+|    206 | Cloud Migration      |           102 |   107.00 | Gowri      | 2                    | 62000.00 |
+|    205 | Backend Optimization |           107 |   107.00 | Gowri      | 2                    | 62000.00 |
+|    204 | Payroll System       |           106 |   107.00 | Gowri      | 2                    | 62000.00 |
+|    203 | Marketing Campaign   |           104 |   107.00 | Gowri      | 2                    | 62000.00 |
+|    202 | Mobile Banking App   |           103 |   107.00 | Gowri      | 2                    | 62000.00 |
+|    201 | Website Redesign     |           102 |   107.00 | Gowri      | 2                    | 62000.00 |
+|    209 | HMS                  |           120 |   108.00 | Harish     | 5                    | 48000.00 |
+|    207 | Customer Analytics   |           110 |   108.00 | Harish     | 5                    | 48000.00 |
+|    206 | Cloud Migration      |           102 |   108.00 | Harish     | 5                    | 48000.00 |
+|    205 | Backend Optimization |           107 |   108.00 | Harish     | 5                    | 48000.00 |
+|    204 | Payroll System       |           106 |   108.00 | Harish     | 5                    | 48000.00 |
+|    203 | Marketing Campaign   |           104 |   108.00 | Harish     | 5                    | 48000.00 |
+|    202 | Mobile Banking App   |           103 |   108.00 | Harish     | 5                    | 48000.00 |
+|    201 | Website Redesign     |           102 |   108.00 | Harish     | 5                    | 48000.00 |
+|    209 | HMS                  |           120 |   109.00 | Ishita     | NULL                 | 53000.00 |
+|    207 | Customer Analytics   |           110 |   109.00 | Ishita     | NULL                 | 53000.00 |
+|    206 | Cloud Migration      |           102 |   109.00 | Ishita     | NULL                 | 53000.00 |
+|    205 | Backend Optimization |           107 |   109.00 | Ishita     | NULL                 | 53000.00 |
+|    204 | Payroll System       |           106 |   109.00 | Ishita     | NULL                 | 53000.00 |
+|    203 | Marketing Campaign   |           104 |   109.00 | Ishita     | NULL                 | 53000.00 |
+|    202 | Mobile Banking App   |           103 |   109.00 | Ishita     | NULL                 | 53000.00 |
+|    201 | Website Redesign     |           102 |   109.00 | Ishita     | NULL                 | 53000.00 |
+|    209 | HMS                  |           120 |   110.00 | Jagan      | 3                    | 60000.00 |
+|    207 | Customer Analytics   |           110 |   110.00 | Jagan      | 3                    | 60000.00 |
+|    206 | Cloud Migration      |           102 |   110.00 | Jagan      | 3                    | 60000.00 |
+|    205 | Backend Optimization |           107 |   110.00 | Jagan      | 3                    | 60000.00 |
+|    204 | Payroll System       |           106 |   110.00 | Jagan      | 3                    | 60000.00 |
+|    203 | Marketing Campaign   |           104 |   110.00 | Jagan      | 3                    | 60000.00 |
+|    202 | Mobile Banking App   |           103 |   110.00 | Jagan      | 3                    | 60000.00 |
+|    201 | Website Redesign     |           102 |   110.00 | Jagan      | 3                    | 60000.00 |
+|    209 | HMS                  |           120 |   111.00 | Mani       | 7                    | 80000.00 |
+|    207 | Customer Analytics   |           110 |   111.00 | Mani       | 7                    | 80000.00 |
+|    206 | Cloud Migration      |           102 |   111.00 | Mani       | 7                    | 80000.00 |
+|    205 | Backend Optimization |           107 |   111.00 | Mani       | 7                    | 80000.00 |
+|    204 | Payroll System       |           106 |   111.00 | Mani       | 7                    | 80000.00 |
+|    203 | Marketing Campaign   |           104 |   111.00 | Mani       | 7                    | 80000.00 |
+|    202 | Mobile Banking App   |           103 |   111.00 | Mani       | 7                    | 80000.00 |
+|    201 | Website Redesign     |           102 |   111.00 | Mani       | 7                    | 80000.00 |
++--------+----------------------+---------------+----------+------------+----------------------+----------+
+176 rows in set (0.00 sec)
+
+mysql> select e.name,p.project_name from employees e
+    -> left join projects p
+    -> on p.emp_id = p.emp_id
+    -> UNION
+    -> select e.name,p.project_name from projects p
+    -> right join employees e
+    -> on p.emp_id = p.emp_id;
++---------+----------------------+
+| name    | project_name         |
++---------+----------------------+
+| Arjun   | HMS                  |
+| Arjun   | Customer Analytics   |
+| Arjun   | Cloud Migration      |
+| Arjun   | Backend Optimization |
+| Arjun   | Payroll System       |
+| Arjun   | Marketing Campaign   |
+| Arjun   | Mobile Banking App   |
+| Arjun   | Website Redesign     |
+| Bhavana | HMS                  |
+| Bhavana | Customer Analytics   |
+| Bhavana | Cloud Migration      |
+| Bhavana | Backend Optimization |
+| Bhavana | Payroll System       |
+| Bhavana | Marketing Campaign   |
+| Bhavana | Mobile Banking App   |
+| Bhavana | Website Redesign     |
+| Charan  | HMS                  |
+| Charan  | Customer Analytics   |
+| Charan  | Cloud Migration      |
+| Charan  | Backend Optimization |
+| Charan  | Payroll System       |
+| Charan  | Marketing Campaign   |
+| Charan  | Mobile Banking App   |
+| Charan  | Website Redesign     |
+| Divya   | HMS                  |
+| Divya   | Customer Analytics   |
+| Divya   | Cloud Migration      |
+| Divya   | Backend Optimization |
+| Divya   | Payroll System       |
+| Divya   | Marketing Campaign   |
+| Divya   | Mobile Banking App   |
+| Divya   | Website Redesign     |
+| Eswar   | HMS                  |
+| Eswar   | Customer Analytics   |
+| Eswar   | Cloud Migration      |
+| Eswar   | Backend Optimization |
+| Eswar   | Payroll System       |
+| Eswar   | Marketing Campaign   |
+| Eswar   | Mobile Banking App   |
+| Eswar   | Website Redesign     |
+| Farhan  | HMS                  |
+| Farhan  | Customer Analytics   |
+| Farhan  | Cloud Migration      |
+| Farhan  | Backend Optimization |
+| Farhan  | Payroll System       |
+| Farhan  | Marketing Campaign   |
+| Farhan  | Mobile Banking App   |
+| Farhan  | Website Redesign     |
+| Gowri   | HMS                  |
+| Gowri   | Customer Analytics   |
+| Gowri   | Cloud Migration      |
+| Gowri   | Backend Optimization |
+| Gowri   | Payroll System       |
+| Gowri   | Marketing Campaign   |
+| Gowri   | Mobile Banking App   |
+| Gowri   | Website Redesign     |
+| Harish  | HMS                  |
+| Harish  | Customer Analytics   |
+| Harish  | Cloud Migration      |
+| Harish  | Backend Optimization |
+| Harish  | Payroll System       |
+| Harish  | Marketing Campaign   |
+| Harish  | Mobile Banking App   |
+| Harish  | Website Redesign     |
+| Ishita  | HMS                  |
+| Ishita  | Customer Analytics   |
+| Ishita  | Cloud Migration      |
+| Ishita  | Backend Optimization |
+| Ishita  | Payroll System       |
+| Ishita  | Marketing Campaign   |
+| Ishita  | Mobile Banking App   |
+| Ishita  | Website Redesign     |
+| Jagan   | HMS                  |
+| Jagan   | Customer Analytics   |
+| Jagan   | Cloud Migration      |
+| Jagan   | Backend Optimization |
+| Jagan   | Payroll System       |
+| Jagan   | Marketing Campaign   |
+| Jagan   | Mobile Banking App   |
+| Jagan   | Website Redesign     |
+| Mani    | HMS                  |
+| Mani    | Customer Analytics   |
+| Mani    | Cloud Migration      |
+| Mani    | Backend Optimization |
+| Mani    | Payroll System       |
+| Mani    | Marketing Campaign   |
+| Mani    | Mobile Banking App   |
+| Mani    | Website Redesign     |
++---------+----------------------+
+88 rows in set (0.03 sec)
+
+mysql> select * from projects;
++------------+----------------------+--------+
+| project_id | project_name         | emp_id |
++------------+----------------------+--------+
+|        201 | Website Redesign     |    102 |
+|        202 | Mobile Banking App   |    103 |
+|        203 | Marketing Campaign   |    104 |
+|        204 | Payroll System       |    106 |
+|        205 | Backend Optimization |    107 |
+|        206 | Cloud Migration      |    102 |
+|        207 | Customer Analytics   |    110 |
+|        208 | Inventory System     |   NULL |
+|        209 | HMS                  |    120 |
++------------+----------------------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select * from employees;;
++--------+---------+---------------+----------+
+| emp_id | name    | department_id | salary   |
++--------+---------+---------------+----------+
+|    101 | Arjun   |             1 | 50000.00 |
+|    102 | Bhavana |             2 | 65000.00 |
+|    103 | Charan  |             2 | 72000.00 |
+|    104 | Divya   |             3 | 45000.00 |
+|    105 | Eswar   |          NULL | 40000.00 |
+|    106 | Farhan  |             4 | 55000.00 |
+|    107 | Gowri   |             2 | 62000.00 |
+|    108 | Harish  |             5 | 48000.00 |
+|    109 | Ishita  |          NULL | 53000.00 |
+|    110 | Jagan   |             3 | 60000.00 |
+|    111 | Mani    |             7 | 80000.00 |
++--------+---------+---------------+----------+
+11 rows in set (0.00 sec)
+
+ERROR:
+No query specified
+
+mysql> select * from departments;
++---------------+-----------------+
+| department_id | department_name |
++---------------+-----------------+
+|             1 | Human Resources |
+|             2 | Engineering     |
+|             3 | Marketing       |
+|             4 | Finance         |
+|             5 | Operations      |
+|             6 | Sales           |
++---------------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> select e.name,p.project_name from employees e
+    -> left join projects p
+    -> on p.emp_id = e.emp_id
+    -> UNION
+    -> select e.name,p.project_name from projects p
+    -> right join employees e
+    -> on p.emp_id = e.emp_id;
++---------+----------------------+
+| name    | project_name         |
++---------+----------------------+
+| Arjun   | NULL                 |
+| Bhavana | Cloud Migration      |
+| Bhavana | Website Redesign     |
+| Charan  | Mobile Banking App   |
+| Divya   | Marketing Campaign   |
+| Eswar   | NULL                 |
+| Farhan  | Payroll System       |
+| Gowri   | Backend Optimization |
+| Harish  | NULL                 |
+| Ishita  | NULL                 |
+| Jagan   | Customer Analytics   |
+| Mani    | NULL                 |
++---------+----------------------+
+12 rows in set (0.00 sec)
+
+mysql> select e.name , d.department_name from employees e
+    ->   left join departments d
+    ->   on e.department_id = d.department_id
+    ->   UNION
+    ->   select e.name , d.department_name from departments d
+    ->   right join employees e
+    ->   on e.department_id = d.department_id;
++---------+-----------------+
+| name    | department_name |
++---------+-----------------+
+| Arjun   | Human Resources |
+| Bhavana | Engineering     |
+| Charan  | Engineering     |
+| Divya   | Marketing       |
+| Eswar   | NULL            |
+| Farhan  | Finance         |
+| Gowri   | Engineering     |
+| Harish  | Operations      |
+| Ishita  | NULL            |
+| Jagan   | Marketing       |
+| Mani    | NULL            |
++---------+-----------------+
+11 rows in set (0.00 sec)
+
+
+ter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use pfs7;
+Database changed
+mysql> show tables;
++---------------------+
+| Tables_in_pfs7      |
++---------------------+
+| backupemployees     |
+| company_staff       |
+| course_3nf          |
+| departments         |
+| emp                 |
+| emp1                |
+| emp2                |
+| emp3                |
+| employee_attendance |
+| employees           |
+| employees1          |
+| enrollment_2nf      |
+| enrollment_3nf      |
+| orders              |
+| placed_students     |
+| products            |
+| products1           |
+| projects            |
+| sales               |
+| student_2nf         |
+| student_course_1nf  |
+| student_details     |
+| students            |
+| students2           |
+| studentscores       |
+| tab1                |
+| tab2                |
+| trainer_3nf         |
++---------------------+
+28 rows in set (0.07 sec)
+
+mysql> alter table students rename to student10;
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> CREATE TABLE Students (student_id INT PRIMARY KEY, name VARCHAR(100), age INT);
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> CREATE TABLE Courses (course_id INT PRIMARY KEY, course_name VARCHAR(100));
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> CREATE TABLE Enrollments (enrollment_id INT PRIMARY KEY, student_id INT, course_id INT);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql>
+mysql> INSERT INTO Students VALUES
+    -> (1, 'Arjun', 20), (2, 'Bhavana', 21), (3, 'Charan', 22), (4, 'Divya', 20),
+    -> (5, 'Eswar', 23), (6, 'Farhan', 21), (7, 'Gowri', 22);
+Query OK, 7 rows affected (0.01 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> INSERT INTO Courses VALUES
+    -> (101, 'Mathematics'), (102, 'Physics'), (103, 'Biology'), (104, 'Chemistry'), (105, 'Computer Science');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> INSERT INTO Enrollments VALUES
+    -> (1, 1, 101), (2, 2, 101), (3, 2, 102), (4, 3, 103),
+    -> (5, 4, 101), (6, 5, 104), (7, 1, 102), (8, 6, 105);
+Query OK, 8 rows affected (0.01 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> select * from students;
++------------+---------+------+
+| student_id | name    | age  |
++------------+---------+------+
+|          1 | Arjun   |   20 |
+|          2 | Bhavana |   21 |
+|          3 | Charan  |   22 |
+|          4 | Divya   |   20 |
+|          5 | Eswar   |   23 |
+|          6 | Farhan  |   21 |
+|          7 | Gowri   |   22 |
++------------+---------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from courses;
++-----------+------------------+
+| course_id | course_name      |
++-----------+------------------+
+|       101 | Mathematics      |
+|       102 | Physics          |
+|       103 | Biology          |
+|       104 | Chemistry        |
+|       105 | Computer Science |
++-----------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from enrollments;
++---------------+------------+-----------+
+| enrollment_id | student_id | course_id |
++---------------+------------+-----------+
+|             1 |          1 |       101 |
+|             2 |          2 |       101 |
+|             3 |          2 |       102 |
+|             4 |          3 |       103 |
+|             5 |          4 |       101 |
+|             6 |          5 |       104 |
+|             7 |          1 |       102 |
+|             8 |          6 |       105 |
++---------------+------------+-----------+
+8 rows in set (0.00 sec)
+
+mysql> insert into course values(106,'Java');
+ERROR 1146 (42S02): Table 'pfs7.course' doesn't exist
+mysql> insert into courses values(106,'Java');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from students;
++------------+---------+------+
+| student_id | name    | age  |
++------------+---------+------+
+|          1 | Arjun   |   20 |
+|          2 | Bhavana |   21 |
+|          3 | Charan  |   22 |
+|          4 | Divya   |   20 |
+|          5 | Eswar   |   23 |
+|          6 | Farhan  |   21 |
+|          7 | Gowri   |   22 |
++------------+---------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from courses;
++-----------+------------------+
+| course_id | course_name      |
++-----------+------------------+
+|       101 | Mathematics      |
+|       102 | Physics          |
+|       103 | Biology          |
+|       104 | Chemistry        |
+|       105 | Computer Science |
+|       106 | Java             |
++-----------+------------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from enrollments;
++---------------+------------+-----------+
+| enrollment_id | student_id | course_id |
++---------------+------------+-----------+
+|             1 |          1 |       101 |
+|             2 |          2 |       101 |
+|             3 |          2 |       102 |
+|             4 |          3 |       103 |
+|             5 |          4 |       101 |
+|             6 |          5 |       104 |
+|             7 |          1 |       102 |
+|             8 |          6 |       105 |
++---------------+------------+-----------+
+8 rows in set (0.00 sec)
+
+mysql> -----List all students with the courses they are enrolled in.-----
+    -> ^C
+mysql> select s.name,c.course_name from students s
+    -> join enrollments e
+    -> on s.student_id = e.student_id;
+ERROR 1054 (42S22): Unknown column 'c.course_name' in 'field list'
+mysql> select s.name,c.course_name from students s
+    -> join enrollments e
+    -> on s.student_id = e.student_id
+    -> join courses c on e.course_id = c.course_id;
++---------+------------------+
+| name    | course_name      |
++---------+------------------+
+| Arjun   | Mathematics      |
+| Bhavana | Mathematics      |
+| Bhavana | Physics          |
+| Charan  | Biology          |
+| Divya   | Mathematics      |
+| Eswar   | Chemistry        |
+| Arjun   | Physics          |
+| Farhan  | Computer Science |
++---------+------------------+
+8 rows in set (0.00 sec)
+
+mysql> ----Show course names along with student names----
+    -> ^C
+mysql> select c.course_name,s.name from students s
+    -> join courses c
+    -> on s.student_id = c.student_id;
+ERROR 1054 (42S22): Unknown column 'c.student_id' in 'on clause'
+mysql> select c.course_name,s.name from students s
+    -> join courses c
+    -> on s.course_id = c.course_id;
+ERROR 1054 (42S22): Unknown column 's.course_id' in 'on clause'
+mysql> select c.course_name,s.name from enrollments s
+    -> join courses c^C
+mysql> select c.course_name,s.name from courses c
+    -> join enrollments e
+    -> on c.course_id = e.course_id
+    -> join students s on e.student_id = s.student_id;
++------------------+---------+
+| course_name      | name    |
++------------------+---------+
+| Mathematics      | Arjun   |
+| Mathematics      | Bhavana |
+| Physics          | Bhavana |
+| Biology          | Charan  |
+| Mathematics      | Divya   |
+| Chemistry        | Eswar   |
+| Physics          | Arjun   |
+| Computer Science | Farhan  |
++------------------+---------+
+8 rows in set (0.00 sec)
+
+mysql> select c.course_name,s.name from courses c
+    -> join enrollments e
+    -> on c.course_id = e.course_id
+    -> join students s on e.student_id = s.student_id
+    -> where c.course_name = 'physics';
++-------------+---------+
+| course_name | name    |
++-------------+---------+
+| Physics     | Bhavana |
+| Physics     | Arjun   |
++-------------+---------+
+2 rows in set (0.01 sec)
+
+mysql> select c.course_name,s.name from courses c
+    -> join enrollments e
+    -> on c.course_id = e.course_id
+    -> join students s on e.student_id = s.student_id
+    -> where s.name = 'bhavana';
++-------------+---------+
+| course_name | name    |
++-------------+---------+
+| Mathematics | Bhavana |
+| Physics     | Bhavana |
++-------------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select s.name,c.course_name from courses c
+    -> join enrollments e
+    -> on c.course_id = e.course_id
+    -> join students s on e.student_id = s.student_id
+    -> where s.name = 'bhavana';
++---------+-------------+
+| name    | course_name |
++---------+-------------+
+| Bhavana | Mathematics |
+| Bhavana | Physics     |
++---------+-------------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql> select s.name,c.course_name from students s
+    -> join enrollments e
+    -> on s.student_id = e.student_id
+    -> join courses c on e.course_id = c.course_id
+    -> where s.name = 'bhavana';
++---------+-------------+
+| name    | course_name |
++---------+-------------+
+| Bhavana | Mathematics |
+| Bhavana | Physics     |
++---------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select s.name,course_name students s
+    -> left join enrollments e
+    -> on s.student_id=e.student_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 's
+left join enrollments e
+on s.student_id=e.student_id' at line 1
+mysql> select s.name,course_name students s
+    -> left join enrollments e
+    -> on s.student_id=e.student_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 's
+left join enrollments e
+on s.student_id=e.student_id' at line 1
+mysql> select s.name,course_name students s
+    -> left join enrollments e
+    -> on s.student_id=e.student_id
+    -> left join coursesc
+    -> left join coursesc^C
+mysql> select s.name,course_name students s
+    -> left join enrollments e
+    -> on s.student_id=e.student_id
+    -> left join courses c
+    -> on c.course_id = e.course_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 's
+left join enrollments e
+on s.student_id=e.student_id
+left join courses c
+on c.' at line 1
+mysql> select s.name,course_name students s
+    -> left join enrollments e
+    -> on s.student_id = e.student_id
+    -> left join courses c
+    -> on e.course_id = c.course_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 's
+left join enrollments e
+on s.student_id = e.student_id
+left join courses c
+on ' at line 1
+mysql> select s.name,c.course_name students s
+    -> left join enrollments e
+    -> on s.student_id = e.student_id
+    -> left join courses c
+    -> on e.course_id = c.course_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 's
+left join enrollments e
+on s.student_id = e.student_id
+left join courses c
+on ' at line 1
+mysql> select s.name,c.course_name students s
+    -> left join enrollments e
+    -> on s.student_id = e.student_id
+    -> left join courses c
+    -> on e.course_id = c.course_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 's
+left join enrollments e
+on s.student_id = e.student_id
+left join courses c
+on ' at line 1
+mysql> SELECT s.name, c.course_name
+    -> FROM students s
+    -> LEFT JOIN enrollments e
+    -> ON s.student_id = e.student_id
+    -> LEFT JOIN courses c
+    -> ON e.course_id = c.course_id;
++---------+------------------+
+| name    | course_name      |
++---------+------------------+
+| Arjun   | Physics          |
+| Arjun   | Mathematics      |
+| Bhavana | Physics          |
+| Bhavana | Mathematics      |
+| Charan  | Biology          |
+| Divya   | Mathematics      |
+| Eswar   | Chemistry        |
+| Farhan  | Computer Science |
+| Gowri   | NULL             |
++---------+------------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT s.name, c.course_name
+    -> FROM students s
+    -> LEFT JOIN enrollments e
+    -> ON s.student_id = e.student_id
+    -> LEFT JOIN courses c
+    -> ON e.course_id = c.course_id
+    -> where c.course_name is null;
++-------+-------------+
+| name  | course_name |
++-------+-------------+
+| Gowri | NULL        |
++-------+-------------+
+1 row in set (0.01 sec)
+
+mysql> select c.course_name,s.name from courses c
+    -> join enrollments e
+    -> on ^C
+mysql> select c.course_name,s.name from courses c
+    -> join enrollments e
+    -> on c.course_id = e.course_id
+    -> join students s
+    -> on e.student_id = s.student_id;
++------------------+---------+
+| course_name      | name    |
++------------------+---------+
+| Mathematics      | Arjun   |
+| Mathematics      | Bhavana |
+| Physics          | Bhavana |
+| Biology          | Charan  |
+| Mathematics      | Divya   |
+| Chemistry        | Eswar   |
+| Physics          | Arjun   |
+| Computer Science | Farhan  |
++------------------+---------+
+8 rows in set (0.00 sec)
+
+mysql> select c.course_name,s.name from courses c
+    -> left join enrollments e
+    -> on c.course_id = e.course_id
+    -> join students s
+    -> on e.student_id = s.student_id;
++------------------+---------+
+| course_name      | name    |
++------------------+---------+
+| Mathematics      | Arjun   |
+| Mathematics      | Bhavana |
+| Physics          | Bhavana |
+| Biology          | Charan  |
+| Mathematics      | Divya   |
+| Chemistry        | Eswar   |
+| Physics          | Arjun   |
+| Computer Science | Farhan  |
++------------------+---------+
+8 rows in set (0.00 sec)
+
+mysql> select c.course_name,s.name from courses c
+    -> join enrollments e
+    -> on c.course_id = e.course_id
+    -> join students s^C
+mysql> select c.course_name,s.name from courses c
+    -> join enrollments e
+    -> select c.course_name,s.name from courses c^C
+mysql> select c.course_name,s.name from courses c
+    -> left join enrollments e
+    -> on c.course_id = e.course_id
+    -> left join students s
+    -> on e.student_id = s.student_id;
++------------------+---------+
+| course_name      | name    |
++------------------+---------+
+| Mathematics      | Divya   |
+| Mathematics      | Bhavana |
+| Mathematics      | Arjun   |
+| Physics          | Arjun   |
+| Physics          | Bhavana |
+| Biology          | Charan  |
+| Chemistry        | Eswar   |
+| Computer Science | Farhan  |
+| Java             | NULL    |
++------------------+---------+
+9 rows in set (0.00 sec)
+
+mysql> select c.course_name,s.name from courses c
+    -> left join enrollments e
+    -> on c.course_id = e.course_id
+    -> left join students s
+    -> on e.student_id = s.student_id
+    -> where s.name is null;
++-------------+------+
+| course_name | name |
++-------------+------+
+| Java        | NULL |
++-------------+------+
+1 row in set (0.00 sec)
+
+mysql> SELECT c.course_name, COUNT(e.student_id) AS student_count
+    -> FROM courses c
+    -> LEFT JOIN enrollments e
+    ->     ON c.course_id = e.course_id
+    -> GROUP BY c.course_id, c.course_name;
++------------------+---------------+
+| course_name      | student_count |
++------------------+---------------+
+| Mathematics      |             3 |
+| Physics          |             2 |
+| Biology          |             1 |
+| Chemistry        |             1 |
+| Computer Science |             1 |
+| Java             |             0 |
++------------------+---------------+
+6 rows in set (0.01 sec)
+
+mysql> SELECT s.name,c.course_name, COUNT(e.student_id) AS student_count
+    -> FROM courses c
+    -> LEFT JOIN enrollments e
+    ->     ON c.course_id = e.course_id
+    -> GROUP BY c.course_id, c.course_name;
+ERROR 1054 (42S22): Unknown column 's.name' in 'field list'
+mysql> SELECT c.course_name, COUNT(e.student_id) AS student_count
+    -> FROM students s
+    -> LEFT JOIN enrollments e
+    ->     ON c.course_id = e.course_id
+    -> GROUP BY c.course_id, c.course_name;
+ERROR 1054 (42S22): Unknown column 'c.course_name' in 'field list'
+mysql> SELECT s.name,c.course_name, COUNT(e.student_id) AS student_count
+    -> FROM students s
+    -> LEFT JOIN enrollments e
+    ->     ON c.course_id = e.course_id
+    -> GROUP BY c.course_id, c.course_name;
+ERROR 1054 (42S22): Unknown column 'c.course_name' in 'field list'
+mysql> SELECT s.name, COUNT(e.student_id) AS student_count
+    -> FROM students s
+    -> LEFT JOIN enrollments e
+    ->     ON c.course_id = e.course_id
+    -> GROUP BY c.course_id, c.course_name;
+ERROR 1054 (42S22): Unknown column 'c.course_id' in 'on clause'
+mysql> SELECT s.name, COUNT(e.student_id) AS student_count
+    -> FROM students s
+    -> LEFT JOIN enrollments e
+    ->     ON s.student_id = e.student_id
+    -> GROUP BY s.name, c.course_name;
+ERROR 1054 (42S22): Unknown column 'c.course_name' in 'group statement'
+mysql> SELECT s.name, COUNT(e.student_id) AS student_count
+    -> FROM students s
+    -> LEFT JOIN enrollments e
+    ->     ON s.student_id = e.student_id
+    -> GROUP BY s.name;
++---------+---------------+
+| name    | student_count |
++---------+---------------+
+| Arjun   |             2 |
+| Bhavana |             2 |
+| Charan  |             1 |
+| Divya   |             1 |
+| Eswar   |             1 |
+| Farhan  |             1 |
+| Gowri   |             0 |
++---------+---------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT s.name, COUNT(e.student_id) AS student_count
+    -> FROM students s
+    -> LEFT JOIN enrollments e
+    ->     ON s.student_id = e.student_id
+    -> GROUP BY s.name
+    -> having student_count > 1;
++---------+---------------+
+| name    | student_count |
++---------+---------------+
+| Arjun   |             2 |
+| Bhavana |             2 |
++---------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> select c.course_name,count(e.course_id) from courses c
+    -> left join enrollment e on c.course_id = e.course_id
+    -> group by c.course_name;
+ERROR 1146 (42S02): Table 'pfs7.enrollment' doesn't exist
+mysql> select c.course_name,count(e.course_id) from courses c
+    -> left join enrollments e on c.course_id = e.course_id
+    -> group by c.course_name;
++------------------+--------------------+
+| course_name      | count(e.course_id) |
++------------------+--------------------+
+| Mathematics      |                  3 |
+| Physics          |                  2 |
+| Biology          |                  1 |
+| Chemistry        |                  1 |
+| Computer Science |                  1 |
+| Java             |                  0 |
++------------------+--------------------+
+6 rows in set (0.00 sec)
+
+mysql> select c.course_name,count(e.course_id)as count_courses from courses c
+    -> left join enrollments e on c.course_id = e.course_id
+    -> group by c.course_name;
++------------------+---------------+
+| course_name      | count_courses |
++------------------+---------------+
+| Mathematics      |             3 |
+| Physics          |             2 |
+| Biology          |             1 |
+| Chemistry        |             1 |
+| Computer Science |             1 |
+| Java             |             0 |
++------------------+---------------+
+6 rows in set (0.00 sec)
+
+mysql> select c.course_name,count(e.course_id) from courses c
+    -> left join enrollments e on c.course_id = e.course_id
+    -> group by c.course_name having count_courses > 1;
+ERROR 1054 (42S22): Unknown column 'count_courses' in 'having clause'
+mysql> select c.course_name,count(e.course_id) from courses c
+    -> left join enrollments e on c.course_id = e.course_id
+    -> group by c.course_name having count_courses > 1;
+ERROR 1054 (42S22): Unknown column 'count_courses' in 'having clause'
+mysql> select c.course_name,count(e.course_id) from courses c
+    -> left join enrollments e on c.course_id = e.course_id
+    -> group by c.course_name
+    -> having count_courses > 1;
+ERROR 1054 (42S22): Unknown column 'count_courses' in 'having clause'
+mysql> select c.course_name,count(e.course_id)as count_courses from courses c
+    -> left join enrollments e on c.course_id = e.course_id
+    -> group by c.course_name
+    -> having count_courses > 1;
++-------------+---------------+
+| course_name | count_courses |
++-------------+---------------+
+| Mathematics |             3 |
+| Physics     |             2 |
++-------------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT c.course_name, COUNT(e.student_id) AS student_count
+    -> FROM courses c
+    -> LEFT JOIN enrollments e
+    ->     ON c.course_id = e.course_id
+    -> GROUP BY c.course_id, c.course_name
+    -> HAVING COUNT(e.student_id) > 1;
++-------------+---------------+
+| course_name | student_count |
++-------------+---------------+
+| Mathematics |             3 |
+| Physics     |             2 |
++-------------+---------------+
+2 rows in set (0.00 sec)
+
