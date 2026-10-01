@@ -1,0 +1,437 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use pfs7;
+Database changed
+mysql> show tables;
++---------------------+
+| Tables_in_pfs7      |
++---------------------+
+| backupemployees     |
+| company_staff       |
+| course_3nf          |
+| courses             |
+| departments         |
+| emp                 |
+| emp1                |
+| emp2                |
+| emp3                |
+| employee_attendance |
+| employees           |
+| employees1          |
+| enrollment_2nf      |
+| enrollment_3nf      |
+| enrollments         |
+| orders              |
+| placed_students     |
+| products            |
+| products1           |
+| projects            |
+| sales               |
+| student10           |
+| student_2nf         |
+| student_course_1nf  |
+| student_details     |
+| students            |
+| students2           |
+| studentscores       |
+| tab1                |
+| tab2                |
+| trainer_3nf         |
++---------------------+
+31 rows in set (0.08 sec)
+
+mysql> select * from employees;
++--------+---------+---------------+----------+
+| emp_id | name    | department_id | salary   |
++--------+---------+---------------+----------+
+|    101 | Arjun   |             1 | 50000.00 |
+|    102 | Bhavana |             2 | 65000.00 |
+|    103 | Charan  |             2 | 72000.00 |
+|    104 | Divya   |             3 | 45000.00 |
+|    105 | Eswar   |          NULL | 40000.00 |
+|    106 | Farhan  |             4 | 55000.00 |
+|    107 | Gowri   |             2 | 62000.00 |
+|    108 | Harish  |             5 | 48000.00 |
+|    109 | Ishita  |          NULL | 53000.00 |
+|    110 | Jagan   |             3 | 60000.00 |
+|    111 | Mani    |             7 | 80000.00 |
++--------+---------+---------------+----------+
+11 rows in set (0.00 sec)
+
+mysql> select * from departments;
++---------------+-----------------+
+| department_id | department_name |
++---------------+-----------------+
+|             1 | Human Resources |
+|             2 | Engineering     |
+|             3 | Marketing       |
+|             4 | Finance         |
+|             5 | Operations      |
+|             6 | Sales           |
++---------------+-----------------+
+6 rows in set (0.01 sec)
+
+mysql> select * from departments;
++---------------+-----------------+
+| department_id | department_name |
++---------------+-----------------+
+|             1 | Human Resources |
+|             2 | Engineering     |
+|             3 | Marketing       |
+|             4 | Finance         |
+|             5 | Operations      |
+|             6 | Sales           |
++---------------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from projects;
++------------+----------------------+--------+
+| project_id | project_name         | emp_id |
++------------+----------------------+--------+
+|        201 | Website Redesign     |    102 |
+|        202 | Mobile Banking App   |    103 |
+|        203 | Marketing Campaign   |    104 |
+|        204 | Payroll System       |    106 |
+|        205 | Backend Optimization |    107 |
+|        206 | Cloud Migration      |    102 |
+|        207 | Customer Analytics   |    110 |
+|        208 | Inventory System     |   NULL |
+|        209 | HMS                  |    120 |
++------------+----------------------+--------+
+9 rows in set (0.00 sec)
+
+mysql> select d.department_id,d.department_name,count(e.emp_id)as employees_count from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'pfs7.d.department_id'; this is incompatible with sql_mode=only_full_group_by
+mysql> select d.department_id,d.department_name,count(e.emp_id)as employees_count from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id
+    -> group by d.department_name;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'pfs7.d.department_id' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select d.department_name,count(e.emp_id)as employees_count from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id
+    -> group by d.department_name;
++-----------------+-----------------+
+| department_name | employees_count |
++-----------------+-----------------+
+| Human Resources |               1 |
+| Engineering     |               3 |
+| Marketing       |               2 |
+| Finance         |               1 |
+| Operations      |               1 |
+| Sales           |               0 |
++-----------------+-----------------+
+6 rows in set (0.01 sec)
+
+mysql> select d.department_id,d.department_name,count(e.emp_id)as employees_count from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'pfs7.d.department_id'; this is incompatible with sql_mode=only_full_group_by
+mysql> select d.department_name,count(e.emp_id)as employees_count from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'pfs7.d.department_name'; this is incompatible with sql_mode=only_full_group_by
+mysql> select d.department_name,count(e.emp_id)as employees_count from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id
+    -> group by d.department_name;
++-----------------+-----------------+
+| department_name | employees_count |
++-----------------+-----------------+
+| Human Resources |               1 |
+| Engineering     |               3 |
+| Marketing       |               2 |
+| Finance         |               1 |
+| Operations      |               1 |
+| Sales           |               0 |
++-----------------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> select d.department_name,count(e.name)as employees_count from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id
+    -> group by d.department_name;
++-----------------+-----------------+
+| department_name | employees_count |
++-----------------+-----------------+
+| Human Resources |               1 |
+| Engineering     |               3 |
+| Marketing       |               2 |
+| Finance         |               1 |
+| Operations      |               1 |
+| Sales           |               0 |
++-----------------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> select d.department_name,count(e.emp_id)as employees_count from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id
+    -> group by d.department_name
+    -> having employees_count > 2;
++-----------------+-----------------+
+| department_name | employees_count |
++-----------------+-----------------+
+| Engineering     |               3 |
++-----------------+-----------------+
+1 row in set (0.01 sec)
+
+mysql> select d.department_name,count(e.salary)as employees_count from departments d
+    -> on d.department_id = e.department_id
+    -> group by d.department_name
+    -> ^C
+mysql> select d.department_name,count(e.salary)as employees_count from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id
+    -> group by d.department_name;
++-----------------+-----------------+
+| department_name | employees_count |
++-----------------+-----------------+
+| Human Resources |               1 |
+| Engineering     |               3 |
+| Marketing       |               2 |
+| Finance         |               1 |
+| Operations      |               1 |
+| Sales           |               0 |
++-----------------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> select d.department_name,sum(e.salary)as employees_count from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id
+    -> group by d.department_name;
++-----------------+-----------------+
+| department_name | employees_count |
++-----------------+-----------------+
+| Human Resources |        50000.00 |
+| Engineering     |       199000.00 |
+| Marketing       |       105000.00 |
+| Finance         |        55000.00 |
+| Operations      |        48000.00 |
+| Sales           |            NULL |
++-----------------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> select d.department_name,count(e.salary)as employees_salary from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id
+    -> group by d.department_name;
++-----------------+------------------+
+| department_name | employees_salary |
++-----------------+------------------+
+| Human Resources |                1 |
+| Engineering     |                3 |
+| Marketing       |                2 |
+| Finance         |                1 |
+| Operations      |                1 |
+| Sales           |                0 |
++-----------------+------------------+
+6 rows in set (0.00 sec)
+
+mysql> select d.department_name,sum(e.salary)as employees_count from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id
+    -> group by d.department_name;
++-----------------+-----------------+
+| department_name | employees_count |
++-----------------+-----------------+
+| Human Resources |        50000.00 |
+| Engineering     |       199000.00 |
+| Marketing       |       105000.00 |
+| Finance         |        55000.00 |
+| Operations      |        48000.00 |
+| Sales           |            NULL |
++-----------------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> select d.department_name,sum(e.salary)as employees_salary from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id
+    -> group by d.department_name;
++-----------------+------------------+
+| department_name | employees_salary |
++-----------------+------------------+
+| Human Resources |         50000.00 |
+| Engineering     |        199000.00 |
+| Marketing       |        105000.00 |
+| Finance         |         55000.00 |
+| Operations      |         48000.00 |
+| Sales           |             NULL |
++-----------------+------------------+
+6 rows in set (0.00 sec)
+
+mysql> select d.department_name,sum(e.salary)as employees_count from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id
+    -> group by d.department_name
+    -> having employees_count > 50000;
++-----------------+-----------------+
+| department_name | employees_count |
++-----------------+-----------------+
+| Engineering     |       199000.00 |
+| Marketing       |       105000.00 |
+| Finance         |        55000.00 |
++-----------------+-----------------+
+3 rows in set (0.01 sec)
+
+mysql> select e.emp_name,count(p.project_name) as employees_projects from employees e
+    -> left join projects p
+    -> on e.emp_id = p.emp_id
+    -> group by employees_projects;
+ERROR 1054 (42S22): Unknown column 'e.emp_name' in 'field list'
+mysql> select e.name,count(p.project_name) as employees_projects from employees e
+    -> left join projects p
+    -> on e.emp_id = p.emp_id
+    -> group by employees_projects;
+ERROR 1056 (42000): Can't group on 'employees_projects'
+mysql> select e.emp_name,count(p.project_id) as employees_projects from employees e
+    -> left join projects p
+    -> on e.emp_id = p.emp_id
+    -> group by employees_projects;
+ERROR 1054 (42S22): Unknown column 'e.emp_name' in 'field list'
+mysql> select e.name,count(p.project_id) as employees_projects from employees e
+    -> left join projects p
+    -> on e.emp_id = p.emp_id
+    -> group by employees_projects;
+ERROR 1056 (42000): Can't group on 'employees_projects'
+mysql> select e.name,count(p.project_id) as total_project from employees e
+    -> left join projects p
+    -> on e.emp_id = p.emp_id
+    -> group by employees_projects;
+ERROR 1054 (42S22): Unknown column 'employees_projects' in 'group statement'
+mysql> select e.name,count(p.project_id) as total_project from employees e
+    -> left join projects p
+    -> on e.emp_id = p.emp_id
+    -> group by total_project;
+ERROR 1056 (42000): Can't group on 'total_project'
+mysql> select e.name,count(p.project_id) as total_project from employees e
+    -> left join projects p
+    -> on e.emp_id = p.emp_id
+    -> group by e.name;
++---------+---------------+
+| name    | total_project |
++---------+---------------+
+| Arjun   |             0 |
+| Bhavana |             2 |
+| Charan  |             1 |
+| Divya   |             1 |
+| Eswar   |             0 |
+| Farhan  |             1 |
+| Gowri   |             1 |
+| Harish  |             0 |
+| Ishita  |             0 |
+| Jagan   |             1 |
+| Mani    |             0 |
++---------+---------------+
+11 rows in set (0.00 sec)
+
+mysql> select e.name,count(p.project_id) as total_project from employees e
+    -> left join projects p
+    -> on e.emp_id = p.emp_id
+    -> group by e.name
+    -> having total_project > 1;
++---------+---------------+
+| name    | total_project |
++---------+---------------+
+| Bhavana |             2 |
++---------+---------------+
+1 row in set (0.00 sec)
+
+mysql> select e.name,count(p.project_id) as total_project from employees e
+    -> left join projects p
+    -> on e.emp_id = p.emp_id
+    -> group by e.name
+    -> order by total_projects desc;
+ERROR 1054 (42S22): Unknown column 'total_projects' in 'order clause'
+mysql> select e.name,count(p.project_id) as total_project from employees e
+    -> left join projects p
+    -> on e.emp_id = p.emp_id
+    -> group by e.name
+    -> order by total_project desc;
++---------+---------------+
+| name    | total_project |
++---------+---------------+
+| Bhavana |             2 |
+| Charan  |             1 |
+| Divya   |             1 |
+| Farhan  |             1 |
+| Gowri   |             1 |
+| Jagan   |             1 |
+| Arjun   |             0 |
+| Eswar   |             0 |
+| Harish  |             0 |
+| Ishita  |             0 |
+| Mani    |             0 |
++---------+---------------+
+11 rows in set (0.00 sec)
+
+mysql> select d.department_name,sum(e.salary)as employees_count from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id
+    -> group by d.department_name
+    -> having employees_count > 50000
+    -> order by employees_count desc;
++-----------------+-----------------+
+| department_name | employees_count |
++-----------------+-----------------+
+| Engineering     |       199000.00 |
+| Marketing       |       105000.00 |
+| Finance         |        55000.00 |
++-----------------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql>
+mysql> select d.department_name,sum(e.salary)as employees_count from departments d
+    -> left join employees e
+    -> on d.department_id = e.department_id
+    -> group by d.department_name
+    -> having employees_count > 50000
+    -> order by employees_count;
++-----------------+-----------------+
+| department_name | employees_count |
++-----------------+-----------------+
+| Finance         |        55000.00 |
+| Marketing       |       105000.00 |
+| Engineering     |       199000.00 |
++-----------------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> select d.department_name,count(e.name)as employees_count from departments d
+    ->     left join employees e
+    ->     on d.department_id = e.department_id
+    ->     group by d.department_name
+    ->     having employees_count >1
+    ->     order by employees_count;
++-----------------+-----------------+
+| department_name | employees_count |
++-----------------+-----------------+
+| Marketing       |               2 |
+| Engineering     |               3 |
++-----------------+-----------------+
+2 rows in set (0.01 sec)
+
+mysql> select d.department_name,count(e.name)as employees_count from departments d
+    ->     left join employees e
+    ->     on d.department_id = e.department_id
+    ->     group by d.department_name
+    ->     having employees_count >1
+    ->     order by employees_count desc;
++-----------------+-----------------+
+| department_name | employees_count |
++-----------------+-----------------+
+| Engineering     |               3 |
+| Marketing       |               2 |
++-----------------+-----------------+
+2 rows in set (0.00 sec)
