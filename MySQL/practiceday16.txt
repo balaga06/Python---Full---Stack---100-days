@@ -1,0 +1,616 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use pfs7;
+Database changed
+mysql> create table student
+    -> (SID INT, SNAME VARCHAR(30), SEMAIL VARCHAR(50));
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> INSERT INTO STUDENT VALUES
+    -> (111.'MALLI','MALLI@CODEGNAN'),
+    -> (112,'MAHI','MAHI@CODEGNAN'),
+    -> (113,'MANI','MANI@CODEGNAN');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''MALLI','MALLI@CODEGNAN'),
+(112,'MAHI','MAHI@CODEGNAN'),
+(113,'MANI','MANI@CODEG' at line 2
+mysql> INSERT INTO STUDENT VALUES
+    -> (111,'MALLI','MALLI@CODEGNAN'),
+    -> (112,'MAHI','MAHI@CODEGNAN'),
+    -> (113,'MANI','MANI@CODEGNAN');
+Query OK, 3 rows affected (0.04 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | MAHI  | MAHI@CODEGNAN  |
+|  113 | MANI  | MANI@CODEGNAN  |
++------+-------+----------------+
+3 rows in set (0.01 sec)
+
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> UPDATE STUDENT SET SNAME = 'ARJUN' WHERE SID = 112;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | ARJUN | MAHI@CODEGNAN  |
+|  113 | MANI  | MANI@CODEGNAN  |
++------+-------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> ROLL BACK;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ROLL BACK' at line 1
+mysql> COMMIT;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELETE FROM STUDENT WHERE SID = 112;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  113 | MANI  | MANI@CODEGNAN  |
++------+-------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | ARJUN | MAHI@CODEGNAN  |
+|  113 | MANI  | MANI@CODEGNAN  |
++------+-------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> UPDATE STUDENT SET SNAME = 'ARUN' WHERE SID = 112;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | ARUN  | MAHI@CODEGNAN  |
+|  113 | MANI  | MANI@CODEGNAN  |
++------+-------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | ARUN  | MAHI@CODEGNAN  |
+|  113 | MANI  | MANI@CODEGNAN  |
++------+-------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | ARUN  | MAHI@CODEGNAN  |
+|  113 | MANI  | MANI@CODEGNAN  |
++------+-------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | ARUN  | MAHI@CODEGNAN  |
+|  113 | MANI  | MANI@CODEGNAN  |
++------+-------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> UPDATE STUDENT SET SNAME = 'ARJUN' WHERE SID = 112;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | ARJUN | MAHI@CODEGNAN  |
+|  113 | MANI  | MANI@CODEGNAN  |
++------+-------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | ARUN  | MAHI@CODEGNAN  |
+|  113 | MANI  | MANI@CODEGNAN  |
++------+-------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO STUDENT VALUES
+    -> (114,'GANI','GANI@CODEGNAN');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | ARUN  | MAHI@CODEGNAN  |
+|  113 | MANI  | MANI@CODEGNAN  |
+|  114 | GANI  | GANI@CODEGNAN  |
++------+-------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE STUDENT SET SEMAIL = 'ARJUN@CODEGNAN' WHERE SID = 112;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | ARUN  | ARJUN@CODEGNAN |
+|  113 | MANI  | MANI@CODEGNAN  |
+|  114 | GANI  | GANI@CODEGNAN  |
++------+-------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | ARUN  | ARJUN@CODEGNAN |
+|  113 | MANI  | MANI@CODEGNAN  |
+|  114 | GANI  | GANI@CODEGNAN  |
++------+-------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT INTO STUDENT VALUES
+    -> (115,'GANI','HERO@CODEGNAN');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> UPDATE STUDENT SET SEMAIL = 'ARUN@CODEGNAN' WHERE SID = 112;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> DELETE FROM STUDENT WHERE SID = 112;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  113 | MANI  | MANI@CODEGNAN  |
+|  114 | GANI  | GANI@CODEGNAN  |
+|  115 | GANI  | HERO@CODEGNAN  |
++------+-------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> ROLLBACK;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | ARUN  | ARJUN@CODEGNAN |
+|  113 | MANI  | MANI@CODEGNAN  |
+|  114 | GANI  | GANI@CODEGNAN  |
++------+-------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> START TRANSACTION;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO STUDENT VALUES
+    -> (115,'HERO','HERO@CODEGNAN');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> UPDATE STUDENT SET SEMAIL = 'ARUN@CODEGNAN' WHERE SID = 112;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | ARUN  | ARUN@CODEGNAN  |
+|  113 | MANI  | MANI@CODEGNAN  |
+|  114 | GANI  | GANI@CODEGNAN  |
+|  115 | HERO  | HERO@CODEGNAN  |
++------+-------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> SAVEPOINT SQL1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM SQL1;
+ERROR 1146 (42S02): Table 'pfs7.sql1' doesn't exist
+mysql> DELETE FROM STUDENT WHERE SID = 112;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  113 | MANI  | MANI@CODEGNAN  |
+|  114 | GANI  | GANI@CODEGNAN  |
+|  115 | HERO  | HERO@CODEGNAN  |
++------+-------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> ROLLBACK TO SQL1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | ARUN  | ARUN@CODEGNAN  |
+|  113 | MANI  | MANI@CODEGNAN  |
+|  114 | GANI  | GANI@CODEGNAN  |
+|  115 | HERO  | HERO@CODEGNAN  |
++------+-------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> DELETE FROM STUDENT WHERE SID = 113;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | ARUN  | ARUN@CODEGNAN  |
+|  114 | GANI  | GANI@CODEGNAN  |
+|  115 | HERO  | HERO@CODEGNAN  |
++------+-------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT * FROM STUDENT;
++------+-------+----------------+
+| SID  | SNAME | SEMAIL         |
++------+-------+----------------+
+|  111 | MALLI | MALLI@CODEGNAN |
+|  112 | ARUN  | ARUN@CODEGNAN  |
+|  114 | GANI  | GANI@CODEGNAN  |
+|  115 | HERO  | HERO@CODEGNAN  |
++------+-------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> SHOW TABLES;
++---------------------+
+| Tables_in_pfs7      |
++---------------------+
+| backupemployees     |
+| company_staff       |
+| course_3nf          |
+| courses             |
+| customers           |
+| departments         |
+| emp                 |
+| emp1                |
+| emp2                |
+| emp3                |
+| employee_attendance |
+| employees           |
+| employees1          |
+| enrollment_2nf      |
+| enrollment_3nf      |
+| enrollments         |
+| order4              |
+| orders              |
+| placed_students     |
+| products            |
+| products1           |
+| projects            |
+| sales               |
+| student             |
+| student10           |
+| student_2nf         |
+| student_course_1nf  |
+| student_details     |
+| students            |
+| students2           |
+| studentscores       |
+| tab1                |
+| tab2                |
+| trainer_3nf         |
++---------------------+
+34 rows in set (0.06 sec)
+
+mysql> CREATE DATABASE VIEWS;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE VIEWS;
+Database changed
+mysql> CREATE TABLE departments (
+    ->  dept_id INT PRIMARY KEY AUTO_INCREMENT,
+    ->  dept_name VARCHAR(50),
+    ->  location VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql>
+mysql> CREATE TABLE employees (
+    ->  emp_id INT PRIMARY KEY AUTO_INCREMENT,
+    ->  emp_name VARCHAR(100),
+    ->  dept_id INT,
+    ->  designation VARCHAR(50),
+    ->  salary DECIMAL(10,2),
+    ->  join_date DATE,
+    ->  FOREIGN KEY (dept_id) REFERENCES departments(dept_id)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql>
+mysql> INSERT INTO departments (dept_name, location) VALUES
+    -> ('IT','Hyderabad'), ('HR','Bangalore'), ('Finance','Chennai'), ('Sales','Mumbai');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> INSERT INTO employees (emp_name, dept_id, designation, salary, join_date) VALUES
+    -> ('Rahul',1,'Software Engineer',55000,'2021-06-15'),
+    -> ('Anita',2,'HR Executive',38000,'2020-03-21'),
+    -> ('Suresh',4,'Sales Manager',52000,'2019-08-10'),
+    -> ('Priya',1,'Team Lead',65000,'2022-01-05'),
+    -> ('Kiran',3,'Finance Analyst',48000,'2018-12-11'),
+    -> ('Deepika',2,'HR Manager',60000,'2019-10-19')
+    -> ;
+Query OK, 6 rows affected (0.01 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM DEPARTMENTS;
++---------+-----------+-----------+
+| dept_id | dept_name | location  |
++---------+-----------+-----------+
+|       1 | IT        | Hyderabad |
+|       2 | HR        | Bangalore |
+|       3 | Finance   | Chennai   |
+|       4 | Sales     | Mumbai    |
++---------+-----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEES;
++--------+----------+---------+-------------------+----------+------------+
+| emp_id | emp_name | dept_id | designation       | salary   | join_date  |
++--------+----------+---------+-------------------+----------+------------+
+|      1 | Rahul    |       1 | Software Engineer | 55000.00 | 2021-06-15 |
+|      2 | Anita    |       2 | HR Executive      | 38000.00 | 2020-03-21 |
+|      3 | Suresh   |       4 | Sales Manager     | 52000.00 | 2019-08-10 |
+|      4 | Priya    |       1 | Team Lead         | 65000.00 | 2022-01-05 |
+|      5 | Kiran    |       3 | Finance Analyst   | 48000.00 | 2018-12-11 |
+|      6 | Deepika  |       2 | HR Manager        | 60000.00 | 2019-10-19 |
++--------+----------+---------+-------------------+----------+------------+
+6 rows in set (0.00 sec)
+
+mysql> CREATE VIEW VIEW_EMPLOYEE_DEPARTMENT AS
+    -> SELECT E.EMP_ID,E.EMP_NAME,E.DESIGNATION,D.DEPT_NAME,D.LOCATION
+    -> FROM EMPLOYEES E
+    -> JOIN DEPARTMENTS D ON E.DEPT_ID = D.DEPT-ID;
+ERROR 1054 (42S22): Unknown column 'D.DEPT' in 'on clause'
+mysql> CREATE VIEW VIEW_EMPLOYEE_DEPARTMENT AS
+    -> SELECT E.EMP_ID,E.EMP_NAME,E.DESIGNATION,D.DEPT_NAME,D.LOCATION
+    -> FROM EMPLOYEES E
+    -> JOIN DEPARTMENTS D ON E.DEPT_ID = D.DEPT_ID;
+Query OK, 0 rows affected (0.27 sec)
+
+mysql> SELECT * FROM VIEW;
+ERROR 1146 (42S02): Table 'views.view' doesn't exist
+mysql> SELECT * FROM VIEW_EMPLOYEE_DEPARTMENT;
++--------+----------+-------------------+-----------+-----------+
+| EMP_ID | EMP_NAME | DESIGNATION       | DEPT_NAME | LOCATION  |
++--------+----------+-------------------+-----------+-----------+
+|      1 | Rahul    | Software Engineer | IT        | Hyderabad |
+|      4 | Priya    | Team Lead         | IT        | Hyderabad |
+|      2 | Anita    | HR Executive      | HR        | Bangalore |
+|      6 | Deepika  | HR Manager        | HR        | Bangalore |
+|      5 | Kiran    | Finance Analyst   | Finance   | Chennai   |
+|      3 | Suresh   | Sales Manager     | Sales     | Mumbai    |
++--------+----------+-------------------+-----------+-----------+
+6 rows in set (0.01 sec)
+
+mysql> SHOW VIEWS;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VIEWS' at line 1
+mysql> SHOW FULL TABLES WHERE TABLE_TYPE = 'VIEW';
++--------------------------+------------+
+| Tables_in_views          | Table_type |
++--------------------------+------------+
+| view_employee_department | VIEW       |
++--------------------------+------------+
+1 row in set (0.01 sec)
+
+mysql> UPDATE EMPLOYEES SET EMP_NAME = 'RAMYA' WHERE EMP_ID = 1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEES;
++--------+----------+---------+-------------------+----------+------------+
+| emp_id | emp_name | dept_id | designation       | salary   | join_date  |
++--------+----------+---------+-------------------+----------+------------+
+|      1 | RAMYA    |       1 | Software Engineer | 55000.00 | 2021-06-15 |
+|      2 | Anita    |       2 | HR Executive      | 38000.00 | 2020-03-21 |
+|      3 | Suresh   |       4 | Sales Manager     | 52000.00 | 2019-08-10 |
+|      4 | Priya    |       1 | Team Lead         | 65000.00 | 2022-01-05 |
+|      5 | Kiran    |       3 | Finance Analyst   | 48000.00 | 2018-12-11 |
+|      6 | Deepika  |       2 | HR Manager        | 60000.00 | 2019-10-19 |
++--------+----------+---------+-------------------+----------+------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT * FROM VIEW_EMPLOYEE_DEPARTMENT;
++--------+----------+-------------------+-----------+-----------+
+| EMP_ID | EMP_NAME | DESIGNATION       | DEPT_NAME | LOCATION  |
++--------+----------+-------------------+-----------+-----------+
+|      1 | RAMYA    | Software Engineer | IT        | Hyderabad |
+|      4 | Priya    | Team Lead         | IT        | Hyderabad |
+|      2 | Anita    | HR Executive      | HR        | Bangalore |
+|      6 | Deepika  | HR Manager        | HR        | Bangalore |
+|      5 | Kiran    | Finance Analyst   | Finance   | Chennai   |
+|      3 | Suresh   | Sales Manager     | Sales     | Mumbai    |
++--------+----------+-------------------+-----------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> CREATE VIEW VIEW_DEPARTMENT_SALARY_SUMMARY AS
+    -> SELECT D.DEPT_NAME,
+    -> COUNT(E.EMP_ID) AS TOTAL_EMPLOYEES,
+    -> SUM(E.SALARY) AS TOTAL_SALARY,
+    -> AVG(E.SALARY) AS AVG_SALARY
+    -> FROM EMPLOYEES E
+    -> JOIN DEPARTMENTS D ON E.DEPT_ID = D.DEPT_ID
+    -> GROUP BY D.DEPT_NAME;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT * FROM VIEW_DEPARTMENT_SALARY_SUMMARY;
++-----------+-----------------+--------------+--------------+
+| DEPT_NAME | TOTAL_EMPLOYEES | TOTAL_SALARY | AVG_SALARY   |
++-----------+-----------------+--------------+--------------+
+| IT        |               2 |    120000.00 | 60000.000000 |
+| HR        |               2 |     98000.00 | 49000.000000 |
+| Finance   |               1 |     48000.00 | 48000.000000 |
+| Sales     |               1 |     52000.00 | 52000.000000 |
++-----------+-----------------+--------------+--------------+
+4 rows in set (0.01 sec)
+
+mysql> CREATE VIEW VIEW_ANNUAL_SALARY AS
+    -> SELECT E.EMP_NAME,
+    -> E.SALARY AS MONTHLY_SALARY ,
+    -> SALARY * 12 AS ANNUAL_SALARY FROM EMPLOYEES;
+ERROR 1054 (42S22): Unknown column 'E.EMP_NAME' in 'field list'
+mysql> CREATE VIEW VIEW_ANNUAL_SALARY AS
+    -> SELECT EMP_NAME,
+    -> SALARY * 12 AS ANNUAL_SALARY FROM EMPLOYEES;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT * FROM VIEW_ANNUAL_SALARY;
++----------+---------------+
+| EMP_NAME | ANNUAL_SALARY |
++----------+---------------+
+| RAMYA    |     660000.00 |
+| Anita    |     456000.00 |
+| Suresh   |     624000.00 |
+| Priya    |     780000.00 |
+| Kiran    |     576000.00 |
+| Deepika  |     720000.00 |
++----------+---------------+
+6 rows in set (0.00 sec)
+
+mysql> CREATE VIEW VIEW_HIGH_PAYING_DEPARTMENT AS
+    -> SELECT DEPT_NAME,AVERAGE_SALARY
+    -> VIEW_ANNUAL_SALARY
+    -> WHERE AVG_SALARY > 50000;
+ERROR 1054 (42S22): Unknown column 'DEPT_NAME' in 'field list'
+mysql> CREATE VIEW VIEW_HIGH_PAYING_DEPARTMENT AS
+    -> SELECT DEPT_NAME,AVERAGE_SALARY
+    -> VIEW_ANNUAL_SALARY
+    -> WHERE AVG_SALARY > 50000;
+ERROR 1054 (42S22): Unknown column 'DEPT_NAME' in 'field list'
+mysql> SELECT DEPT_NAME,AVERAGE_SALARY
+    -> VIEW_ANNUAL_SALARY^C
+mysql> CREATE VIEW VIEW_HIGH_PAYING_DEPARTMENT AS
+    -> SELECT DEPT_NAME,AVG_SALARY
+    -> FROM VIEW_ANNUAL_SALARY
+    -> WHERE AVG_SALARY > 50000;
+ERROR 1054 (42S22): Unknown column 'DEPT_NAME' in 'field list'
+mysql> CREATE VIEW VIEW_HIGH_PAYING_EMPLOYEES AS
+    -> SELECT EMP_NAME, ANNUAL_SALARY
+    -> FROM VIEW_ANNUAL_SALARY
+    -> WHERE ANNUAL_SALARY > 600000;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT * FROM VIEW_HIGH_PAYING_EMPLOYEES;
++----------+---------------+
+| EMP_NAME | ANNUAL_SALARY |
++----------+---------------+
+| RAMYA    |     660000.00 |
+| Suresh   |     624000.00 |
+| Priya    |     780000.00 |
+| Deepika  |     720000.00 |
++----------+---------------+
+4 rows in set (0.01 sec)
+
+mysql> CREATE VIEW VIEW_HIGH_PAYING_DEPARTMENT AS
+    -> SELECT DEPT_NAME,AVG_SALARY
+    -> FROM VIEW_DEPARTMENT_SALARY_SUMMARY
+    -> WHERE AVG_SALARY > 50000;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT * FROM VIEW_HIGH_PAYING_DEPARTMENT
+    -> ;
++-----------+--------------+
+| DEPT_NAME | AVG_SALARY   |
++-----------+--------------+
+| IT        | 60000.000000 |
+| Sales     | 52000.000000 |
++-----------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> SHOW FULL TABLES WHERE TABLE_TYPE = 'VIEW';
++--------------------------------+------------+
+| Tables_in_views                | Table_type |
++--------------------------------+------------+
+| view_annual_salary             | VIEW       |
+| view_department_salary_summary | VIEW       |
+| view_employee_department       | VIEW       |
+| view_high_paying_department    | VIEW       |
+| view_high_paying_employees     | VIEW       |
++--------------------------------+------------+
+5 rows in set (0.00 sec)
