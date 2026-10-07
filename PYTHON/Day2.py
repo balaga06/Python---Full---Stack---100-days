@@ -77,7 +77,6 @@ b = 3
 print(a/b) # / --> Float Division (answer is always in float values)
 print(a//b) # //  --> Flooring Division (Integer division) returns Quotient
 print(a%b) #Modules --> returns remainder
-"""
 #Raju purchased shoes with price 1000, discount  15%, now how much raju has to pay
 shoe = 1000
 discount = 0.15
@@ -90,10 +89,19 @@ print(final_price)
 bill = 2500
 GST = 0.05
 discount = 0.05
-print
 
+discount_amount = bill * discount
+bill_after_discount = bill - discount_amount
 
+gst_amount = bill_after_discount * GST
+final_amount = bill_after_discount + gst_amount
 
+print("Discount:", discount_amount)
+print("After Discount:", bill_after_discount)
+print("GST:", gst_amount)
+print("Final Amount:", final_amount)
+
+"""
 
 
 
