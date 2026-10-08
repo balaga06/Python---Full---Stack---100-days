@@ -1,0 +1,815 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use views;
+Database changed
+mysql> show tables;
++--------------------------------+
+| Tables_in_views                |
++--------------------------------+
+| departments                    |
+| employees                      |
+| view_annual_salary             |
+| view_department_salary_summary |
+| view_employee_department       |
+| view_high_paying_department    |
+| view_high_paying_employees     |
++--------------------------------+
+7 rows in set (0.06 sec)
+
+mysql> select * from employees;
++--------+----------+---------+-------------------+----------+------------+
+| emp_id | emp_name | dept_id | designation       | salary   | join_date  |
++--------+----------+---------+-------------------+----------+------------+
+|      1 | RAMYA    |       1 | Software Engineer | 55000.00 | 2021-06-15 |
+|      2 | Anita    |       2 | HR Executive      | 38000.00 | 2020-03-21 |
+|      3 | Suresh   |       4 | Sales Manager     | 52000.00 | 2019-08-10 |
+|      4 | Priya    |       1 | Team Lead         | 65000.00 | 2022-01-05 |
+|      5 | Kiran    |       3 | Finance Analyst   | 48000.00 | 2018-12-11 |
+|      6 | Deepika  |       2 | HR Manager        | 60000.00 | 2019-10-19 |
++--------+----------+---------+-------------------+----------+------------+
+6 rows in set (0.01 sec)
+
+mysql> drop table employees;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> CREATE TABLE Employees (
+    ->     emp_id INT PRIMARY KEY,
+    ->     emp_name VARCHAR(50),
+    -> @@ -2025,7 +2025,7 @@ CREATE TABLE Employees (
+    ->     experience INT,
+    ->     city VARCHAR(30)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '@@ -2025,7 +2025,7 @@ CREATE TABLE Employees (
+    experience INT,
+    city VARC' at line 4
+mysql> Insert Records
+    -> -- Insert Records
+    -> INSERT INTO Employees VALUES
+    -> (101,'Rahul','IT',65000,5,'Hyderabad'),
+    -> (102,'Priya','HR',45000,3,'Chennai'),
+    -> @@ -2038,10 +2038,29 @@ INSERT INTO Employees VALUES
+    -> (109,'Divya','Sales',48000,3,'Hyderabad'),
+    -> (110,'Vikram','IT',75000,7,'Bangalore');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INSERT INTO Employees VALUES
+(101,'Rahul','IT',65000,5,'Hyderabad'),
+(102,'Priya' at line 3
+mysql> ----------------------------------------------------
+    -> CREATE TABLE Employees (
+    ->     emp_id INT PRIMARY KEY,
+    ->     emp_name VARCHAR(50),
+    ->     department VARCHAR(30),
+    ->     salary DECIMAL(10,2),
+    ->     experience INT,
+    ->     city VARCHAR(30)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--------------------------------------------------
+CREATE TABLE Employees (
+    ' at line 1
+mysql>
+mysql>
+mysql>
+mysql> INSERT INTO Employees VALUES
+    -> (101,'Rahul','IT',65000,5,'Hyderabad'),
+    -> (102,'Priya','HR',45000,3,'Chennai'),
+    -> (103,'Amit','Finance',70000,6,'Bangalore'),
+    -> (104,'Sneha','IT',80000,8,'Hyderabad'),
+    -> (105,'Kiran','Sales',40000,2,'Pune');
+ERROR 1146 (42S02): Table 'views.employees' doesn't exist
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> CREATE TABLE Employee_Audit(
+    ->     audit_id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     emp_id INT,
+    ->     action_type VARCHAR(20),
+    ->     old_salary DECIMAL(10,2),
+    ->     new_salary DECIMAL(10,2),
+    ->     action_time DATETIME
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show tables;
++--------------------------------+
+| Tables_in_views                |
++--------------------------------+
+| departments                    |
+| employee_audit                 |
+| view_annual_salary             |
+| view_department_salary_summary |
+| view_employee_department       |
+| view_high_paying_department    |
+| view_high_paying_employees     |
++--------------------------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from employee_audit;
+Empty set (0.04 sec)
+
+mysql> drop table employee_audit;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> use pfs7;
+Database changed
+mysql> show tables;
++---------------------+
+| Tables_in_pfs7      |
++---------------------+
+| backupemployees     |
+| company_staff       |
+| course_3nf          |
+| courses             |
+| customers           |
+| departments         |
+| emp                 |
+| emp1                |
+| emp2                |
+| emp3                |
+| emp5                |
+| employee_attendance |
+| employees1          |
+| enrollment_2nf      |
+| enrollment_3nf      |
+| enrollments         |
+| order4              |
+| orders              |
+| placed_students     |
+| products            |
+| products1           |
+| projects            |
+| sales               |
+| student             |
+| student10           |
+| student_2nf         |
+| student_course_1nf  |
+| student_details     |
+| students            |
+| students2           |
+| studentscores       |
+| tab1                |
+| tab2                |
+| trainer_3nf         |
++---------------------+
+34 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Employees (
+    ->     emp_id INT PRIMARY KEY,
+    ->     emp_name VARCHAR(50),
+    -> @@ -2025,7 +2025,7 @@ CREATE TABLE Employees (
+    ->     experience INT,
+    ->     city VARCHAR(30)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '@@ -2025,7 +2025,7 @@ CREATE TABLE Employees (
+    experience INT,
+    city VARC' at line 4
+mysql> Insert Records
+    -> -- Insert Records
+    -> INSERT INTO Employees VALUES
+    -> (101,'Rahul','IT',65000,5,'Hyderabad'),
+    -> (102,'Priya','HR',45000,3,'Chennai'),
+    -> @@ -2038,10 +2038,29 @@ INSERT INTO Employees VALUES
+    -> (109,'Divya','Sales',48000,3,'Hyderabad'),
+    -> (110,'Vikram','IT',75000,7,'Bangalore');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INSERT INTO Employees VALUES
+(101,'Rahul','IT',65000,5,'Hyderabad'),
+(102,'Priya' at line 3
+mysql> ----------------------------------------------------
+    -> CREATE TABLE Employees (
+    ->     emp_id INT PRIMARY KEY,
+    ->     emp_name VARCHAR(50),
+    ->     department VARCHAR(30),
+    ->     salary DECIMAL(10,2),
+    ->     experience INT,
+    ->     city VARCHAR(30)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--------------------------------------------------
+CREATE TABLE Employees (
+    ' at line 1
+mysql>
+mysql>
+mysql>
+mysql> INSERT INTO Employees VALUES
+    -> (101,'Rahul','IT',65000,5,'Hyderabad'),
+    -> (102,'Priya','HR',45000,3,'Chennai'),
+    -> (103,'Amit','Finance',70000,6,'Bangalore'),
+    -> (104,'Sneha','IT',80000,8,'Hyderabad'),
+    -> (105,'Kiran','Sales',40000,2,'Pune');
+ERROR 1146 (42S02): Table 'pfs7.employees' doesn't exist
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> CREATE TABLE Employee_Audit(
+    ->     audit_id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     emp_id INT,
+    ->     action_type VARCHAR(20),
+    ->     old_salary DECIMAL(10,2),
+    ->     new_salary DECIMAL(10,2),
+    ->     action_time DATETIME
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE Employees (
+    ->     emp_id INT PRIMARY KEY,
+    ->     emp_name VARCHAR(50),
+    ->     department VARCHAR(30),
+    ->     salary DECIMAL(10,2),
+    ->     experience INT,
+    ->     city VARCHAR(30)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>
+mysql>
+mysql>
+mysql> INSERT INTO Employees VALUES
+    -> (101,'Rahul','IT',65000,5,'Hyderabad'),
+    -> (102,'Priya','HR',45000,3,'Chennai'),
+    -> (103,'Amit','Finance',70000,6,'Bangalore'),
+    -> (104,'Sneha','IT',80000,8,'Hyderabad'),
+    -> (105,'Kiran','Sales',40000,2,'Pune');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> CREATE TABLE Employee_Audit(
+    ->     audit_id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     emp_id INT,
+    ->     action_type VARCHAR(20),
+    ->     old_salary DECIMAL(10,2),
+    ->     new_salary DECIMAL(10,2),
+    ->     action_time DATETIME
+    -> );
+ERROR 1050 (42S01): Table 'employee_audit' already exists
+mysql> select * from employees;
++--------+----------+------------+----------+------------+-----------+
+| emp_id | emp_name | department | salary   | experience | city      |
++--------+----------+------------+----------+------------+-----------+
+|    101 | Rahul    | IT         | 65000.00 |          5 | Hyderabad |
+|    102 | Priya    | HR         | 45000.00 |          3 | Chennai   |
+|    103 | Amit     | Finance    | 70000.00 |          6 | Bangalore |
+|    104 | Sneha    | IT         | 80000.00 |          8 | Hyderabad |
+|    105 | Kiran    | Sales      | 40000.00 |          2 | Pune      |
++--------+----------+------------+----------+------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from employee_audit;
+Empty set (0.00 sec)
+
+mysql> DELIMITER //
+mysql>
+mysql> CREATE TRIGGER CHECK_SALARY
+    -> BEFORE INSERT
+    -> ON EMPLOYEES
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     IF NEW.SALARY < 0 THEN
+    ->         SIGNAL SQLSTATE '45000'
+    ->         SET MESSAGE_TEXT = 'Salary cannot be negative';
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql> INSERT INTO EMPLOYEES
+    -> VALUES (1, 'RAMYA', -5000);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO EMPLOYEES
+    -> VALUES (1, 'RAMYA','IT',-5000,2,'VIZAG');
+ERROR 1644 (45000): Salary cannot be negative
+mysql> DELIMITER //
+mysql> CREATE TRIGGER trg_before_insert_salary
+    -> BEFORE INSERT
+    -> ON EMPLOYEES
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     IF NEW.SALARY < 20000 THEN
+    ->         SET MESSAGE_TEXT = 'Salary cannot be less than 20000';
+    ->     END IF;
+    -> END //
+ERROR 1193 (HY000): Unknown system variable 'MESSAGE_TEXT'
+mysql> DELIMITER //
+mysql> CREATE TRIGGER CHECK_SALARY
+    -> BEFORE INSERT^C
+mysql> DELIMITER //
+mysql> CREATE TRIGGER trg_before_insert_salary
+    -> BEFORE INSERT
+    -> ON EMPLOYEES
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     IF NEW.SALARY < 20000 THEN
+    ->         SIGNAL SQLSTATE '45000'
+    ->         SET MESSAGE_TEXT = 'Salary cannot be less than 20000';
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> INSERT INTO EMPLOYEES
+    -> VALUES (106, 'RAMYA', 'IT', 19000, 1, 'VIZAG');
+ERROR 1644 (45000): Salary cannot be less than 20000
+mysql> VALUES (106, 'RAMYA', 'IT', 21000, 1, 'VIZAG');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(106, 'RAMYA', 'IT', 21000, 1, 'VIZAG')' at line 1
+mysql> INSERT INTO EMPLOYEES
+    -> VALUES (106, 'RAMYA', 'IT', 21000, 1, 'VIZAG');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> desc employee_audit;
++-------------+---------------+------+-----+---------+----------------+
+| Field       | Type          | Null | Key | Default | Extra          |
++-------------+---------------+------+-----+---------+----------------+
+| audit_id    | int           | NO   | PRI | NULL    | auto_increment |
+| emp_id      | int           | YES  |     | NULL    |                |
+| action_type | varchar(20)   | YES  |     | NULL    |                |
+| old_salary  | decimal(10,2) | YES  |     | NULL    |                |
+| new_salary  | decimal(10,2) | YES  |     | NULL    |                |
+| action_time | datetime      | YES  |     | NULL    |                |
++-------------+---------------+------+-----+---------+----------------+
+6 rows in set (0.02 sec)
+
+mysql> DELIMITER //
+mysql>
+mysql> CREATE TRIGGER AFTER_EMPLOYEE_INSERT
+    -> AFTER INSERT
+    -> ON EMPLOYEES
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     INSERT INTO EMPLOYEE_AUDIT
+    ->     (
+    ->         emp_id,
+    ->         action_type,
+    ->         old_salary,
+    ->         new_salary,
+    ->         action_time
+    ->     )
+    ->     VALUES
+    ->     (
+    ->         NEW.EMP_ID,
+    ->         'INSERT',
+    ->         NULL,
+    ->         NEW.SALARY,
+    ->         NOW()
+    ->     );
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql> INSERT INTO EMPLOYEES
+    -> VALUES (107, 'ARUN', 'HR', 50000, 3, 'HYD');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM EMPLOYEES;
++--------+----------+------------+----------+------------+-----------+
+| emp_id | emp_name | department | salary   | experience | city      |
++--------+----------+------------+----------+------------+-----------+
+|    101 | Rahul    | IT         | 65000.00 |          5 | Hyderabad |
+|    102 | Priya    | HR         | 45000.00 |          3 | Chennai   |
+|    103 | Amit     | Finance    | 70000.00 |          6 | Bangalore |
+|    104 | Sneha    | IT         | 80000.00 |          8 | Hyderabad |
+|    105 | Kiran    | Sales      | 40000.00 |          2 | Pune      |
+|    106 | RAMYA    | IT         | 21000.00 |          1 | VIZAG     |
+|    107 | ARUN     | HR         | 50000.00 |          3 | HYD       |
++--------+----------+------------+----------+------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE_AUDIT;
++----------+--------+-------------+------------+------------+---------------------+
+| audit_id | emp_id | action_type | old_salary | new_salary | action_time         |
++----------+--------+-------------+------------+------------+---------------------+
+|        1 |    107 | INSERT      |       NULL |   50000.00 | 2026-10-08 11:50:13 |
++----------+--------+-------------+------------+------------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEES
+    -> VALUES
+    -> (108, 'RAMYA', 'IT', 50000, 2, 'VIZAG'),
+    -> (109, 'NIKHIL', 'HR', 45000, 3, 'HYDERABAD'),
+    -> (110, 'RAHUL', 'SALES', 55000, 2, 'CHENNAI'),
+    -> (111, 'PRIYA', 'IT', 60000, 5, 'BANGALORE'),
+    -> (112, 'ARJUN', 'FINANCE', 48000, 3, 'VIZAG'),
+    -> (113, 'KIRAN', 'IT', 52000, 2, 'VIJAYAWADA'),
+    -> (114, 'SNEHA', 'HR', 47000, 3, 'GUNTUR'),
+    -> (115, 'VIVEK', 'SALES', 58000, 2, 'NELLORE');
+Query OK, 8 rows affected (0.03 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEE_AUDIT;
++----------+--------+-------------+------------+------------+---------------------+
+| audit_id | emp_id | action_type | old_salary | new_salary | action_time         |
++----------+--------+-------------+------------+------------+---------------------+
+|        1 |    107 | INSERT      |       NULL |   50000.00 | 2026-10-08 11:50:13 |
+|        2 |    108 | INSERT      |       NULL |   50000.00 | 2026-10-08 11:54:14 |
+|        3 |    109 | INSERT      |       NULL |   45000.00 | 2026-10-08 11:54:14 |
+|        4 |    110 | INSERT      |       NULL |   55000.00 | 2026-10-08 11:54:14 |
+|        5 |    111 | INSERT      |       NULL |   60000.00 | 2026-10-08 11:54:14 |
+|        6 |    112 | INSERT      |       NULL |   48000.00 | 2026-10-08 11:54:14 |
+|        7 |    113 | INSERT      |       NULL |   52000.00 | 2026-10-08 11:54:14 |
+|        8 |    114 | INSERT      |       NULL |   47000.00 | 2026-10-08 11:54:14 |
+|        9 |    115 | INSERT      |       NULL |   58000.00 | 2026-10-08 11:54:14 |
++----------+--------+-------------+------------+------------+---------------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM EMPLOYEE_AUDIT
+    -> WHERE emp_id BETWEEN 108 AND 115;
++----------+--------+-------------+------------+------------+---------------------+
+| audit_id | emp_id | action_type | old_salary | new_salary | action_time         |
++----------+--------+-------------+------------+------------+---------------------+
+|        2 |    108 | INSERT      |       NULL |   50000.00 | 2026-10-08 11:54:14 |
+|        3 |    109 | INSERT      |       NULL |   45000.00 | 2026-10-08 11:54:14 |
+|        4 |    110 | INSERT      |       NULL |   55000.00 | 2026-10-08 11:54:14 |
+|        5 |    111 | INSERT      |       NULL |   60000.00 | 2026-10-08 11:54:14 |
+|        6 |    112 | INSERT      |       NULL |   48000.00 | 2026-10-08 11:54:14 |
+|        7 |    113 | INSERT      |       NULL |   52000.00 | 2026-10-08 11:54:14 |
+|        8 |    114 | INSERT      |       NULL |   47000.00 | 2026-10-08 11:54:14 |
+|        9 |    115 | INSERT      |       NULL |   58000.00 | 2026-10-08 11:54:14 |
++----------+--------+-------------+------------+------------+---------------------+
+8 rows in set (0.00 sec)
+
+mysql> DELIMITER //
+mysql>
+mysql> CREATE TRIGGER CHECK_SALARY_UPDATE
+    -> BEFORE UPDATE
+    -> ON EMPLOYEES
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     IF NEW.SALARY < OLD.SALARY THEN
+    ->         SIGNAL SQLSTATE '45000'
+    ->         SET MESSAGE_TEXT = 'New salary cannot be less than current salary';
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql> UPDATE EMPLOYEES SET = 45000 WHERE EMP_ID = 108;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 45000 WHERE EMP_ID = 108' at line 1
+mysql> UPDATE EMPLOYEES SET SALARY = 45000 WHERE EMP_ID = 108;
+ERROR 1644 (45000): New salary cannot be less than current salary
+mysql> UPDATE EMPLOYEES SET SALARY = 55000 WHERE EMP_ID = 108;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE EMPLOYEES SET SALARY = 55000 WHERE EMP_ID = 111;
+ERROR 1644 (45000): New salary cannot be less than current salary
+mysql> UPDATE EMPLOYEES SET SALARY = 65000 WHERE EMP_ID = 111;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> DELIMITER //
+mysql> CREATE TRIGGER CHECK_SALARY_AFTER_UPDATE
+    -> AFTER UPDATE
+    -> ON EMPLOYEES
+    -> FOR EACH ROW
+    -> BEGIN
+    -> INSERT INTO EMPLOYEE_AUDIT
+    ->          (EMP_ID,ACTION_TYPE,OLD_SALARY,NEW_SALARY,ACTION_TIME
+    -> )
+    -> VALUES
+    ->          (OLD.EMP_ID,'UPDATE',OLD.SALARY,NEW.SALARY,NOW())
+    -> ;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMTER ;
+    -> ^C
+mysql>  DELIMTER ;
+    -> ^C
+mysql>  DELIMTER ;
+    -> ^C
+mysql>  DELIMITER ;
+mysql> UPDATE EMPLOYEES SET SALARY = 55000 WHERE EMP_ID = 107;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEES;
++--------+----------+------------+----------+------------+------------+
+| emp_id | emp_name | department | salary   | experience | city       |
++--------+----------+------------+----------+------------+------------+
+|    101 | Rahul    | IT         | 65000.00 |          5 | Hyderabad  |
+|    102 | Priya    | HR         | 45000.00 |          3 | Chennai    |
+|    103 | Amit     | Finance    | 70000.00 |          6 | Bangalore  |
+|    104 | Sneha    | IT         | 80000.00 |          8 | Hyderabad  |
+|    105 | Kiran    | Sales      | 40000.00 |          2 | Pune       |
+|    106 | RAMYA    | IT         | 21000.00 |          1 | VIZAG      |
+|    107 | ARUN     | HR         | 55000.00 |          3 | HYD        |
+|    108 | RAMYA    | IT         | 55000.00 |          2 | VIZAG      |
+|    109 | NIKHIL   | HR         | 45000.00 |          3 | HYDERABAD  |
+|    110 | RAHUL    | SALES      | 55000.00 |          2 | CHENNAI    |
+|    111 | PRIYA    | IT         | 65000.00 |          5 | BANGALORE  |
+|    112 | ARJUN    | FINANCE    | 48000.00 |          3 | VIZAG      |
+|    113 | KIRAN    | IT         | 52000.00 |          2 | VIJAYAWADA |
+|    114 | SNEHA    | HR         | 47000.00 |          3 | GUNTUR     |
+|    115 | VIVEK    | SALES      | 58000.00 |          2 | NELLORE    |
++--------+----------+------------+----------+------------+------------+
+15 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE_AUDIT;
++----------+--------+-------------+------------+------------+---------------------+
+| audit_id | emp_id | action_type | old_salary | new_salary | action_time         |
++----------+--------+-------------+------------+------------+---------------------+
+|        1 |    107 | INSERT      |       NULL |   50000.00 | 2026-10-08 11:50:13 |
+|        2 |    108 | INSERT      |       NULL |   50000.00 | 2026-10-08 11:54:14 |
+|        3 |    109 | INSERT      |       NULL |   45000.00 | 2026-10-08 11:54:14 |
+|        4 |    110 | INSERT      |       NULL |   55000.00 | 2026-10-08 11:54:14 |
+|        5 |    111 | INSERT      |       NULL |   60000.00 | 2026-10-08 11:54:14 |
+|        6 |    112 | INSERT      |       NULL |   48000.00 | 2026-10-08 11:54:14 |
+|        7 |    113 | INSERT      |       NULL |   52000.00 | 2026-10-08 11:54:14 |
+|        8 |    114 | INSERT      |       NULL |   47000.00 | 2026-10-08 11:54:14 |
+|        9 |    115 | INSERT      |       NULL |   58000.00 | 2026-10-08 11:54:14 |
+|       10 |    107 | UPDATE      |   50000.00 |   55000.00 | 2026-10-08 12:14:34 |
++----------+--------+-------------+------------+------------+---------------------+
+10 rows in set (0.00 sec)
+
+mysql> UPDATE EMPLOYEES
+    -> SET SALARY = SALARY + 5000;
+Query OK, 15 rows affected (0.01 sec)
+Rows matched: 15  Changed: 15  Warnings: 0
+
+mysql> SELECT * FROM EMPLOYEE_AUDIT;
++----------+--------+-------------+------------+------------+---------------------+
+| audit_id | emp_id | action_type | old_salary | new_salary | action_time         |
++----------+--------+-------------+------------+------------+---------------------+
+|        1 |    107 | INSERT      |       NULL |   50000.00 | 2026-10-08 11:50:13 |
+|        2 |    108 | INSERT      |       NULL |   50000.00 | 2026-10-08 11:54:14 |
+|        3 |    109 | INSERT      |       NULL |   45000.00 | 2026-10-08 11:54:14 |
+|        4 |    110 | INSERT      |       NULL |   55000.00 | 2026-10-08 11:54:14 |
+|        5 |    111 | INSERT      |       NULL |   60000.00 | 2026-10-08 11:54:14 |
+|        6 |    112 | INSERT      |       NULL |   48000.00 | 2026-10-08 11:54:14 |
+|        7 |    113 | INSERT      |       NULL |   52000.00 | 2026-10-08 11:54:14 |
+|        8 |    114 | INSERT      |       NULL |   47000.00 | 2026-10-08 11:54:14 |
+|        9 |    115 | INSERT      |       NULL |   58000.00 | 2026-10-08 11:54:14 |
+|       10 |    107 | UPDATE      |   50000.00 |   55000.00 | 2026-10-08 12:14:34 |
+|       11 |    101 | UPDATE      |   65000.00 |   70000.00 | 2026-10-08 12:16:30 |
+|       12 |    102 | UPDATE      |   45000.00 |   50000.00 | 2026-10-08 12:16:30 |
+|       13 |    103 | UPDATE      |   70000.00 |   75000.00 | 2026-10-08 12:16:30 |
+|       14 |    104 | UPDATE      |   80000.00 |   85000.00 | 2026-10-08 12:16:30 |
+|       15 |    105 | UPDATE      |   40000.00 |   45000.00 | 2026-10-08 12:16:30 |
+|       16 |    106 | UPDATE      |   21000.00 |   26000.00 | 2026-10-08 12:16:30 |
+|       17 |    107 | UPDATE      |   55000.00 |   60000.00 | 2026-10-08 12:16:30 |
+|       18 |    108 | UPDATE      |   55000.00 |   60000.00 | 2026-10-08 12:16:30 |
+|       19 |    109 | UPDATE      |   45000.00 |   50000.00 | 2026-10-08 12:16:30 |
+|       20 |    110 | UPDATE      |   55000.00 |   60000.00 | 2026-10-08 12:16:30 |
+|       21 |    111 | UPDATE      |   65000.00 |   70000.00 | 2026-10-08 12:16:30 |
+|       22 |    112 | UPDATE      |   48000.00 |   53000.00 | 2026-10-08 12:16:30 |
+|       23 |    113 | UPDATE      |   52000.00 |   57000.00 | 2026-10-08 12:16:30 |
+|       24 |    114 | UPDATE      |   47000.00 |   52000.00 | 2026-10-08 12:16:30 |
+|       25 |    115 | UPDATE      |   58000.00 |   63000.00 | 2026-10-08 12:16:30 |
++----------+--------+-------------+------------+------------+---------------------+
+25 rows in set (0.00 sec)
+
+mysql> UPDATE EMPLOYEES SET SALARY = 45000 WHERE EMP_ID = 107;
+ERROR 1644 (45000): New salary cannot be less than current salary
+mysql> DELIMITER //
+mysql> CREATE TRIGGER DELETE_DEPT
+    -> BEFORE DELETE
+    -> ON EMPLOYEES
+    -> FOR EACH ROW
+    -> BEGIN
+    -> IF OLD.DEPARTMENT = 'IT' THEN
+    -> SIGNAL SQL STATE = '45000'
+    -> SET MESSAGE_TEXT = 'DEPARTMENT IT CANNOT BE DELETED';
+    -> END IF;
+    -> END //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SQL STATE = '45000'
+SET MESSAGE_TEXT = 'DEPARTMENT IT CANNOT BE DELETED';
+END IF' at line 7
+mysql> DELIMITER //
+mysql>
+mysql> CREATE TRIGGER DELETE_DEPT
+    -> BEFORE DELETE
+    -> ON EMPLOYEES
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     IF OLD.DEPARTMENT = 'IT' THEN
+    ->         SIGNAL SQLSTATE '45000'
+    ->         SET MESSAGE_TEXT = 'DEPARTMENT IT CANNOT BE DELETED';
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql> DELETE FROM EMPLOYEES WHERE EMP_ID = 101;
+ERROR 1644 (45000): DEPARTMENT IT CANNOT BE DELETED
+mysql> DELETE FROM EMPLOYEES WHERE EMP_ID = 107;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM EMPLOYEES;
++--------+----------+------------+----------+------------+------------+
+| emp_id | emp_name | department | salary   | experience | city       |
++--------+----------+------------+----------+------------+------------+
+|    101 | Rahul    | IT         | 70000.00 |          5 | Hyderabad  |
+|    102 | Priya    | HR         | 50000.00 |          3 | Chennai    |
+|    103 | Amit     | Finance    | 75000.00 |          6 | Bangalore  |
+|    104 | Sneha    | IT         | 85000.00 |          8 | Hyderabad  |
+|    105 | Kiran    | Sales      | 45000.00 |          2 | Pune       |
+|    106 | RAMYA    | IT         | 26000.00 |          1 | VIZAG      |
+|    108 | RAMYA    | IT         | 60000.00 |          2 | VIZAG      |
+|    109 | NIKHIL   | HR         | 50000.00 |          3 | HYDERABAD  |
+|    110 | RAHUL    | SALES      | 60000.00 |          2 | CHENNAI    |
+|    111 | PRIYA    | IT         | 70000.00 |          5 | BANGALORE  |
+|    112 | ARJUN    | FINANCE    | 53000.00 |          3 | VIZAG      |
+|    113 | KIRAN    | IT         | 57000.00 |          2 | VIJAYAWADA |
+|    114 | SNEHA    | HR         | 52000.00 |          3 | GUNTUR     |
+|    115 | VIVEK    | SALES      | 63000.00 |          2 | NELLORE    |
++--------+----------+------------+----------+------------+------------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE_AUDIT;
++----------+--------+-------------+------------+------------+---------------------+
+| audit_id | emp_id | action_type | old_salary | new_salary | action_time         |
++----------+--------+-------------+------------+------------+---------------------+
+|        1 |    107 | INSERT      |       NULL |   50000.00 | 2026-10-08 11:50:13 |
+|        2 |    108 | INSERT      |       NULL |   50000.00 | 2026-10-08 11:54:14 |
+|        3 |    109 | INSERT      |       NULL |   45000.00 | 2026-10-08 11:54:14 |
+|        4 |    110 | INSERT      |       NULL |   55000.00 | 2026-10-08 11:54:14 |
+|        5 |    111 | INSERT      |       NULL |   60000.00 | 2026-10-08 11:54:14 |
+|        6 |    112 | INSERT      |       NULL |   48000.00 | 2026-10-08 11:54:14 |
+|        7 |    113 | INSERT      |       NULL |   52000.00 | 2026-10-08 11:54:14 |
+|        8 |    114 | INSERT      |       NULL |   47000.00 | 2026-10-08 11:54:14 |
+|        9 |    115 | INSERT      |       NULL |   58000.00 | 2026-10-08 11:54:14 |
+|       10 |    107 | UPDATE      |   50000.00 |   55000.00 | 2026-10-08 12:14:34 |
+|       11 |    101 | UPDATE      |   65000.00 |   70000.00 | 2026-10-08 12:16:30 |
+|       12 |    102 | UPDATE      |   45000.00 |   50000.00 | 2026-10-08 12:16:30 |
+|       13 |    103 | UPDATE      |   70000.00 |   75000.00 | 2026-10-08 12:16:30 |
+|       14 |    104 | UPDATE      |   80000.00 |   85000.00 | 2026-10-08 12:16:30 |
+|       15 |    105 | UPDATE      |   40000.00 |   45000.00 | 2026-10-08 12:16:30 |
+|       16 |    106 | UPDATE      |   21000.00 |   26000.00 | 2026-10-08 12:16:30 |
+|       17 |    107 | UPDATE      |   55000.00 |   60000.00 | 2026-10-08 12:16:30 |
+|       18 |    108 | UPDATE      |   55000.00 |   60000.00 | 2026-10-08 12:16:30 |
+|       19 |    109 | UPDATE      |   45000.00 |   50000.00 | 2026-10-08 12:16:30 |
+|       20 |    110 | UPDATE      |   55000.00 |   60000.00 | 2026-10-08 12:16:30 |
+|       21 |    111 | UPDATE      |   65000.00 |   70000.00 | 2026-10-08 12:16:30 |
+|       22 |    112 | UPDATE      |   48000.00 |   53000.00 | 2026-10-08 12:16:30 |
+|       23 |    113 | UPDATE      |   52000.00 |   57000.00 | 2026-10-08 12:16:30 |
+|       24 |    114 | UPDATE      |   47000.00 |   52000.00 | 2026-10-08 12:16:30 |
+|       25 |    115 | UPDATE      |   58000.00 |   63000.00 | 2026-10-08 12:16:30 |
++----------+--------+-------------+------------+------------+---------------------+
+25 rows in set (0.00 sec)
+
+mysql> DELIMITER //
+mysql> CREATE TRIGGER DELETE_DEPT_AFTER
+    -> AFTER DELETE
+    -> ON EMPLOYEES
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     INSERT INTO EMPLOYEE_AUDIT
+    ->          (EMP_ID,ACTION_TYPE,OLD_SALARY,NEW_SALARY,ACTION_TIME)
+    -> VALUES
+    ->          (EMP_ID,'DELETE',OLD.SALARY,NEW.SALARY,NOW());
+    -> END //
+ERROR 1363 (HY000): There is no NEW row in on DELETE trigger
+mysql> DELIMITER //
+mysql>
+mysql> CREATE TRIGGER DELETE_DEPT_AFTER
+    -> AFTER DELETE
+    -> ON EMPLOYEES
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     INSERT INTO EMPLOYEE_AUDIT
+    ->         (EMP_ID, ACTION_TYPE, OLD_SALARY, NEW_SALARY, ACTION_TIME)
+    ->     VALUES
+    ->         (OLD.EMP_ID, 'DELETE', OLD.SALARY, NULL, NOW());
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql> DELETE FROM EMPLOYEES WHERE EMP_ID = 115;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM EMPLOYEES;
++--------+----------+------------+----------+------------+------------+
+| emp_id | emp_name | department | salary   | experience | city       |
++--------+----------+------------+----------+------------+------------+
+|    101 | Rahul    | IT         | 70000.00 |          5 | Hyderabad  |
+|    102 | Priya    | HR         | 50000.00 |          3 | Chennai    |
+|    103 | Amit     | Finance    | 75000.00 |          6 | Bangalore  |
+|    104 | Sneha    | IT         | 85000.00 |          8 | Hyderabad  |
+|    105 | Kiran    | Sales      | 45000.00 |          2 | Pune       |
+|    106 | RAMYA    | IT         | 26000.00 |          1 | VIZAG      |
+|    108 | RAMYA    | IT         | 60000.00 |          2 | VIZAG      |
+|    109 | NIKHIL   | HR         | 50000.00 |          3 | HYDERABAD  |
+|    110 | RAHUL    | SALES      | 60000.00 |          2 | CHENNAI    |
+|    111 | PRIYA    | IT         | 70000.00 |          5 | BANGALORE  |
+|    112 | ARJUN    | FINANCE    | 53000.00 |          3 | VIZAG      |
+|    113 | KIRAN    | IT         | 57000.00 |          2 | VIJAYAWADA |
+|    114 | SNEHA    | HR         | 52000.00 |          3 | GUNTUR     |
++--------+----------+------------+----------+------------+------------+
+13 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE_AUDIT;
++----------+--------+-------------+------------+------------+---------------------+
+| audit_id | emp_id | action_type | old_salary | new_salary | action_time         |
++----------+--------+-------------+------------+------------+---------------------+
+|        1 |    107 | INSERT      |       NULL |   50000.00 | 2026-10-08 11:50:13 |
+|        2 |    108 | INSERT      |       NULL |   50000.00 | 2026-10-08 11:54:14 |
+|        3 |    109 | INSERT      |       NULL |   45000.00 | 2026-10-08 11:54:14 |
+|        4 |    110 | INSERT      |       NULL |   55000.00 | 2026-10-08 11:54:14 |
+|        5 |    111 | INSERT      |       NULL |   60000.00 | 2026-10-08 11:54:14 |
+|        6 |    112 | INSERT      |       NULL |   48000.00 | 2026-10-08 11:54:14 |
+|        7 |    113 | INSERT      |       NULL |   52000.00 | 2026-10-08 11:54:14 |
+|        8 |    114 | INSERT      |       NULL |   47000.00 | 2026-10-08 11:54:14 |
+|        9 |    115 | INSERT      |       NULL |   58000.00 | 2026-10-08 11:54:14 |
+|       10 |    107 | UPDATE      |   50000.00 |   55000.00 | 2026-10-08 12:14:34 |
+|       11 |    101 | UPDATE      |   65000.00 |   70000.00 | 2026-10-08 12:16:30 |
+|       12 |    102 | UPDATE      |   45000.00 |   50000.00 | 2026-10-08 12:16:30 |
+|       13 |    103 | UPDATE      |   70000.00 |   75000.00 | 2026-10-08 12:16:30 |
+|       14 |    104 | UPDATE      |   80000.00 |   85000.00 | 2026-10-08 12:16:30 |
+|       15 |    105 | UPDATE      |   40000.00 |   45000.00 | 2026-10-08 12:16:30 |
+|       16 |    106 | UPDATE      |   21000.00 |   26000.00 | 2026-10-08 12:16:30 |
+|       17 |    107 | UPDATE      |   55000.00 |   60000.00 | 2026-10-08 12:16:30 |
+|       18 |    108 | UPDATE      |   55000.00 |   60000.00 | 2026-10-08 12:16:30 |
+|       19 |    109 | UPDATE      |   45000.00 |   50000.00 | 2026-10-08 12:16:30 |
+|       20 |    110 | UPDATE      |   55000.00 |   60000.00 | 2026-10-08 12:16:30 |
+|       21 |    111 | UPDATE      |   65000.00 |   70000.00 | 2026-10-08 12:16:30 |
+|       22 |    112 | UPDATE      |   48000.00 |   53000.00 | 2026-10-08 12:16:30 |
+|       23 |    113 | UPDATE      |   52000.00 |   57000.00 | 2026-10-08 12:16:30 |
+|       24 |    114 | UPDATE      |   47000.00 |   52000.00 | 2026-10-08 12:16:30 |
+|       25 |    115 | UPDATE      |   58000.00 |   63000.00 | 2026-10-08 12:16:30 |
+|       26 |    115 | DELETE      |   63000.00 |       NULL | 2026-10-08 12:31:21 |
++----------+--------+-------------+------------+------------+---------------------+
+26 rows in set (0.00 sec)
+
+mysql> SHOW TRIGGERS;
++---------------------------+--------+-----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------+------------------------+-----------------------------------------------------------------------------------------------------------------------+----------------+----------------------+----------------------+--------------------+
+| Trigger                   | Event  | Table     | Statement                                                                                                                                                                                                                                                           | Timing | Created                | sql_mode                                                                                                              | Definer        | character_set_client | collation_connection | Database Collation |
++---------------------------+--------+-----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------+------------------------+-----------------------------------------------------------------------------------------------------------------------+----------------+----------------------+----------------------+--------------------+
+| CHECK_SALARY              | INSERT | employees | BEGIN
+    IF NEW.SALARY < 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Salary cannot be negative';
+    END IF;
+END                                                                                                                            | BEFORE | 2026-10-08 11:40:04.77 | ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION | root@localhost | cp850                | cp850_general_ci     | utf8mb4_0900_ai_ci |
+| trg_before_insert_salary  | INSERT | employees | BEGIN
+    IF NEW.SALARY < 20000 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Salary cannot be less than 20000';
+    END IF;
+END                                                                                                                 | BEFORE | 2026-10-08 11:43:56.39 | ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION | root@localhost | cp850                | cp850_general_ci     | utf8mb4_0900_ai_ci |
+| AFTER_EMPLOYEE_INSERT     | INSERT | employees | BEGIN
+    INSERT INTO EMPLOYEE_AUDIT
+    (
+        emp_id,
+        action_type,
+        old_salary,
+        new_salary,
+        action_time
+    )
+    VALUES
+    (
+        NEW.EMP_ID,
+        'INSERT',
+        NULL,
+        NEW.SALARY,
+        NOW()
+    );
+END | AFTER  | 2026-10-08 11:49:27.86 | ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION | root@localhost | cp850                | cp850_general_ci     | utf8mb4_0900_ai_ci |
+| CHECK_SALARY_UPDATE       | UPDATE | employees | BEGIN
+    IF NEW.SALARY < OLD.SALARY THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'New salary cannot be less than current salary';
+    END IF;
+END                                                                                               | BEFORE | 2026-10-08 11:59:35.67 | ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION | root@localhost | cp850                | cp850_general_ci     | utf8mb4_0900_ai_ci |
+| CHECK_SALARY_AFTER_UPDATE | UPDATE | employees | BEGIN
+INSERT INTO EMPLOYEE_AUDIT
+                (EMP_ID,ACTION_TYPE,OLD_SALARY,NEW_SALARY,ACTION_TIME
+)
+VALUES
+                (OLD.EMP_ID,'UPDATE',OLD.SALARY,NEW.SALARY,NOW())
+;
+END                                                                                                         | AFTER  | 2026-10-08 12:13:35.32 | ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION | root@localhost | cp850                | cp850_general_ci     | utf8mb4_0900_ai_ci |
+| DELETE_DEPT               | DELETE | employees | BEGIN
+    IF OLD.DEPARTMENT = 'IT' THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'DEPARTMENT IT CANNOT BE DELETED';
+    END IF;
+END                                                                                                               | BEFORE | 2026-10-08 12:24:57.44 | ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION | root@localhost | cp850                | cp850_general_ci     | utf8mb4_0900_ai_ci |
+| DELETE_DEPT_AFTER         | DELETE | employees | BEGIN
+    INSERT INTO EMPLOYEE_AUDIT
+        (EMP_ID, ACTION_TYPE, OLD_SALARY, NEW_SALARY, ACTION_TIME)
+    VALUES
+        (OLD.EMP_ID, 'DELETE', OLD.SALARY, NULL, NOW());
+END                                                                                     | AFTER  | 2026-10-08 12:30:20.75 | ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION | root@localhost | cp850                | cp850_general_ci     | utf8mb4_0900_ai_ci |
++---------------------------+--------+-----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------+------------------------+-----------------------------------------------------------------------------------------------------------------------+----------------+----------------------+----------------------+--------------------+
+7 rows in set (0.01 sec)
+
+mysql>
+
