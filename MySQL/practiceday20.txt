@@ -1,0 +1,345 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 24
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use jeevan_raksha_pharmacy;
+Database changed
+mysql> show tables;
++----------------------------------+
+| Tables_in_jeevan_raksha_pharmacy |
++----------------------------------+
+| customers                        |
+| medicines                        |
+| order_items                      |
+| orders                           |
+| stock_log                        |
+| suppliers                        |
+| view_customer_spend              |
+| view_low_stock                   |
+| view_medicine_sales              |
+| view_order_details               |
++----------------------------------+
+10 rows in set (0.04 sec)
+
+mysql> select * from customers;
++-------------+--------------+------------+-----------+
+| customer_id | name         | phone      | city      |
++-------------+--------------+------------+-----------+
+|           1 | Rahul Sharma | 9876543210 | Mumbai    |
+|           2 | Priya Verma  | 9123456789 | Delhi     |
+|           3 | Amit Patel   | 9988776655 | Ahmedabad |
+|           4 | Sneha Reddy  | 8877665544 | Hyderabad |
+|           5 | Vikram Singh | 7766554433 | Mumbai    |
++-------------+--------------+------------+-----------+
+5 rows in set (0.01 sec)
+
+mysql> select * from medicines;
++-------------+--------------+-----------+--------+----------------+-------------+-------------+
+| medicine_id | name         | category  | price  | stock_quantity | expiry_date | supplier_id |
++-------------+--------------+-----------+--------+----------------+-------------+-------------+
+|           1 | Dolo 650     | Tablet    |  30.00 |            500 | 2025-12-31  |           1 |
+|           2 | Azithral 500 | Tablet    | 120.00 |             50 | 2024-05-20  |           1 |
+|           3 | Benadryl     | Syrup     | 110.00 |             20 | 2024-11-15  |           2 |
+|           4 | Combiflam    | Tablet    |  45.00 |            200 | 2026-01-01  |           3 |
+|           5 | Insulin Pen  | Injection | 800.00 |              5 | 2024-03-10  |           2 |
++-------------+--------------+-----------+--------+----------------+-------------+-------------+
+5 rows in set (0.01 sec)
+
+mysql> select * from orders;
++----------+-------------+------------+--------------+--------------+
+| order_id | customer_id | order_date | total_amount | payment_mode |
++----------+-------------+------------+--------------+--------------+
+|        1 |           1 | 2023-10-01 |       150.00 | UPI          |
+|        2 |           2 | 2023-10-02 |       240.00 | Card         |
+|        3 |           3 | 2023-10-05 |        45.00 | Cash         |
+|        4 |           1 | 2023-10-10 |       800.00 | UPI          |
+|        5 |           4 | 2023-10-12 |      1200.00 | Card         |
++----------+-------------+------------+--------------+--------------+
+5 rows in set (0.01 sec)
+
+mysql> select * from order_items;
++---------+----------+-------------+----------+----------+
+| item_id | order_id | medicine_id | quantity | subtotal |
++---------+----------+-------------+----------+----------+
+|       1 |        1 |           1 |        5 |   150.00 |
+|       2 |        2 |           2 |        2 |   240.00 |
+|       3 |        3 |           4 |        1 |    45.00 |
+|       4 |        4 |           5 |        1 |   800.00 |
+|       5 |        5 |           5 |        1 |   800.00 |
+|       6 |        5 |           2 |        2 |   240.00 |
+|       7 |        5 |           1 |        5 |   150.00 |
++---------+----------+-------------+----------+----------+
+7 rows in set (0.01 sec)
+
+mysql> select * from suppliers;
++-------------+----------------------+----------------+------------+
+| supplier_id | supplier_name        | contact_person | phone      |
++-------------+----------------------+----------------+------------+
+|           1 | Apollo Distributors  | Rajesh Gupta   | 022-123456 |
+|           2 | MedPlus Supply Chain | Suresh Nair    | 040-987654 |
+|           3 | Himalaya Wellness    | Anjali Mehta   | 011-456789 |
++-------------+----------------------+----------------+------------+
+3 rows in set (0.01 sec)
+
+mysql> select * from stock_log;
+Empty set (0.00 sec)
+
+mysql> select m.name,sum(oi.quantity) as totall_qty
+    -> from order_items oi
+    -> join medicines m on oi.medicine_id = m.medicine_id
+    -> group by m.name
+    -> order by totall_qty;
++--------------+------------+
+| name         | totall_qty |
++--------------+------------+
+| Combiflam    |          1 |
+| Insulin Pen  |          2 |
+| Azithral 500 |          4 |
+| Dolo 650     |         10 |
++--------------+------------+
+4 rows in set (0.01 sec)
+
+mysql> select m.name,sum(oi.quantity) as totall_qty
+    -> from order_items oi
+    -> join medicines m on oi.medicine_id = m.medicine_id
+    -> group by m.name
+    -> order by totall_qty desc
+    -> limit 1;
++----------+------------+
+| name     | totall_qty |
++----------+------------+
+| Dolo 650 |         10 |
++----------+------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT m.name,
+    ->        (SELECT SUM(oi2.quantity)
+    ->         FROM order_items oi2
+    ->         WHERE oi2.medicine_id = m.medicine_id) AS total_qty
+    -> FROM medicines m
+    -> ORDER BY total_qty DESC
+    -> LIMIT 1;
++----------+-----------+
+| name     | total_qty |
++----------+-----------+
+| Dolo 650 |        10 |
++----------+-----------+
+1 row in set (0.01 sec)
+
+mysql> select c.name,sum(total_amount)as tot_amt from customers c
+    -> join orders o
+    -> on c.customer_id = o.customer_id
+    -> group by c.name;
++--------------+---------+
+| name         | tot_amt |
++--------------+---------+
+| Rahul Sharma |  950.00 |
+| Priya Verma  |  240.00 |
+| Amit Patel   |   45.00 |
+| Sneha Reddy  | 1200.00 |
++--------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select c.name,sum(total_amount)as tot_amt from customers c
+    -> join orders o
+    -> on c.customer_id = o.customer_id
+    -> group by c.name
+    -> order by tot_amt desc
+    -> limit 1;
++-------------+---------+
+| name        | tot_amt |
++-------------+---------+
+| Sneha Reddy | 1200.00 |
++-------------+---------+
+1 row in set (0.00 sec)
+
+mysql> select c.name,sum(total_amount)as tot_amt from customers c
+    -> join orders o
+    -> on c.customer_id = o.customer_id
+    -> group by c.name
+    -> having total_amount > 1000;
+ERROR 1054 (42S22): Unknown column 'total_amount' in 'having clause'
+mysql> select c.name,sum(total_amount)as tot_amt from customers c
+    -> join orders o
+    -> on c.customer_id = o.customer_id
+    -> group by c.name
+    -> having tot_amt > 1000;
++-------------+---------+
+| name        | tot_amt |
++-------------+---------+
+| Sneha Reddy | 1200.00 |
++-------------+---------+
+1 row in set (0.00 sec)
+
+mysql> select m.name,m.stock_quantity,s.supplier_name from medicines m
+    -> join suppliers s
+    -> on m.supplier_id = s.supplier_id
+    -> where m.stock_quantity<=50;
++--------------+----------------+----------------------+
+| name         | stock_quantity | supplier_name        |
++--------------+----------------+----------------------+
+| Azithral 500 |             50 | Apollo Distributors  |
+| Benadryl     |             20 | MedPlus Supply Chain |
+| Insulin Pen  |              5 | MedPlus Supply Chain |
++--------------+----------------+----------------------+
+3 rows in set (0.01 sec)
+
+mysql> select c.name as not_order_customer from customers c
+    -> left join orders o
+    -> on c.customer_id = o.customer_id
+    -> where o.order_id is null;
++--------------------+
+| not_order_customer |
++--------------------+
+| Vikram Singh       |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select name from medicines where expiry_date < '2025-01-01';
++--------------+
+| name         |
++--------------+
+| Insulin Pen  |
+| Azithral 500 |
+| Benadryl     |
++--------------+
+3 rows in set (0.01 sec)
+
+mysql> select name from medicines where expiry_date > '2025-01-01';
++-----------+
+| name      |
++-----------+
+| Dolo 650  |
+| Combiflam |
++-----------+
+2 rows in set (0.00 sec)
+
+mysql> select name from medicines where expiry_date > '2025-01-01' order by expiry_date desc;
++-----------+
+| name      |
++-----------+
+| Combiflam |
+| Dolo 650  |
++-----------+
+2 rows in set (0.00 sec)
+
+mysql> select name from medicines where expiry_date < '2025-01-01' order by expiry_date desc;
++--------------+
+| name         |
++--------------+
+| Benadryl     |
+| Azithral 500 |
+| Insulin Pen  |
++--------------+
+3 rows in set (0.00 sec)
+
+mysql> select s.name from medicines m
+    -> join suppliers s
+    -> on m.supplier_id = s.supplier_id
+    -> where m.name == 'Insulin Pen';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '== 'Insulin Pen'' at line 4
+mysql> SELECT s.name
+    -> FROM medicines m
+    -> JOIN suppliers s
+    -> ON m.supplier_id = s.supplier_id
+    -> WHERE m.name = 'Insulin Pen';
+ERROR 1054 (42S22): Unknown column 's.name' in 'field list'
+mysql> SELECT s.name
+    -> from suppliers s
+    -> JOIN medicines m
+    -> ON m.supplier_id = s.supplier_id
+    -> WHERE m.name = 'Insulin Pen';
+ERROR 1054 (42S22): Unknown column 's.name' in 'field list'
+mysql> SELECT s.supplier_name
+    ->     FROM medicines m
+    ->     JOIN suppliers s
+    ->     ON m.supplier_id = s.supplier_id
+    ->     WHERE m.name = 'Insulin Pen';
++----------------------+
+| supplier_name        |
++----------------------+
+| MedPlus Supply Chain |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql>  SELECT s.supplier_name
+    ->    from suppliers s
+    ->     JOIN medicines m
+    ->     ON m.supplier_id = s.supplier_id
+    ->     WHERE m.name = 'Insulin Pen';
++----------------------+
+| supplier_name        |
++----------------------+
+| MedPlus Supply Chain |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> select m.name from medicines m
+    -> left join order_items
+    -> on m.medicine_id = ^C
+mysql> select m.name from medicines m
+    -> left join order_items o
+    -> on m.medicine_id = o.medicine_id
+    -> where o.medicine_id is null
+    -> ;
++----------+
+| name     |
++----------+
+| Benadryl |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select c.city,sum(o.total_amount) as city_revenue from customers c
+    -> join order 0
+    -> ^C
+mysql>
+mysql> select c.city,sum(o.total_amount) as city_revenue from customers c
+    -> join order o
+    -> on c.customer_id = o.customer_id
+    -> group by city
+    -> order by city_revenue desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order o
+on c.customer_id = o.customer_id
+group by city
+order by city_revenue des' at line 2
+mysql> join order o
+    -> ^C
+mysql> select c.city,sum(o.total_amount) as city_revenue from customers c
+    -> join order 0
+    -> select c.city,sum(o.total_amount) as city_revenue from customers c^C
+mysql> select c.city,sum(o.total_amount) as city_revenue from customers c
+    -> join order o
+    -> on c.customer_id = o.customer_id
+    -> group by c.city
+    -> order by city_revenue desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order o
+on c.customer_id = o.customer_id
+group by c.city
+order by city_revenue d' at line 2
+mysql> SELECT c.city,
+    ->        SUM(o.total_amount) AS city_revenue
+    -> FROM customers c
+    -> JOIN orders o
+    -> ON c.customer_id = o.customer_id
+    -> GROUP BY c.city
+    -> ORDER BY city_revenue DESC;
++-----------+--------------+
+| city      | city_revenue |
++-----------+--------------+
+| Hyderabad |      1200.00 |
+| Mumbai    |       950.00 |
+| Delhi     |       240.00 |
+| Ahmedabad |        45.00 |
++-----------+--------------+
+4 rows in set (0.00 sec)
+
+mysql>
