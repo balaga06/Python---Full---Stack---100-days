@@ -131,6 +131,7 @@ marks = [23,45,34]
 #a = dict(marks) #it is not possible like this
 #print(a)
 b = dict.fromkeys(marks) #we need to use from keys( ), whatever elements we have in data like list,tuple,set,str
+#taken will become keys and values will be None
 print(b)
 
 marks = (23,45,34)
