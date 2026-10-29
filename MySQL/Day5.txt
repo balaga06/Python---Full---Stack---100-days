@@ -110,14 +110,6 @@ Rollback
 No (unless in transaction)
 Yes
 Yes (if in transaction, varies by DB)
-
-
-
-
-
-
-
-
 Auto-Increment Reset
 N/A
 No
