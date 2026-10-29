@@ -8,7 +8,7 @@ example: 101,Ravi,50000,hyd
 What is the field?
 ---------------
 smallest unit of data in a database(column/attribute)
-example: EmpName,EmpId,EmpSalary,EmpAddress
+example: EmpName, EmpId, EmpSalary, EmpAddress
 
 What is Record ?
 --------------
