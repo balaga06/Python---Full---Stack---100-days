@@ -48,7 +48,7 @@ for i in range(n):
 
 #BMI_result = {'names' : [user 1 , user 2 , user 3],
             #'BMI_values' : [bmi 1 , bmi 2, bmi 3],
-                            
+'''                            
 BMI_result = {
     'names': [],
     'BMI_values': []
@@ -77,7 +77,7 @@ for i in range(n):
             
 print("----------------------------------------------------- Final BMI Result -------------------------------------------------------------")
 print(BMI_result)
-
+'''
 #assert --> It is mainly used in debugging checking during development
 #it tests whether a given condition is satisfied or not its
 #a mandatory else it will raise an error . It mainly used to catch bugs by ensuring the conditions hold true...
